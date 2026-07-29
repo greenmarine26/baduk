@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1b1410">
-<title>나의 바둑친구 V1.60</title>
+<title>나의 바둑친구 V1.60-01</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="바둑친구">
@@ -128,7 +128,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V1.60</span>
+    <span id="ver">V1.60-01</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -270,7 +270,7 @@ input[type=range]{accent-color:#e8a33d}
   </div>
   <div class="hint">
     설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
-    <b style="color:#c8b89e">나의 바둑친구 V1.60</b><br>
+    <b style="color:#c8b89e">나의 바둑친구 V1.60-01</b><br>
     © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
     개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
     엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
@@ -300,7 +300,7 @@ const GIFT = {
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"+mQ/07m1yvdaWhTt9Qlk4Q==","i":"IQdfEiVndHPfJMGD","c":"J5u25GkoQH/AcmlH38j8tC/SEI82ElvAxOgO4b3APTMgWWbGPU3IkEUOMBnSN+khcdHkDviO5EZtAU0NsGgxMgBnBc10ULjex7+UlZXDyuSZBXw3FSC2UECX3pmYcewuMzxBoG+A+2VG1iqZ6JLvx0hvAHU/IasKvixBPmk6QKZ9G59IcMwNaRfxCPZdQcn2BpK+kvZQoQ7gBg==","id":"77aab4f70c12"},{"s":"Wk6RSomX+HOCvTko7KTkIQ==","i":"/rVBLHgJRiEzDh0e","c":"CHIeLdvhVNim58DVgyZoxqkn1dErSK9fAz9BxUYPLg5mJNbBELU+UTROYXvqwbZPhjdIh6ZyRh90RNAtXmFgA6eNkLIeFHsdFgMwGpd6IQ7y8+rM979hTrrg8wvOYZxN+YlVbSSf0mP94z/7j3oVQgeg5SYAMIFetOjTmf7Zbaz/JR/1BY7W1t6yYL7PSXd7jzCBxz0tLpssbA==","id":"77c4e7359f67"},{"s":"xD3sdz8UJyDS/OXXsCEyVw==","i":"la+l/OwRgxCeVevt","c":"KrC1yXEI1oKg/xffyPr9Yyxe5IMmaYPFm+IecxLDdlGl6/xN6MPYaxw1DTpaKu/WlGhUyidfl2UE7hDkRQeHbV9ZPgsTy4VMBw81BRg6VeoB4n8k/zGJNCReY9UR+Sxxawi1idEfxAWVanykWIfZw+MNqoJLCF/ilLpWgJquq/+FLNGZ6e0fUMwLjR+gqGtwIGRGVi34PvrnQQ==","id":"04f6bd4d113f"},{"s":"QWRjUYTOQAOsGbIMDl7gJw==","i":"JmG0g8RERrNANyYL","c":"mObo6Sy+Jyeec5S8jldqQuYwt6EEvgQRHxlIb2/ixv5y++IjiUQbh3sUlOKVNXZPusQAs0TOl7K5POrXwhIm2HA9j2RNnwgcGsjSQt8uV0edA+6e4qjYiJrzyaqJdDwtNX3wDHwCfnXHjM7P2Zs/KMp5OJr66CrTHrcEPzmrg5j8NHX6pss4OgNmERtV17J3npGf5FNUneTDqA==","id":"1a672f9765f7"}];
+const SECRETS = [{"s":"C01L55elOvOt9qKIoSTHvA==","i":"4jixoKe3NzTTFDyA","c":"hd8yZvCcavEmQcR4UrqY+KLLQertMcc49Rwe05MJiBfz+iBlhgeZ8wL0G0KX8JwWHr9VsLz0pUp9WLnuCboduBO+hc+7MTOl2AjKGzQWxH8QlmsWS5GeO21JjSFKWpSxz7dsnFxGEoVBAYtSFJ3k3vvrkoQ+7Wb7mOJ4RUXWhCWHFhKfK6TSXa3Yegv1CSlU9j3SR5ed9Lzi9g==","id":"77aab4f70c12"},{"s":"0JnFB8qItvu6hFfAnbhlvg==","i":"8HTBmuOflI7vwOZT","c":"uwdHXcueIi/1SHIWDk1zU1T2+25C3fmE5qayKibDr7KJvL/35cug5ML4lMUpu8jF/WWiGtsw24P/fLX/AxCCXa8WDC9qWlX7WyD2ScNnEx60KPc5VzDfgyytxNTOR3Z1OfOVg8/iJaj0J44e15YvDtwPSbnexmpTAsMJcpBuqb+762U4N9D/gTUyEC8+oHyNX8tGd/lDnJ/K1A==","id":"77c4e7359f67"},{"s":"tzqfdaBjBgIRdcxB12fB0w==","i":"2xMTZ/EXuFNHYmkw","c":"NM4TiNAPao8SUwBdZC94gBrIBERilIeobDPrj04f8oDDwjxVz/bAItXmwc7iQ/d2tw2zzFYHcuWGq3B9UKvXI4ieg2CdOuE1fZHcnTO2rZlgXp/S5GtwzTWlAqoeLA33vP2+7UeJwWMPYRn2sHZwVBd1Y9I/SISZSErZJ8X4lGWSCyh5ICJTD1BHmGyrUToXBMEIAdp398s8CA==","id":"04f6bd4d113f"},{"s":"wv9TGpBNbKMBScQxqjeHrg==","i":"jGUoVA/2T7cOBeMk","c":"7gCnPePk4BjpUVCsLdlI/hI5PGhE+C8SeCUt/bn4hCFUQpzefuGsEQ260mI+1vumLfUXLXWgls61niLa3mMXi2fEHN9mlzfQVs4aRMtHKJgkdE4/juUUTVw1nOIOuEnYlGDgpoJJfmIQS1w1rGPmm6YPMNwPIuynSHwLIMBKmIZaG5/prmo+qJb3M9NDWTa6oiRIlF8girLjFQ==","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -834,20 +834,29 @@ async function getClip(key) {
   clipCache[key] = p;
   return p;
 }
+/* 재생 중이거나 예약된 음성을 즉시 멈춘다 */
+let sayNodes = [];
+function stopSay() {
+  clipSeq++;
+  for (const n of sayNodes) { try { n.stop(0); } catch (e) {} }
+  sayNodes = [];
+  try { if (window.speechSynthesis && speechSynthesis.speaking) speechSynthesis.cancel(); } catch (e) {}
+}
 /* keys 를 차례로 이어 붙여 읽는다 */
 async function say(keys) {
   if (!cfg.voice) return false;
   Snd.init();
   if (!Snd.ctx) return false;
+  stopSay();                                 /* 앞의 안내는 끊고 새로 읽는다 */
   const list = Array.isArray(keys) ? keys : [keys];
-  const my = ++clipSeq;
+  const my = clipSeq;
   const bufs = [];
   for (const k of list) {
     const b = await getClip(k);
     if (b) bufs.push(b);
   }
   if (!bufs.length) return false;
-  if (my !== clipSeq) return true;          /* 더 최근 안내가 들어오면 이건 버린다 */
+  if (my !== clipSeq) return true;           /* 기다리는 사이 새 안내가 오면 이건 버린다 */
   let t = Snd.ctx.currentTime + 0.03;
   for (const b of bufs) {
     const src = Snd.ctx.createBufferSource();
@@ -856,6 +865,8 @@ async function say(keys) {
     g.gain.value = 1.15;
     src.connect(g); g.connect(Snd.out);
     src.start(t);
+    src.onended = () => { sayNodes = sayNodes.filter(x => x !== src); };
+    sayNodes.push(src);
     t += b.duration + 0.03;
   }
   ttsOk = true;
@@ -1470,7 +1481,7 @@ const B3 = {
     let down = false, moved = 0, lx = 0, ly = 0, sx = 0, sy = 0, pts = {};
     let pinch0 = 0, dist0 = 0;
     cvs.addEventListener('pointerdown', e => {
-      e.preventDefault(); Snd.init();
+      e.preventDefault(); Snd.init(); ttsUnlock(); stopSay();
       pts[e.pointerId] = { x: e.clientX, y: e.clientY };
       cvs.setPointerCapture && cvs.setPointerCapture(e.pointerId);
       down = true; moved = 0; lx = sx = e.clientX; ly = sy = e.clientY;
@@ -1711,6 +1722,7 @@ function hit(clientX, clientY) {
   return i;
 }
 function onTapIdx(i) {
+  stopSay();                                 /* 판을 누르면 읽던 안내를 멈춘다 */
   if (cfg.confirmTap) {
     if (pendingTap === i) { pendingTap = -1; humanMove(i); }
     else { pendingTap = i; draw(); }
@@ -1721,7 +1733,7 @@ function onTap(cx, cy) {
   if (i < 0) { pendingTap = -1; draw(); return; }
   onTapIdx(i);
 }
-cv.addEventListener('pointerdown', e => { e.preventDefault(); Snd.init(); ttsUnlock(); onTap(e.clientX, e.clientY); });
+cv.addEventListener('pointerdown', e => { e.preventDefault(); Snd.init(); ttsUnlock(); stopSay(); onTap(e.clientX, e.clientY); });
 /* 폰은 첫 터치 때 음성 잠금을 풀어야 한다 */
 document.addEventListener('pointerdown', () => { Snd.init(); ttsUnlock(); }, { once: true, capture: true });
 document.addEventListener('touchstart', () => { Snd.init(); ttsUnlock(); }, { once: true, capture: true });
@@ -2279,7 +2291,8 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   get ready() { return ready; }, cfg, LEVELS, play, newPos, toGTP, areaScore, isOwnEye, encodeInputs, group,
   clock, clockReset, clockStart, clockStop, clockTick, renderClocks, Snd, timeLoss,
   B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
-  ttsState: () => ({ ok: ttsOk, voice: koVoice && koVoice.name, unlocked: ttsUnlocked }), getClip, say, VOICE,
+  ttsState: () => ({ ok: ttsOk, voice: koVoice && koVoice.name, unlocked: ttsUnlocked }), getClip, say, VOICE, stopSay,
+  sayNodeCount: () => sayNodes.length,
   GIFT, showGift, sha256, get PRISTINE() { return PRISTINE; }, get admin() { return admin; },
   get personal() { return personal; }, get myNote() { return myNote; }, loadMyNote,
   SECRETS, encJSON, decJSON, newCode, renderGift };
