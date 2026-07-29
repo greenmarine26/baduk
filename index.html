@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1b1410">
-<title>나의 바둑친구 V2.40</title>
+<title>나의 바둑친구 V2.70</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="바둑친구">
@@ -152,7 +152,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V2.40</span>
+    <span id="ver">V2.70</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -246,6 +246,8 @@ input[type=range]{accent-color:#e8a33d}
 
 <div id="panel">
   <h3>설정</h3>
+  <div class="fld"><label>무엇을 둘까요</label><div class="seg" id="segGame"></div>
+    <div class="hint" id="gameHint"></div></div>
   <div class="fld"><label>내 돌</label><div class="seg" id="segColor"></div></div>
   <div class="fld"><label>상대 실력</label><div class="seg" id="segLevel"></div>
     <div class="hint" id="lvlHint"></div>
@@ -316,7 +318,7 @@ input[type=range]{accent-color:#e8a33d}
   </div>
   <div class="hint">
     설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
-    <b style="color:#c8b89e">나의 바둑친구 V2.40</b><br>
+    <b style="color:#c8b89e">나의 바둑친구 V2.70</b><br>
     © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
     개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
     엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
@@ -346,7 +348,7 @@ const GIFT = {
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"iwPd7Y4th8vJLn9GyzaeRg==","i":"9eTjRIAD9rnOX94D","c":"IbIjGTc4dy19dDx3i8RR7thezUt1WQCEt5YrFa6EBSPclYdoalOcrkTA6KJoQwXWa8fV4xDl8re2phEQAIghKQCTIDWXibaxVVN+WPisGBXR5oEIuHwO+vW8Js98/OVrfmNI/OrYLrv4mdW4Iu9jRK+inaHEhzlOUivErTsrrdxdsvvMQdHxUJEKUl7Ty0q4JJ7AVpeFhAgIxQ==","id":"77aab4f70c12"},{"s":"5p3HwLDjFI2hZJIEhilPLw==","i":"xZEXX0/MFOQVUSS4","c":"Y6dIy+Fb2kVNkZPa8g1J9jRHSqweDvCVkfaWS1VoI0bqJrtmef1AkiVsAqz7IP1vSyj+Apg4iU/7OF5QSj1YbvWts+0gezKLJdooAmN4N8Dal5q41Pj2UFIbilXNOz3tN3r30SILJuhIgMZNaGDOek06GioyQb1J0SMPKzU7oPHCm3Xwg8K+Ufyed/8PHse5GOnmz2zBmrDuVQ==","id":"77c4e7359f67"},{"s":"xXJkIMfSzstK+sUY0uPUAg==","i":"ObHpto4y0/CBJK9x","c":"JH9VBBwZ35ambh+/dpcrb7Vdv7JFBIZ/IAHdv3NkQ2wTCjmPYhfaxmbqJddmKbp8dr6Qo/n48iV67sGgwZDL8L52uHm6hjhrI4oUIKT5R10C9tZnCEGwbdn4nYB9kui/YCeYsHB3FJfuRhCUzCNCmrs0AUcOMnznqNZyhpyUAszwaIC3ag1G79oO6GDRcEi1k/tJXefNthM9Ug==","id":"04f6bd4d113f"},{"s":"lxPLK9Ueet9FbOzN9tRUEg==","i":"0NRg9N7WFKgYkrx1","c":"FPPQmadteUk2is8C89CacJxQg7vUX+N81kN2CP4dlNGMkXpOw4y52hCqtm96p3zB/R0tvru9iCzO6TyMn/y3UB5U59F6d+rQybEV67RrTUFSl02wlyLFFVPVcvIhTPiNJhYmpiBx+NIl56OarbzVFYmw5+1ylRnBRzn9n28s9iuOEv1MXPZUw2miId+FR+iQM3OFUaY4Mmve7Q==","id":"1a672f9765f7"}];
+const SECRETS = [{"s":"sQPzeXEIdJSVB6EPjkrUDg==","i":"ccRkh1K13v9BMeky","c":"o97IU05tsdb/jjEnB+UNN8VVEvQCtFNgI/KwzSyuBksDl/XJWzb+Vts+N7nF3AzpYYTbGkTBVUk6z6lPM/nYdguAyuCsxhjp+//BQJO+Pk104W1bvr/HK+Srhy24Lg7+BN36CnJogAISL4QMtprGICmlVu1iwPGKmG6zDzsuu2DnQsubPTvpxbTaTxMO9WijPDabKk5bqFzrAw==","id":"77aab4f70c12"},{"s":"K4nmpZ00XWlKnbx2Gyz5Pg==","i":"u31eTJqqj0evA3u2","c":"RVtLv0bqBgT/nFbBmob16Y+sy3GKu1E03A0MArrGuNoulFeJlZz3C8QtiGQNyRDJoWFTFwMrzERSTP0PEIxRr4snVzgcLlcp4EB2witsFbmVG49GTTPvGOo7eVYCMIbmgAhk2CGzDl5jZYu+PH/7aeKOts8DY3j6OeUKRhwY55ufL0cAKxlusCfUNMgAatw2C0oINcMvDUIY3w==","id":"77c4e7359f67"},{"s":"7yKgXREhQ/OpjNj58NYwFA==","i":"TNan8Il4jrTyUUCK","c":"zIs6PD+vEybdDH5hIet9e2aG43tDHc53MFsabnLJoKPZDk62k6HL4p5jW7SEfgOE7Fs6fzkeo51ZwEa4dVMsIYIYEVBzZ67b8uNQUNT12dyBQoo02VFhKxZor38azr7+u7CGBN3EvtvIxmvRtObGsnAMUCw+G80A9SE+4Mb0mZShOG7d3l3sNbHy19Rjd59MtNIrci9ogov3aQ==","id":"04f6bd4d113f"},{"s":"evAR8/nIv9morFTW2GEx1w==","i":"BkX06VChBXYXf3at","c":"h1lFd8zNKx1e7usZgnqbWxi5hlVq358O0jpRqwp6ca2NVG+K8Z6mA4DSMpFtaWx94SiNxJ8nYfsLh8FDD7FjgLoEX0fGd22s6rGlWH28lYIxpZAnGGNVEkP0bsvqeLu3rkDzRykkMQeGp2de9L0YktGPCAnOsEbVcgcBCflAzmVL1VLRR79z6u2Rc3L/fALMy7Lh1C4BEsZcjA==","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -482,6 +484,221 @@ const HANDICAP_PTS = { /* 화점 좌표 (row*19+col) */
   8: [60, 66, 72, 168, 192, 288, 294, 300], 9: [60, 66, 72, 168, 180, 192, 288, 294, 300],
   2: [72, 288]
 };
+
+/* ================= 오목 ================= */
+const OM_DIRS = [[1, 0], [0, 1], [1, 1], [1, -1]];
+const OM_W = [0, 1, 12, 120, 1400, 200000];      /* 한 줄(5칸)에 내 돌이 k개일 때 */
+
+function omokPlace(p, mv, color) {
+  const np = clonePos(p);
+  np.stones[mv] = color; np.toMove = 3 - color; np.moveNo++;
+  np.ko = -1; np.passes = 0;
+  np.hist.push({ mv: mv, color: color });
+  if (np.hist.length > 8) np.hist.shift();
+  return np;
+}
+/* 5목 이상이면 이긴 줄을 돌려준다 */
+function omokWin(stones, mv, color) {
+  const x0 = mv % N, y0 = (mv / N) | 0;
+  for (const [dx, dy] of OM_DIRS) {
+    const line = [mv];
+    for (let s = 1; s < 6; s++) {
+      const x = x0 + dx * s, y = y0 + dy * s;
+      if (x < 0 || y < 0 || x >= N || y >= N) break;
+      const i = y * N + x; if (stones[i] !== color) break; line.push(i);
+    }
+    for (let s = 1; s < 6; s++) {
+      const x = x0 - dx * s, y = y0 - dy * s;
+      if (x < 0 || y < 0 || x >= N || y >= N) break;
+      const i = y * N + x; if (stones[i] !== color) break; line.unshift(i);
+    }
+    if (line.length >= 5) return line;
+  }
+  return null;
+}
+/* 그 자리에 두었을 때 생기는 모양의 값 */
+function omokPointScore(stones, mv, color) {
+  const x0 = mv % N, y0 = (mv / N) | 0;
+  let total = 0;
+  for (const [dx, dy] of OM_DIRS) {
+    let run = 1, open = 0, gap = 0;
+    for (const sgn of [1, -1]) {
+      let s = 1, blocked = false;
+      for (; s < 5; s++) {
+        const x = x0 + dx * s * sgn, y = y0 + dy * s * sgn;
+        if (x < 0 || y < 0 || x >= N || y >= N) { blocked = true; break; }
+        const v = stones[y * N + x];
+        if (v === color) run++;
+        else if (v === EMPTY) break;
+        else { blocked = true; break; }
+      }
+      if (!blocked) {
+        open++;
+        /* 한 칸 띄고 이어지는 모양도 조금 쳐준다 */
+        const x = x0 + dx * (s + 1) * sgn, y = y0 + dy * (s + 1) * sgn;
+        if (x >= 0 && y >= 0 && x < N && y < N && stones[y * N + x] === color) gap++;
+      }
+    }
+    const r = Math.min(run, 5);
+    const TBL = [[0, 0, 0], [0, 6, 24], [0, 60, 700], [0, 700, 9000], [0, 18000, 400000], [1e7, 1e7, 1e7]];
+    total += TBL[r][Math.min(open, 2)] + gap * 40;
+  }
+  return total;
+}
+/* 판 전체 평가 — 5칸 창을 훑는다 */
+function omokEval(stones, me) {
+  const opp = 3 - me;
+  let sc = 0;
+  for (const [dx, dy] of OM_DIRS) {
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const ex = x + dx * 4, ey = y + dy * 4;
+        if (ex < 0 || ey < 0 || ex >= N || ey >= N) continue;
+        let m = 0, o = 0;
+        for (let s = 0; s < 5; s++) {
+          const v = stones[(y + dy * s) * N + (x + dx * s)];
+          if (v === me) m++; else if (v === opp) o++;
+        }
+        if (m && o) continue;
+        if (m) sc += OM_W[m]; else if (o) sc -= OM_W[o] * 1.06;
+      }
+    }
+  }
+  return sc;
+}
+/* 돌 주변 두 칸 이내의 빈 점 */
+function omokCands(stones, limit) {
+  const near = new Uint8Array(NN);
+  let any = false;
+  for (let i = 0; i < NN; i++) {
+    if (!stones[i]) continue;
+    any = true;
+    const x0 = i % N, y0 = (i / N) | 0;
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+      const x = x0 + dx, y = y0 + dy;
+      if (x < 0 || y < 0 || x >= N || y >= N) continue;
+      const j = y * N + x;
+      if (!stones[j]) near[j] = 1;
+    }
+  }
+  if (!any) return [180];                       /* 천원 */
+  const out = [];
+  for (let i = 0; i < NN; i++) if (near[i]) out.push(i);
+  if (!limit) return out;
+  return out;
+}
+function omokOrdered(stones, color, limit) {
+  const opp = 3 - color;
+  const list = omokCands(stones).map(i => {
+    const a = omokPointScore(stones, i, color);
+    const b = omokPointScore(stones, i, opp);
+    return { i: i, v: a + b * 0.92, a: a, b: b };
+  });
+  list.sort((p, q) => q.v - p.v);
+  return limit ? list.slice(0, limit) : list;
+}
+function omokNegamax(stones, color, depth, alpha, beta, root) {
+  if (depth === 0) return omokEval(stones, root);
+  const cand = omokOrdered(stones, color, depth >= 3 ? 8 : 10);
+  if (!cand.length) return omokEval(stones, root);
+  let best = -Infinity;
+  for (const c of cand) {
+    stones[c.i] = color;
+    const w = omokWin(stones, c.i, color);
+    let v;
+    if (w) v = (color === root) ? 9e6 + depth : -(9e6 + depth);
+    else v = omokNegamax(stones, 3 - color, depth - 1, alpha, beta, root);
+    stones[c.i] = EMPTY;
+    if (color === root) { if (v > best) best = v; if (best > alpha) alpha = best; }
+    else { if (best === -Infinity) best = Infinity; if (v < best) best = v; if (best < beta) beta = best; }
+    if (alpha >= beta) break;
+  }
+  return best === Infinity || best === -Infinity ? omokEval(stones, root) : best;
+}
+/* 다음 수 고르기 */
+function omokBest(stones, color, depth) {
+  const opp = 3 - color;
+  const cand = omokOrdered(stones, color, 14);
+  if (!cand.length) return 180;
+  /* 1) 지금 이길 수 있으면 이긴다  2) 상대가 이길 자리는 막는다 */
+  for (const c of cand) {
+    stones[c.i] = color; const w = omokWin(stones, c.i, color); stones[c.i] = EMPTY;
+    if (w) return c.i;
+  }
+  for (const c of cand) {
+    stones[c.i] = opp; const w = omokWin(stones, c.i, opp); stones[c.i] = EMPTY;
+    if (w) return c.i;
+  }
+  if (depth <= 0) {
+    const top = cand.slice(0, 3);
+    return top[Math.floor(Math.random() * Math.min(top.length, depth === 0 ? 1 : 3))].i;
+  }
+  const work = Int8Array.from(stones);
+  let bi = cand[0].i, bv = -Infinity;
+  for (const c of cand.slice(0, 10)) {
+    work[c.i] = color;
+    const v = omokNegamax(work, opp, depth - 1, -Infinity, Infinity, color);
+    work[c.i] = EMPTY;
+    if (v > bv) { bv = v; bi = c.i; }
+  }
+  return bi;
+}
+
+/* ================= 사활 문제 ================= */
+/* 완전탐색 솔버로 정답과 유일성을 확인한 것만 실었습니다 */
+const TSUMEGO = [{"n":"직삼궁","q":"kill","b":[304,305,306,307,308,309,310,323,329,342,348],"w":[324,325,326,327,328,343,347],"a":345,"e":[344,345,346]},{"n":"직삼궁","q":"live","b":[304,305,306,307,308,309,310,323,329,342,348],"w":[324,325,326,327,328,343,347],"a":345,"e":[344,345,346]},{"n":"굽은 삼궁","q":"kill","b":[285,286,287,288,289,304,308,327,346],"w":[305,306,307,323,324,326,342,345],"a":344,"e":[343,344,325]},{"n":"굽은 삼궁","q":"live","b":[285,286,287,288,289,304,308,327,346],"w":[305,306,307,323,324,326,342,345],"a":344,"e":[343,344,325]},{"n":"삿갓 사궁","q":"kill","b":[286,287,288,289,290,304,305,309,310,323,329,342,348],"w":[306,307,308,324,325,327,328,343,347],"a":345,"e":[344,345,346,326]},{"n":"삿갓 사궁","q":"live","b":[286,287,288,289,290,304,305,309,310,323,329,342,348],"w":[306,307,308,324,325,327,328,343,347],"a":345,"e":[344,345,346,326]},{"n":"꽃 오궁","q":"kill","b":[248,249,250,251,252,266,267,271,272,285,291,304,310,323,329,342,343,347,348],"w":[268,269,270,286,287,289,290,305,309,324,325,327,328,344,345,346],"a":307,"e":[326,306,307,308,288]},{"n":"꽃 오궁","q":"live","b":[248,249,250,251,252,266,267,271,272,285,291,304,310,323,329,342,343,347,348],"w":[268,269,270,286,287,289,290,305,309,324,325,327,328,344,345,346],"a":307,"e":[326,306,307,308,288]},{"n":"자루 오궁","q":"kill","b":[286,287,288,289,290,291,304,305,310,323,329,342,348],"w":[306,307,308,309,324,325,328,343,347],"a":345,"e":[344,345,346,326,327]},{"n":"귀 삼궁","q":"live","b":[285,286,287,306,307,326,345],"w":[304,305,324,325,344],"a":342,"e":[342,343,323]}];
+let tsIdx = 0, tsTry = 0, tsSolved = lsGet('baduk_ts_v1', {});
+/* 8가지 대칭 중 하나로 돌려서 같은 문제라도 매번 달라 보이게 */
+function tsSym(i, k) {
+  let x = i % N, y = (i / N) | 0;
+  if (k & 1) x = N - 1 - x;
+  if (k & 2) y = N - 1 - y;
+  if (k & 4) { const t = x; x = y; y = t; }
+  return y * N + x;
+}
+function tsLoad(k) {
+  const pr = TSUMEGO[((k % TSUMEGO.length) + TSUMEGO.length) % TSUMEGO.length];
+  tsIdx = ((k % TSUMEGO.length) + TSUMEGO.length) % TSUMEGO.length;
+  const sym = Math.floor(Math.random() * 8);
+  pos = newPos(0);
+  for (const i of pr.b) pos.stones[tsSym(i, sym)] = BLACK;
+  for (const i of pr.w) pos.stones[tsSym(i, sym)] = WHITE;
+  pos.toMove = (pr.q === 'kill') ? BLACK : WHITE;
+  tsAnswer = tsSym(pr.a, sym);
+  moves = []; lastMove = -1; gameOver = false; territory = null; hintMove = -1;
+  pendingTap = -1; omokLine = null; tsTry = 0;
+  cfg.myColor = pos.toMove;
+  clockStop(); clockReset();
+  if (cfg.view3d && B3.ok) { for (const q in B3.meshes) { B3.scene.remove(B3.meshes[q]); delete B3.meshes[q]; } }
+  layout(); updateBar();
+  const done = tsSolved[String(tsIdx)] ? '  ✔ 푼 문제' : '';
+  setMsg('제' + (tsIdx + 1) + '문  ' + pr.n + ' — ' +
+    (pr.q === 'kill' ? '흑 차례, 백을 잡으십시오.' : '백 차례, 살아야 합니다.') + done, '');
+  say(pr.q === 'kill' ? 'hint' : 'hint');
+}
+let tsAnswer = -1;
+function tsGuess(mv) {
+  if (mv === tsAnswer) {
+    pos.stones[mv] = pos.toMove;
+    lastMove = mv; draw();
+    Snd.place(mv);
+    tsSolved[String(tsIdx)] = 1; lsSet('baduk_ts_v1', tsSolved);
+    const n = Object.keys(tsSolved).length;
+    setMsg('정답입니다.  (' + n + ' / ' + TSUMEGO.length + ' 풀었습니다)  잠시 뒤 다음 문제로 갑니다.', '');
+    say('ngWin');
+    gameOver = true;
+    setTimeout(() => tsLoad(tsIdx + 1), 2200);
+  } else {
+    tsTry++;
+    Snd.beep(320, 0.14, 0.22);
+    if (tsTry >= 3) {
+      setMsg('아닙니다. 급소는 ' + toGTP(tsAnswer) + ' 입니다. 다시 한 번 그 자리에 두어 보십시오.', 'err');
+      hintMove = tsAnswer; draw();
+    } else {
+      setMsg('그 자리가 아닙니다. (' + tsTry + '/3)  다시 보십시오.', 'err');
+    }
+  }
+}
 
 /* ---------------- 2. 신경망 입력 인코딩 ---------------- */
 function encodeInputs(p) {
@@ -1175,7 +1392,7 @@ const cfg = {
   mainMin: 10, byoSec: 30, byoCount: 3, useClock: true,
   sfx: true, voice: true, nigiri: true,
   view3d: true, camView: 1, audio3d: true, atariVoice: true, volume: 1.35, beep: false,
-  sayMove: true, autoLevel: true, person: true
+  sayMove: true, autoLevel: true, person: true, game: 'go'
 };
 /* 단수(자유도 1) 상태 추적 — 새로 단수가 된 대마만 알린다 */
 let atariKeys = new Set();
@@ -1258,7 +1475,7 @@ function autoLevel(iWon) {
 }
 const CFG_SAVE = ['myColor', 'level', 'handicap', 'komi', 'showCoord', 'showNum', 'confirmTap',
   'mainMin', 'byoSec', 'byoCount', 'useClock', 'sfx', 'voice', 'nigiri', 'view3d', 'camView',
-  'audio3d', 'atariVoice', 'volume', 'beep', 'sayMove', 'autoLevel', 'person'];
+  'audio3d', 'atariVoice', 'volume', 'beep', 'sayMove', 'autoLevel', 'person', 'game'];
 function saveCfg() { const o = {}; for (const k of CFG_SAVE) o[k] = cfg[k]; lsSet(CFG_KEY, o); }
 function loadCfg() { const o = lsGet(CFG_KEY, null); if (o) for (const k of CFG_SAVE) if (o[k] !== undefined) cfg[k] = o[k]; }
 
@@ -1298,6 +1515,7 @@ function restoreGame(s) {
 }
 
 let pos, moves = [], lastMove = -1, thinking = false, gameOver = false;
+let omokLine = null;   /* 이긴 다섯 점 */
 let territory = null, hintMove = -1, pendingTap = -1;
 let curWinrate = 0.5, curLead = 0, ready = false;
 const searcher = new Searcher({ topK: 24 });
@@ -1412,6 +1630,13 @@ function draw2D() {
   } else if (lastMove >= 0 && lastMove !== PASS) {
     ctx.beginPath(); ctx.arc(px(lastMove), py(lastMove), r * 0.34, 0, 7);
     ctx.fillStyle = pos.stones[lastMove] === BLACK ? '#e8a33d' : '#c1451f'; ctx.fill();
+  }
+  if (omokLine) {
+    ctx.strokeStyle = '#ff4d3d'; ctx.lineWidth = Math.max(2.5, cell * 0.14);
+    ctx.beginPath();
+    ctx.moveTo(px(omokLine[0]), py(omokLine[0]));
+    ctx.lineTo(px(omokLine[omokLine.length - 1]), py(omokLine[omokLine.length - 1]));
+    ctx.stroke();
   }
   if (hintMove >= 0 && hintMove !== PASS) {
     ctx.strokeStyle = '#2ecc71'; ctx.lineWidth = Math.max(2, cell * 0.11);
@@ -1917,30 +2142,59 @@ function setMsg(t, kind) {
   $('msg').textContent = t;
   $('dot').className = kind || '';
 }
+/* 놀이에 따라 버튼 이름을 바꾼다 */
+function relabel() {
+  const ts = cfg.game === 'tsumego';
+  $('bUndo').textContent = ts ? '이전 문제' : '무르기';
+  $('bPass').textContent = ts ? '다음 문제' : '착수포기';
+  $('bHint').textContent = ts ? '급소 보기' : '훈수';
+  $('bNew').textContent = ts ? '다시 풀기' : '새 대국';
+  $('bResign').style.display = ts ? 'none' : '';
+  $('bScore').style.display = (cfg.game === 'go') ? '' : 'none';
+  $('bTerr').style.display = (cfg.game === 'go') ? '' : 'none';
+  $('bReview').style.display = (cfg.game === 'go') ? '' : 'none';
+}
 function updateBar() {
+  if (cfg.game === 'tsumego') {
+    $('wrblack').style.width = '50%'; $('wrwhite').style.width = '50%';
+    const n = Object.keys(tsSolved).length;
+    $('wrtext').innerHTML = '<span>사활 — ' + n + ' / ' + TSUMEGO.length + ' 풀었습니다</span>';
+    $('modeLbl').textContent = '사활 · 제' + (tsIdx + 1) + '문';
+    return;
+  }
+  if (cfg.game === 'omok') {
+    $('wrblack').style.width = '50%'; $('wrwhite').style.width = '50%';
+    $('wrtext').innerHTML = '<span>오목 — 먼저 다섯을 이으면 이깁니다</span>';
+    $('modeLbl').textContent = '오목 · ' + OPP.name + ' · ' + (cfg.myColor === BLACK ? '내가 흑' : '내가 백');
+    return;
+  }
   const wb = Math.round(curWinrate * 1000) / 10;
   $('wrblack').style.width = wb + '%';
   $('wrwhite').style.width = (100 - wb) + '%';
   const lead = curLead;
   const who = lead >= 0 ? '흑' : '백';
   $('wrtext').innerHTML = '<span>흑 ' + wb.toFixed(1) + '%   ·   ' + who + ' ' + Math.abs(lead).toFixed(1) + '집 유리</span>';
+  const gname = cfg.game === 'omok' ? '오목' : '';
   const top = cfg.level === LEVELS.length - 1;
-  $('modeLbl').textContent = OPP.name + ' · ' + (top ? OPP.rank : LEVELS[cfg.level].name + '으로 봐주는 중') +
-    ' · ' + (cfg.myColor === BLACK ? '내가 흑' : '내가 백') + (cfg.handicap ? ' · ' + cfg.handicap + '점' : '');
+  $('modeLbl').textContent = (gname ? gname + ' · ' : '') + OPP.name +
+    (cfg.game === 'omok' ? '' : ' · ' + (top ? OPP.rank : LEVELS[cfg.level].name + '으로 봐주는 중')) +
+    ' · ' + (cfg.myColor === BLACK ? '내가 흑' : '내가 백') +
+    (cfg.game !== 'omok' && cfg.handicap ? ' · ' + cfg.handicap + '점' : '');
 }
 
 /* ---------------- 9. 대국 흐름 ---------------- */
 function newGame() {
-  const komi = cfg.handicap > 0 ? 0.5 : cfg.komi;
+  if (cfg.game === 'tsumego') { resultDone = false; lsDel(SAVE_KEY); tsLoad(tsIdx); return; }
+  const komi = (cfg.game === 'omok') ? 0 : (cfg.handicap > 0 ? 0.5 : cfg.komi);
   pos = newPos(komi);
   moves = []; lastMove = -1; gameOver = false; territory = null; hintMove = -1; pendingTap = -1;
-  if (cfg.handicap >= 2) {
+  if (cfg.game !== 'omok' && cfg.handicap >= 2) {
     for (const i of HANDICAP_PTS[cfg.handicap]) pos.stones[i] = BLACK;
     pos.toMove = WHITE;
   }
   curWinrate = 0.5; curLead = 0;
   clockStop(); clockReset();
-  resultDone = false; lsDel(SAVE_KEY);
+  resultDone = false; lsDel(SAVE_KEY); omokLine = null;
   handPending = -1; if (B3.ok) { B3.handAnim = null; if (B3.armGrp) B3.armGrp.visible = false; if (B3.handShadow) B3.handShadow.visible = false; }
   atariKeys = new Set();
   if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
@@ -1948,12 +2202,13 @@ function newGame() {
   setMsg(pos.toMove === cfg.myColor ? '두실 차례입니다.' : OPP.name + ' 차례', '');
   if (!ready) return;
   speak('대국을 시작합니다. ' + (cfg.myColor === BLACK ? '흑번입니다' : '백번입니다'));
+  if (cfg.game === 'omok') setMsg('오목 — 먼저 다섯을 이으면 이깁니다.', '');
   if (pos.toMove !== cfg.myColor) { clockStart(pos.toMove); setTimeout(aiMove, 250); }
   else clockStart(pos.toMove);
 }
 function pushMove(mv, color) {
   const capBefore = pos.caps[color];
-  const np = play(pos, mv, color);
+  const np = (cfg.game === 'omok') ? omokPlace(pos, mv, color) : play(pos, mv, color);
   if (!np) return false;
   const taken = np.caps[color] - capBefore;
   pos = np; moves.push({ mv: mv, color: color }); lastMove = mv;
@@ -1980,8 +2235,21 @@ function pushMove(mv, color) {
     }
   }
   onMovePlayed(color);
+  if (cfg.game === 'omok' && mv !== PASS) {
+    const w = omokWin(pos.stones, mv, color);
+    if (w) {
+      omokLine = w; gameOver = true; clockStop();
+      setTimeout(() => Snd.gong(), 260);
+      const mine = (color === cfg.myColor);
+      setTimeout(() => {
+        setMsg((color === BLACK ? '흑' : '백') + ' 오목! ' + (mine ? '이기셨습니다.' : OPP.name + ' 승리.'), '');
+        speak(mine ? '이기셨습니다' : '졌습니다');
+      }, 300);
+      finishGame(mine, '오목');
+    }
+  }
   if (pos.passes >= 2) { gameOver = true; clockStop(); Snd.gong(); }
-  else clockStart(pos.toMove);
+  else if (!gameOver) clockStart(pos.toMove);
   renderClocks();
   saveGame();
   return true;
@@ -1998,11 +2266,23 @@ function normalizeToBlack(valFromToMove, toMove) {
   return toMove === BLACK ? valFromToMove : -valFromToMove;
 }
 async function aiMove() {
-  if (thinking || gameOver || !ready) return;
+  if (thinking || gameOver || !ready || cfg.game === 'tsumego') return;
   thinking = true;
   const L = LEVELS[cfg.level];
   if (cfg.view3d && B3.ok) B3.gazeBoard();
   setMsg(OPP.name + ' 생각 중…', 'think');
+  if (cfg.game === 'omok') {
+    const depth = [0, 0, 2, 3, 4][cfg.level];
+    await new Promise(r => setTimeout(r, 90));
+    const t0 = performance.now();
+    const mv = omokBest(pos.stones, pos.toMove, depth);
+    const toMove = pos.toMove;
+    if (!pushMove(mv, toMove)) { thinking = false; return; }
+    draw(); updateBar();
+    if (!gameOver) { setMsg(OPP.name + ': ' + toGTP(mv) + '  ·  두실 차례입니다.', ''); sayMove(mv, toMove); }
+    thinking = false;
+    return;
+  }
   try {
     let mv, wr, lead;
     if (L.playouts === 0) {
@@ -2060,7 +2340,7 @@ async function aiMove() {
 function humanMove(mv) {
   if (thinking || gameOver || !ready) return;
   if (pos.toMove !== cfg.myColor) return;
-  if (mv !== PASS && (pos.stones[mv] !== EMPTY || mv === pos.ko)) {
+  if (mv !== PASS && (pos.stones[mv] !== EMPTY || (cfg.game !== 'omok' && mv === pos.ko))) {
     setMsg('그곳에는 둘 수 없습니다.', 'err'); speak('그곳에는 둘 수 없습니다'); return;
   }
   if (!pushMove(mv, cfg.myColor)) { setMsg('착수금지 자리입니다.', 'err'); speak('착수금지 자리입니다'); return; }
@@ -2086,7 +2366,12 @@ function hit(clientX, clientY) {
 }
 function onTapIdx(i) {
   stopSay();
-  if (review.on) return;                                 /* 판을 누르면 읽던 안내를 멈춘다 */
+  if (review.on) return;
+  if (cfg.game === 'tsumego') {
+    if (gameOver) return;
+    if (pos.stones[i] !== EMPTY) { setMsg('빈 자리에 두십시오.', 'err'); return; }
+    tsGuess(i); return;
+  }                                 /* 판을 누르면 읽던 안내를 멈춘다 */
   if (cfg.confirmTap) {
     if (pendingTap === i) { pendingTap = -1; humanMove(i); }
     else { pendingTap = i; draw(); }
@@ -2104,6 +2389,7 @@ document.addEventListener('touchstart', () => { Snd.init(); ttsUnlock(); }, { on
 
 /* ---------------- 11. 버튼 ---------------- */
 $('bUndo').onclick = () => {
+  if (cfg.game === 'tsumego') { tsLoad(tsIdx - 1); return; }
   if (thinking) { searcher.stop = true; return; }
   if (!moves.length) return;
   /* 상대의 마지막 수들을 먼저 지우고, 내 마지막 수 한 개를 지운다 → 다시 내 차례 */
@@ -2122,6 +2408,12 @@ $('bUndo').onclick = () => {
 };
 $('bHint').onclick = async () => {
   if (thinking || !ready || gameOver) return;
+  if (cfg.game === 'tsumego') { hintMove = tsAnswer; draw(); setMsg('급소는 ' + toGTP(tsAnswer) + ' 입니다.', ''); return; }
+  if (cfg.game === 'omok') {
+    hintMove = omokBest(pos.stones, pos.toMove, 2);
+    draw(); setMsg('추천: ' + toGTP(hintMove), ''); say(['hint'].concat(moveKeys(hintMove)));
+    return;
+  }
   thinking = true; clockPause(); setMsg('훈수 계산 중…', 'think');
   try {
     const res = await searcher.search(pos, Math.max(16, LEVELS[cfg.level].playouts), (i, t) => setMsg('훈수 계산 중… ' + i + '/' + t, 'think'));
@@ -2136,6 +2428,7 @@ $('bHint').onclick = async () => {
 };
 $('bTerr').onclick = async () => {
   if (thinking || !ready) return;
+  if (cfg.game !== 'go') { setMsg('사활에서는 쓰지 않습니다.', 'err'); return; }
   thinking = true; clockPause(); setMsg('형세 판단 중…', 'think');
   try {
     const r = await nnEval(pos);
@@ -2153,10 +2446,14 @@ $('bTerr').onclick = async () => {
   } catch (e) { setMsg('오류: ' + e.message, 'err'); }
   thinking = false; clockResume();
 };
-$('bPass').onclick = () => { if (!thinking && !gameOver) humanMove(PASS); };
+$('bPass').onclick = () => {
+  if (cfg.game === 'tsumego') { tsLoad(tsIdx + 1); return; }
+  if (!thinking && !gameOver) humanMove(PASS);
+};
 $('bNew').onclick = () => { if (!thinking) startNewGame(); };
 $('bScore').onclick = async () => {
   if (thinking || !ready) return;
+  if (cfg.game !== 'go') { setMsg('사활에서는 쓰지 않습니다.', 'err'); return; }
   thinking = true; clockPause(); setMsg('계가 중…', 'think');
   try {
     const r = await nnEval(pos);
@@ -2423,7 +2720,7 @@ async function reviewAnalyze() {
   reviewGoto(review.i);
   drawGraph();
 }
-$('bReview').onclick = () => { if (!thinking) reviewEnter(); };
+$('bReview').onclick = () => { if (thinking) return; if (cfg.game !== 'go') { setMsg('복기는 바둑에서만 됩니다.', 'err'); return; } reviewEnter(); };
 $('rvFirst').onclick = () => reviewGoto(0);
 $('rvPrev').onclick = () => reviewGoto(review.i - 1);
 $('rvNext').onclick = () => reviewGoto(review.i + 1);
@@ -2727,8 +3024,18 @@ function seg(host, items, get, set) {
   render();
   return render;
 }
+const GAME_HINT = { go: '19줄 정규 바둑. 연지아빠와 한 판 두십시오.',
+                    omok: '먼저 다섯을 잇는 쪽이 이깁니다. 따냄·집 계산 없습니다.',
+                    tsumego: '사활 ' + TSUMEGO.length + '문제. 급소 한 자리를 찾으면 됩니다. 완전탐색으로 정답을 확인해 실었습니다.' };
+const gameRender = seg($('segGame'), [{ label: '바둑', value: 'go' }, { label: '오목', value: 'omok' },
+                                      { label: '사활', value: 'tsumego' }],
+  () => cfg.game, v => {
+    cfg.game = v; $('gameHint').textContent = GAME_HINT[v]; saveCfg();
+    relabel(); newGame(); updateBar();
+  });
+$('gameHint').textContent = GAME_HINT[cfg.game];
 seg($('segColor'), [{ label: '흑 (선)', value: BLACK }, { label: '백 (후)', value: WHITE }],
-  () => cfg.myColor, v => { cfg.myColor = v; });
+  () => cfg.myColor, v => { cfg.myColor = v; saveCfg(); });
 const lvlRender = seg($('segLevel'), LEVELS.map((l, i) => ({ label: l.name, value: i })),
   () => cfg.level, v => { cfg.level = v; $('lvlHint').textContent = LEVELS[v].desc; updateBar(); saveCfg(); });
 $('bAuto').onclick = () => { cfg.autoLevel = !cfg.autoLevel; $('bAuto').className = cfg.autoLevel ? 'on' : ''; saveCfg(); };
@@ -2836,6 +3143,7 @@ window.addEventListener('pagehide', saveGame);
 window.addEventListener('beforeunload', saveGame);
 $('b2d3d').textContent = cfg.view3d ? '2D' : '3D';
 markViewBtns();
+relabel();
 layout();
 clockReset();
 
@@ -2879,7 +3187,9 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   get moves() { return moves; }, humanMove, aiMove, nnEval, searcher, newGame, startNewGame, nigiriGuess,
   get ready() { return ready; }, cfg, LEVELS, play, newPos, toGTP, areaScore, isOwnEye, encodeInputs, group,
   clock, clockReset, clockStart, clockStop, clockTick, renderClocks, Snd, timeLoss,
-  OPP, get idle() { return B3.idle; }, get handPending() { return handPending; }, B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
+  OPP, TSUMEGO, tsLoad, tsGuess, get tsAnswer() { return tsAnswer; }, get tsIdx() { return tsIdx; },
+  omokBest, omokWin, omokEval, omokPointScore, get omokLine() { return omokLine; },
+  get idle() { return B3.idle; }, get handPending() { return handPending; }, B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
   ttsState: () => ({ ok: ttsOk, voice: koVoice && koVoice.name, unlocked: ttsUnlocked }), getClip, say, VOICE, stopSay,
   sayNodeCount: () => sayNodes.length,
   review, reviewEnter, reviewExit, reviewGoto, reviewAnalyze, rankOf, buildPositions,
