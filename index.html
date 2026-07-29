@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1b1410">
-<title>나의 바둑친구 V1.90</title>
+<title>나의 바둑친구 V2.00</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="바둑친구">
@@ -152,7 +152,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V1.90</span>
+    <span id="ver">V2.00</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -316,7 +316,7 @@ input[type=range]{accent-color:#e8a33d}
   </div>
   <div class="hint">
     설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
-    <b style="color:#c8b89e">나의 바둑친구 V1.90</b><br>
+    <b style="color:#c8b89e">나의 바둑친구 V2.00</b><br>
     © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
     개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
     엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
@@ -346,7 +346,7 @@ const GIFT = {
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"YXSw+H03YC6CxjGX5ufArA==","i":"v51heL1AFdECjLGD","c":"WaST/alo28d6VC3ou9zZ255kO3VhqU+8wbulFYKtfDW6Il0qitdpoy0nrIiHvm+EE8YDzX1M0TFFx5gCsU8vc5c/m1R4+ElTsSvLoCEGww2qpxP2t3yqBH0pJVwkSK0rz+Xd6U2JdTZTgBXZp828ufToZeMA6k94QL0tG9e8SSdXYfOmEabre9B1B40xQ+kG/yyqORILSj1Jjw==","id":"77aab4f70c12"},{"s":"hBMIJ1CfOrvUxqoYXP7Eog==","i":"9tCiA4sAeAqZ/S+6","c":"When+kLAgSI2wtxRm1JuBShe80QSmL7SmXFfSCNEWNOMLw9EJlRFpZgivKMHmOC1+B/Hzu3rsi0Ujhay8tmVCCv6sgqoXI2to8pi8r6iyH2MMe8JKlak7Hc6sZBWF2ewrWi68vzkB4FoKzoMy/XMinfs3aDNs3ZSdLY6d3+Js03CkOUXqPYmjd+Ma1h2auZlqXuJ91LfUiPfNw==","id":"77c4e7359f67"},{"s":"kFggrsCzMBbTodS/dIGWyw==","i":"YjLPLMsbqJO719U5","c":"58p3LOP2ho1Prku4M0dv8m1OrL4MecnRONrxKZygi9T0xIikcOb+CYwCFLMVwphijs3BxzkUKgi4SqDKS7J/3g8yVu8VyxabdUUWYATvSTUi7g6fsf7A4xei6ZhvGGcqZYM0Y2vNpSsX2yXuuc5+G6RkQznJahc/xkwCZ4H46Qq1WqNUT5rpFLHuh9sONVBSiNW/YMwLneiE1w==","id":"04f6bd4d113f"},{"s":"NdFUbAa6ByYF6bN13ila0w==","i":"RKPF6vbU8SU5ylVD","c":"Twtaiw2FfUnm4KPsd4yxILFT5DlO2BBBIBideOSLRkFN/48bZS1cDQwcrBQ0fZ1pvEUFTnzXkByqozaT7gj5SgmKimzL1q5cOb4BYfJcI3CnoVctlwg0OnkgdToB+Lu4VuZKmFhsv7+od1kSeSUTZvPyytUdO6YFJcWfBc8el21VJtlB1TGdAhMyC2/LmP4HHZSxv0WpvZObPw==","id":"1a672f9765f7"}];
+const SECRETS = [{"s":"QxD74E5yEUdFIGJ2VAXiTw==","i":"W6RpiivRY1SSvAiq","c":"ST4bBH5BsBBGSF+79McYxR/mTU45nsi/ThQOZdQpl2DQjOCaT4OOSCICaXKuYjS5FHwd0WL9KgTVQ834r/8yOi4jpVllnHjHxveYLNmhQA9yvMX9dWrd9yOsAh4WHA50Dk1FWU3c7HoBtie8no1RfU8JeIlcIdfY0QBVijN+Wsg4/D3CgZ1G9Gc2zUyywi42Z9+lMIevFgwaBA==","id":"77aab4f70c12"},{"s":"+MarC1zDYtziTuuGxVdUZQ==","i":"AlD5WNG7i5FGscDV","c":"+xV3N5wIvpQIJeF+15Jlw2ZZUAKx8bsjXuyOnCO+pP62hARqSi9dtSBFRx9aWza81sv6/YfvYVxAk2TWRUb7cUlfO80T5BD0BCaZW9MtMBAiZ+AdmBXltlMqd4fnT8gOmFBXIVQlAWNFUzU6ecCkMPgw5WxRHDi1mt51q8A9FILuGmUYb3X6bYaTlwsdV0GYN7caxJDxah8qaA==","id":"77c4e7359f67"},{"s":"jpO80Rryx639DHuiNlQWjg==","i":"lUtrIpc+tZQBvHMq","c":"Uv5tjhsj3exGMulEFxMFfU1EvfOl9Qc8ilu/GAJoTdfv1HjzChhPZX2EbH3AHzYqu+FjKCnuQ3cIn+73BxYFuImunBKuWs/9ZdBW1BR8oLo8jrwGSli0NKp3b/Y/FQE8BITn+swlUE87DTjq/HxcWR8iSm1f/3ORph86admJERLWjgforKdvp+16w0bNNHk1zeArtrb3Dm6naQ==","id":"04f6bd4d113f"},{"s":"zx7RP47uj11TFjFPhJBo3g==","i":"ghaBhAfrXbkA9Qp9","c":"P0ZeMKU1UfMfjuE6c5Hhng3m+WRusG8ZJexN2PRC692d8K4OdQYEBbnQpudEiDHjwe/ocofLqM4RQZ0DTpKQDIxLCcKEAjiOm+zBCdlrlNAhXxKHg2GTHNwq3aPwi13WBs/B6hGmMC2aB+jOydra3gY378DhVBkenfIFdbimk0TriZJpeQw+cmWmXZ//YjdUh9tmn4O5Tlupow==","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -1153,6 +1153,7 @@ function timeLoss(side) {
 }
 
 /* ---------------- 5. 난이도 ---------------- */
+const OPP = { name: '연지아빠', rank: '아마 5단' };
 const LEVELS = [
   { key: 'a', name: '입문',  playouts: 0,   temp: 1.30, topN: 14, desc: '탐색 없이 감각으로만. 초보자 연습용.' },
   { key: 'b', name: '초급',  playouts: 0,   temp: 0.70, topN: 5,  desc: '탐색 없음. 상위 후보 중 확률적으로 선택.' },
@@ -1168,7 +1169,7 @@ const cfg = {
   mainMin: 10, byoSec: 30, byoCount: 3, useClock: true,
   sfx: true, voice: true, nigiri: true,
   view3d: true, camView: 1, audio3d: true, atariVoice: true, volume: 1.35, beep: false,
-  sayMove: true, autoLevel: true
+  sayMove: true, autoLevel: true, person: true
 };
 /* 단수(자유도 1) 상태 추적 — 새로 단수가 된 대마만 알린다 */
 let atariKeys = new Set();
@@ -1251,7 +1252,7 @@ function autoLevel(iWon) {
 }
 const CFG_SAVE = ['myColor', 'level', 'handicap', 'komi', 'showCoord', 'showNum', 'confirmTap',
   'mainMin', 'byoSec', 'byoCount', 'useClock', 'sfx', 'voice', 'nigiri', 'view3d', 'camView',
-  'audio3d', 'atariVoice', 'volume', 'beep', 'sayMove', 'autoLevel'];
+  'audio3d', 'atariVoice', 'volume', 'beep', 'sayMove', 'autoLevel', 'person'];
 function saveCfg() { const o = {}; for (const k of CFG_SAVE) o[k] = cfg[k]; lsSet(CFG_KEY, o); }
 function loadCfg() { const o = lsGet(CFG_KEY, null); if (o) for (const k of CFG_SAVE) if (o[k] !== undefined) cfg[k] = o[k]; }
 
@@ -1576,12 +1577,138 @@ const B3 = {
     this.ghost.visible = false;
     this.scene.add(this.ghost);
 
+    this.buildPerson();
     this.ok = true;
     this.applyView(cfg.camView);
     this.updateTex();
     this.bindInput(canvas);
     this.loop();
     return true;
+  },
+  /* ---- 건너편에 앉은 상대 (안경 쓴 중년) ---- */
+  buildPerson: function () {
+    const T = THREE, G = new T.Group();
+    const skin = new T.MeshStandardMaterial({ color: 0xd8a882, roughness: 0.72, metalness: 0 });
+    const hair = new T.MeshStandardMaterial({ color: 0x241f1b, roughness: 0.92 });
+    const grey = new T.MeshStandardMaterial({ color: 0x8d8781, roughness: 0.9 });
+    const shirt = new T.MeshStandardMaterial({ color: 0x2f4a63, roughness: 0.85 });
+    const frame = new T.MeshStandardMaterial({ color: 0x1b1b1e, roughness: 0.35, metalness: 0.55 });
+    const lens = new T.MeshPhysicalMaterial({ color: 0xcfe3f0, roughness: 0.05, metalness: 0,
+      transparent: true, opacity: 0.3, clearcoat: 1 });
+    const add = (m, x, y, z, rx, ry) => { m.position.set(x, y, z); if (rx) m.rotation.x = rx; if (ry) m.rotation.y = ry; m.castShadow = true; G.add(m); return m; };
+
+    /* 몸통 */
+    add(new T.Mesh(new T.CylinderGeometry(7.2, 10.2, 15, 20), shirt), 0, 7.5, 0);
+    /* 어깨 */
+    add(new T.Mesh(new T.SphereGeometry(3.5, 18, 14), shirt), -8.2, 13.4, 0);
+    add(new T.Mesh(new T.SphereGeometry(3.5, 18, 14), shirt), 8.2, 13.4, 0);
+    /* 목 */
+    add(new T.Mesh(new T.CylinderGeometry(1.9, 2.3, 3.4, 14), skin), 0, 15.6, 0);
+    /* 머리 */
+    const head = new T.Group(); head.position.set(0, 21.2, 0.3);
+    const skull = new T.Mesh(new T.SphereGeometry(4.5, 28, 22), skin);
+    skull.scale.set(1, 1.1, 0.94); skull.castShadow = true; head.add(skull);
+    /* 머리카락 — 정수리를 덮고 옆머리는 희끗하게 */
+    const cap = new T.Mesh(new T.SphereGeometry(4.62, 26, 18, 0, Math.PI * 2, 0, Math.PI * 0.56), hair);
+    cap.scale.set(1, 1.12, 0.96); cap.position.y = 0.25; head.add(cap);
+    for (const sx of [-1, 1]) {
+      const side = new T.Mesh(new T.SphereGeometry(1.5, 12, 10), grey);
+      side.scale.set(0.5, 1.15, 0.85); side.position.set(sx * 4.2, 0.5, -0.2); head.add(side);
+    }
+    /* 귀 */
+    for (const sx of [-1, 1]) {
+      const ear = new T.Mesh(new T.SphereGeometry(0.95, 12, 10), skin);
+      ear.scale.set(0.45, 1, 0.75); ear.position.set(sx * 4.35, -0.2, 0); head.add(ear);
+    }
+    /* 눈썹·눈 */
+    for (const sx of [-1, 1]) {
+      const brow = new T.Mesh(new T.BoxGeometry(1.7, 0.32, 0.35), hair);
+      brow.position.set(sx * 1.75, 1.15, 4.05); brow.rotation.z = sx * 0.09; head.add(brow);
+      const eye = new T.Mesh(new T.SphereGeometry(0.42, 12, 10), new T.MeshStandardMaterial({ color: 0x2a2320, roughness: 0.3 }));
+      eye.position.set(sx * 1.75, 0.35, 4.05); head.add(eye);
+    }
+    /* 안경 */
+    for (const sx of [-1, 1]) {
+      const rim = new T.Mesh(new T.TorusGeometry(1.42, 0.16, 10, 26), frame);
+      rim.position.set(sx * 1.78, 0.35, 4.18); head.add(rim);
+      const gl = new T.Mesh(new T.CircleGeometry(1.34, 24), lens);
+      gl.position.set(sx * 1.78, 0.35, 4.16); head.add(gl);
+      const temple = new T.Mesh(new T.CylinderGeometry(0.11, 0.11, 3.6, 8), frame);
+      temple.rotation.x = Math.PI / 2; temple.rotation.y = sx * 0.16;
+      temple.position.set(sx * 3.2, 0.45, 2.7); head.add(temple);
+    }
+    const bridge = new T.Mesh(new T.CylinderGeometry(0.12, 0.12, 1.0, 8), frame);
+    bridge.rotation.z = Math.PI / 2; bridge.position.set(0, 0.55, 4.2); head.add(bridge);
+    /* 코 · 입 */
+    const nose = new T.Mesh(new T.SphereGeometry(0.62, 12, 10), skin);
+    nose.scale.set(0.8, 1.2, 1.1); nose.position.set(0, -0.55, 4.35); head.add(nose);
+    const mouth = new T.Mesh(new T.BoxGeometry(1.5, 0.2, 0.2), new T.MeshStandardMaterial({ color: 0x8a5a52, roughness: 0.6 }));
+    mouth.position.set(0, -2.2, 4.05); head.add(mouth);
+    G.add(head);
+    this.head = head;
+
+    /* 착수하는 손 — 건너편에서 팔뚝과 손만 들어온다 */
+    const sleeve = new T.Mesh(new T.CylinderGeometry(2.05, 1.62, 11, 16), shirt);
+    const fore = new T.Mesh(new T.CylinderGeometry(1.62, 1.28, 4.2, 14), skin);
+    const hand = new T.Group();
+    const palm = new T.Mesh(new T.SphereGeometry(1.6, 16, 14), skin);
+    palm.scale.set(1.05, 0.52, 1.15); hand.add(palm);
+    /* 검지·중지로 돌을 집은 모양 */
+    for (let i = 0; i < 4; i++) {
+      const f = new T.Mesh(new T.CylinderGeometry(0.30, 0.26, 2.5, 8), skin);
+      f.rotation.x = Math.PI / 2 + 0.45;
+      f.position.set((i - 1.5) * 0.68, -0.30 - Math.abs(i - 1.5) * 0.08, 1.35);
+      hand.add(f);
+    }
+    const thumb = new T.Mesh(new T.CylinderGeometry(0.34, 0.3, 2.0, 8), skin);
+    thumb.rotation.set(Math.PI / 2 + 0.6, 0, -0.7);
+    thumb.position.set(1.45, -0.15, 0.75); hand.add(thumb);
+    const heldStone = new T.Mesh(this.stoneGeo, this.matW);
+    heldStone.position.set(0.15, -0.72, 1.85); heldStone.visible = false; hand.add(heldStone);
+    palm.castShadow = true; fore.castShadow = true; sleeve.castShadow = true;
+    const ARM = new T.Group();
+    ARM.add(sleeve); ARM.add(fore); ARM.add(hand);
+    this.scene.add(ARM);
+    this.armGrp = ARM;
+    /* 팔이 들어오는 방향 — 건너편 위쪽에서 비스듬히 */
+    this.armDir = new T.Vector3(-0.10, 0.74, -0.66).normalize();
+    this.arm = { sleeve: sleeve, fore: fore, hand: hand, stone: heldStone };
+
+    G.position.set(0, -5.3, -(HALF + MARGIN + 9.5));
+    G.scale.setScalar(0.50);
+    this.person = G;
+    this.scene.add(G);
+    this.handRest = new T.Vector3(-7.0, 7.0, -(HALF + 1.0));
+    this.setArm(this.handRest);
+    this.armGrp.visible = false;
+  },
+  /* 손 위치에 맞춰 팔뚝·소매를 배치 (건너편에서 들어오는 팔) */
+  setArm: function (target) {
+    const a = this.arm;
+    if (!a) return;
+    const T3 = THREE, d = this.armDir;
+    a.hand.position.copy(target);
+    a.hand.quaternion.setFromUnitVectors(new T3.Vector3(0, 0, 1), d.clone().multiplyScalar(-1));
+    const put = (mesh, from, len) => {
+      mesh.position.copy(from).add(d.clone().multiplyScalar(len / 2));
+      mesh.quaternion.setFromUnitVectors(new T3.Vector3(0, 1, 0), d);
+    };
+    const wrist = target.clone().add(d.clone().multiplyScalar(1.1));
+    put(a.fore, wrist, 4.2);
+    put(a.sleeve, wrist.clone().add(d.clone().multiplyScalar(4.0)), 11);
+  },
+  /* 손으로 한 수 놓기 */
+  handPlay: function (idx, color, onPlace) {
+    if (!this.ok || !this.arm || !cfg.person) { onPlace && onPlace(); return; }
+    const w = this.idxToWorld(idx);
+    const tgt = new THREE.Vector3(w.x, SH + 1.5, w.z);
+    const above = tgt.clone(); above.y += 5.0;
+    const rest = this.handRest.clone();
+    this.armGrp.visible = true;
+    this.arm.stone.material = (color === BLACK) ? this.matB : this.matW;
+    this.arm.stone.visible = true;
+    this.handAnim = { t: 0, tgt: tgt, above: above, rest: rest, placed: false, onPlace: onPlace };
+    this.need = true;
   },
   updateTex: function () {
     if (!this.ok) return;
@@ -1600,15 +1727,17 @@ const B3 = {
     const tv = Math.tan(this.cam.fov * Math.PI / 360);
     const th = tv * this.cam.aspect;
     const R = BW * 0.5;
+    const extra = (cfg.person && this.person && this.pitch < 1.25) ? 7.5 : 2.2;
     const dh = R / Math.max(0.05, th);
-    const dv = (R * Math.sin(this.pitch) + 2.2) / Math.max(0.05, tv);
+    const dv = (R * Math.sin(this.pitch) + extra) / Math.max(0.05, tv);
     return Math.max(dh, dv) * this.zoom;
   },
   placeCam: function () {
     const d = this.fitDist();
     const cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
-    this.cam.position.set(d * cp * Math.sin(this.yaw), d * sp, d * cp * Math.cos(this.yaw));
-    this.cam.lookAt(0, 0, 0);
+    const ly = (cfg.person && this.person && this.pitch < 1.25) ? 2.2 : 0;
+    this.cam.position.set(d * cp * Math.sin(this.yaw), d * sp + ly, d * cp * Math.cos(this.yaw));
+    this.cam.lookAt(0, ly, 0);
   },
   resize: function (w, h) {
     if (!this.ok) return;
@@ -1631,6 +1760,7 @@ const B3 = {
     for (let i = 0; i < NN; i++) {
       const s = pos.stones[i];
       if (!s) continue;
+      if (i === handPending) continue;        /* 손이 아직 들고 있는 돌 */
       let m = this.meshes[i];
       if (m && m.userData.col !== s) { this.scene.remove(m); m = null; }
       if (!m) {
@@ -1734,6 +1864,42 @@ const B3 = {
     (function frame(t) {
       requestAnimationFrame(frame);
       const dt = Math.min(0.05, (t - prev) / 1000); prev = t;
+      /* 손 동작: 들기 → 옮기기 → 놓기 → 돌아오기 */
+      const H = self.handAnim;
+      if (H && self.arm) {
+        H.t += dt;
+        const D1 = 0.30, D2 = 0.46, D3 = 0.20, D4 = 0.42;   /* 각 구간 시간(초) */
+        const ease = u => u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+        let p;
+        if (H.t < D1) {                       /* 손을 살짝 든다 */
+          const u = ease(H.t / D1);
+          const lift = H.rest.clone(); lift.y += 4;
+          p = H.rest.clone().lerp(lift, u);
+        } else if (H.t < D1 + D2) {           /* 착점 위로 이동 */
+          const u = ease((H.t - D1) / D2);
+          const from = H.rest.clone(); from.y += 4;
+          p = from.lerp(H.above, u);
+        } else if (H.t < D1 + D2 + D3) {      /* 내려놓기 */
+          const u = ease((H.t - D1 - D2) / D3);
+          p = H.above.clone().lerp(H.tgt, u);
+        } else {                              /* 손을 거둔다 */
+          if (!H.placed) {
+            H.placed = true;
+            self.arm.stone.visible = false;
+            if (H.onPlace) H.onPlace();
+          }
+          const u = Math.min(1, (H.t - D1 - D2 - D3) / D4);
+          p = H.above.clone().lerp(H.rest, ease(u));
+          if (u >= 1) { self.handAnim = null; self.armGrp.visible = false; }
+        }
+        self.setArm(p);
+        /* 팔을 뻗을 때 상체를 살짝 숙인다 */
+        if (self.person) {
+          const reach = Math.max(0, Math.min(1, (p.z + HALF) / (2 * HALF)));
+          self.person.rotation.x = -reach * 0.13;
+        }
+        self.need = true;
+      }
       if (self.anims.length) {
         for (let k = self.anims.length - 1; k >= 0; k--) {
           const a = self.anims[k];
@@ -1764,7 +1930,7 @@ function markViewBtns() {
   const bs = document.querySelectorAll('#viewRow button[data-v]');
   for (const b of bs) b.className = (+b.dataset.v === cfg.camView) ? 'on' : '';
 }
-let dropIdx = -1, lastTerrRef;
+let dropIdx = -1, handPending = -1, lastTerrRef;
 function draw() {
   if (cfg.view3d && B3.ok) {
     if (territory !== lastTerrRef) { lastTerrRef = territory; B3.updateTex(); }
@@ -1786,8 +1952,9 @@ function updateBar() {
   const lead = curLead;
   const who = lead >= 0 ? '흑' : '백';
   $('wrtext').innerHTML = '<span>흑 ' + wb.toFixed(1) + '%   ·   ' + who + ' ' + Math.abs(lead).toFixed(1) + '집 유리</span>';
-  $('modeLbl').textContent = LEVELS[cfg.level].name + ' · ' + (cfg.myColor === BLACK ? '흑번' : '백번') +
-    (cfg.handicap ? ' · ' + cfg.handicap + '점' : '');
+  const top = cfg.level === LEVELS.length - 1;
+  $('modeLbl').textContent = OPP.name + ' · ' + (top ? OPP.rank : LEVELS[cfg.level].name + '으로 봐주는 중') +
+    ' · ' + (cfg.myColor === BLACK ? '내가 흑' : '내가 백') + (cfg.handicap ? ' · ' + cfg.handicap + '점' : '');
 }
 
 /* ---------------- 9. 대국 흐름 ---------------- */
@@ -1802,6 +1969,7 @@ function newGame() {
   curWinrate = 0.5; curLead = 0;
   clockStop(); clockReset();
   resultDone = false; lsDel(SAVE_KEY);
+  handPending = -1; if (B3.ok) { B3.handAnim = null; if (B3.arm) B3.arm.stone.visible = false; }
   atariKeys = new Set();
   if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
   layout(); updateBar();
@@ -1819,10 +1987,24 @@ function pushMove(mv, color) {
   pos = np; moves.push({ mv: mv, color: color }); lastMove = mv;
   territory = null; hintMove = -1; pendingTap = -1;
   if (mv !== PASS) {
-    dropIdx = mv;
-    Snd.place(mv);
-    if (taken > 0) setTimeout(() => Snd.capture(taken, mv), 90);
-    setTimeout(announceAtari, taken > 0 ? 320 : 200);
+    /* 상대 수는 건너편 사람이 손으로 놓는다 (3D에서만) */
+    const byOpp = (color !== cfg.myColor) && cfg.view3d && cfg.person && B3.ok && !review.on;
+    if (byOpp) {
+      handPending = mv;
+      B3.handPlay(mv, color, () => {
+        handPending = -1;
+        dropIdx = -1;
+        B3.sync(-1);
+        Snd.place(mv);
+        if (taken > 0) setTimeout(() => Snd.capture(taken, mv), 90);
+        setTimeout(announceAtari, taken > 0 ? 320 : 200);
+      });
+    } else {
+      dropIdx = mv;
+      Snd.place(mv);
+      if (taken > 0) setTimeout(() => Snd.capture(taken, mv), 90);
+      setTimeout(announceAtari, taken > 0 ? 320 : 200);
+    }
   }
   onMovePlayed(color);
   if (pos.passes >= 2) { gameOver = true; clockStop(); Snd.gong(); }
@@ -2601,7 +2783,7 @@ seg($('segByoN'), [{ label: '1회', value: 1 }, { label: '3회', value: 3 }, { l
 const sndItems = [{ label: '효과음', value: 'sfx' }, { label: '음성 안내', value: 'voice' },
                   { label: '착수 읽기', value: 'sayMove' }, { label: '단수 알림', value: 'atariVoice' },
                   { label: '입체 음향', value: 'audio3d' }, { label: '비프음', value: 'beep' },
-                  { label: '돌가르기', value: 'nigiri' }];
+                  { label: '돌가르기', value: 'nigiri' }, { label: '건너편 상대', value: 'person' }];
 (function () {
   const host = $('segSnd');
   host.innerHTML = '';
@@ -2722,7 +2904,7 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   get moves() { return moves; }, humanMove, aiMove, nnEval, searcher, newGame, startNewGame, nigiriGuess,
   get ready() { return ready; }, cfg, LEVELS, play, newPos, toGTP, areaScore, isOwnEye, encodeInputs, group,
   clock, clockReset, clockStart, clockStop, clockTick, renderClocks, Snd, timeLoss,
-  B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
+  OPP, get handPending() { return handPending; }, B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
   ttsState: () => ({ ok: ttsOk, voice: koVoice && koVoice.name, unlocked: ttsUnlocked }), getClip, say, VOICE, stopSay,
   sayNodeCount: () => sayNodes.length,
   review, reviewEnter, reviewExit, reviewGoto, reviewAnalyze, rankOf, buildPositions,
