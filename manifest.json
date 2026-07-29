@@ -1,0 +1,17 @@
+{
+  "name": "나의 바둑친구",
+  "short_name": "바둑친구",
+  "description": "혼자서도 두는 바둑 — KataGo 신경망 + 몬테카를로 탐색",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#171310",
+  "theme_color": "#1b1410",
+  "lang": "ko",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
