@@ -254,8 +254,7 @@ input[type=range]{accent-color:#e8a33d}
       <input id="pBase" class="ginp" placeholder="https://…/baduk.html">
       <button id="pLinks" style="width:100%">카톡용 링크 목록 만들기</button>
       <textarea id="pOut" class="ginp" rows="4" readonly placeholder="여기에 사람별 링크가 나옵니다 — 복사해서 각자에게 보내십시오"></textarea>
-      <div class="hint">개인 문구를 쓰시려면 <b>관리자 비밀번호가 반드시 있어야</b> 합니다.
-        비밀번호로 목록을 잠가 두어야 나중에 다시 열어 고칠 수 있습니다.</div>
+      <div class="hint">비밀번호는 없어도 됩니다. 정해 두시면 나중에 이 화면에서 목록을 다시 열어 고칠 수 있습니다.</div>
       <div class="seg" style="margin-top:8px">
         <button id="gPrev">미리보기</button>
         <button id="gOn">문구 켜기</button>
@@ -286,18 +285,18 @@ const PRISTINE = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
 /*GIFT_START*/
 const GIFT = {
-  on: false,                      /* 선물 문구 화면 사용 */
-  title: '',                      /* 큰 제목 */
-  to: '',                         /* 받는 분 */
-  body: '',                       /* 본문 (줄바꿈 가능) */
-  from: '',                       /* 보내는 사람 */
-  pwHash: ''                      /* 관리자 비밀번호 SHA-256 (빈 값이면 잠금 없음) */
+  on: true,
+  title: "나의 바둑친구",
+  to: "",
+  body: "심심할 때 즐겨 주세요.",
+  from: "김홍규 드림",
+  pwHash: ""
 };
 /*GIFT_END*/
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [];
+const SECRETS = [{"s":"84b972YIHr2ChuqsjJf94A==","i":"rsB4kxcJZMptFW6S","c":"gPngIbr3QLJr6jKmNlP92YK6LwGhPiGvtBQ3RcVohPRlt2p/r2Xl+iSC8R1Mg/kvhZO9S7ojOAtLU3myHaqj1x3XBH/3VfQvvBC/JEC9nsKWW9G1FOnnXotvpgDJN0VNXyNnrtRXSSx6M4pAtcjisG3cgtPN7qmAzDUj5KGhru+DvnREXdvt2NOW6K+pPgBesrd3ny/IUVDAFWnphLo=","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -1787,9 +1786,9 @@ async function sha256(s) {
 let myNote = null;   /* 링크 코드로 열린 개인 문구 */
 function renderGift(farewell) {
   $('gTitleV').textContent = GIFT.title || '나의 바둑친구';
-  $('gToV').textContent = myNote ? (myNote.name + ' 께') : (GIFT.to || '');
+  $('gToV').textContent = (myNote && myNote.name) ? (myNote.name + ' 께') : (GIFT.to || '');
   $('gBodyV').textContent = myNote ? myNote.body : (GIFT.body || '');
-  $('gFromV').textContent = GIFT.from || '';
+  $('gFromV').textContent = myNote ? '' : (GIFT.from || '');
   $('gClose').textContent = farewell ? '창 닫기' : '바둑판으로';
 }
 /* 주소 뒤 #k=코드 를 읽어 그 사람 문구만 풀어 본다 */
@@ -1902,14 +1901,14 @@ $('gExport').onclick = async () => {
   const pw = newPw || adminPw;
   if (personal.length) {
     if (!hasCrypto()) { setMsg('이 브라우저에서는 암호화를 쓸 수 없습니다.', 'err'); return; }
-    if (!pw) { $('admHint').textContent = '개인 문구를 쓰시려면 관리자 비밀번호를 먼저 정해 주십시오.'; return; }
     const recs = [];
     for (const p of personal) {
       const r = await encJSON(p.code, { name: p.name, body: p.body });
       r.id = (await sha256(p.code)).slice(0, 12);
       recs.push(r);
     }
-    const vault = await encJSON(pw, personal);
+    /* 비밀번호가 있으면 목록을 잠가 함께 보관 (나중에 다시 열어 고칠 수 있게) */
+    const vault = pw ? await encJSON(pw, personal) : null;
     const sblock = '/*SECRETS_START*/\nconst SECRETS = ' + JSON.stringify(recs) + ';\n' +
       'const VAULT = ' + JSON.stringify(vault) + ';\n/*SECRETS_END*/';
     out = out.replace(/\/\*SECRETS_START\*\/[\s\S]*?\/\*SECRETS_END\*\//, sblock);
