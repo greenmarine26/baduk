@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1b1410">
-<title>나의 바둑친구 V2.70</title>
+<title>나의 바둑친구 V2.80</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="바둑친구">
@@ -152,7 +152,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V2.70</span>
+    <span id="ver">V2.80</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -318,7 +318,7 @@ input[type=range]{accent-color:#e8a33d}
   </div>
   <div class="hint">
     설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
-    <b style="color:#c8b89e">나의 바둑친구 V2.70</b><br>
+    <b style="color:#c8b89e">나의 바둑친구 V2.80</b><br>
     © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
     개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
     엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
@@ -348,7 +348,7 @@ const GIFT = {
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"sQPzeXEIdJSVB6EPjkrUDg==","i":"ccRkh1K13v9BMeky","c":"o97IU05tsdb/jjEnB+UNN8VVEvQCtFNgI/KwzSyuBksDl/XJWzb+Vts+N7nF3AzpYYTbGkTBVUk6z6lPM/nYdguAyuCsxhjp+//BQJO+Pk104W1bvr/HK+Srhy24Lg7+BN36CnJogAISL4QMtprGICmlVu1iwPGKmG6zDzsuu2DnQsubPTvpxbTaTxMO9WijPDabKk5bqFzrAw==","id":"77aab4f70c12"},{"s":"K4nmpZ00XWlKnbx2Gyz5Pg==","i":"u31eTJqqj0evA3u2","c":"RVtLv0bqBgT/nFbBmob16Y+sy3GKu1E03A0MArrGuNoulFeJlZz3C8QtiGQNyRDJoWFTFwMrzERSTP0PEIxRr4snVzgcLlcp4EB2witsFbmVG49GTTPvGOo7eVYCMIbmgAhk2CGzDl5jZYu+PH/7aeKOts8DY3j6OeUKRhwY55ufL0cAKxlusCfUNMgAatw2C0oINcMvDUIY3w==","id":"77c4e7359f67"},{"s":"7yKgXREhQ/OpjNj58NYwFA==","i":"TNan8Il4jrTyUUCK","c":"zIs6PD+vEybdDH5hIet9e2aG43tDHc53MFsabnLJoKPZDk62k6HL4p5jW7SEfgOE7Fs6fzkeo51ZwEa4dVMsIYIYEVBzZ67b8uNQUNT12dyBQoo02VFhKxZor38azr7+u7CGBN3EvtvIxmvRtObGsnAMUCw+G80A9SE+4Mb0mZShOG7d3l3sNbHy19Rjd59MtNIrci9ogov3aQ==","id":"04f6bd4d113f"},{"s":"evAR8/nIv9morFTW2GEx1w==","i":"BkX06VChBXYXf3at","c":"h1lFd8zNKx1e7usZgnqbWxi5hlVq358O0jpRqwp6ca2NVG+K8Z6mA4DSMpFtaWx94SiNxJ8nYfsLh8FDD7FjgLoEX0fGd22s6rGlWH28lYIxpZAnGGNVEkP0bsvqeLu3rkDzRykkMQeGp2de9L0YktGPCAnOsEbVcgcBCflAzmVL1VLRR79z6u2Rc3L/fALMy7Lh1C4BEsZcjA==","id":"1a672f9765f7"}];
+const SECRETS = [{"s":"KzQ2LT73mTV+z6/KIijD0Q==","i":"2YwNXfwSUIY3X7hB","c":"+SoEcGx6ygCJEMssXlTdR8HMPivDi1A90o34Hz7cxw7YpGT34k4j4gYuSLbfPyHFmKryRUg4XJwVFGgii+6SQWjKXimUolkVtzMQ2O7TEI96VrFXmd9mp19KhInNqS7r0T3rUCzbRE6y/n0eRXl1q2CURp1rb6Qz9dAiWnEA3e/AxHxVifYmX2aC2EcMbT8g7/sQUB7CTcwHlg==","id":"77aab4f70c12"},{"s":"p5cpwOKwDXd/bAE+NNKicA==","i":"DFI/Bosx4ipq/soR","c":"sqVV9u/ZOxwZBUOZCwXQl2xBioC8PNLwsBINdIdlBrsUi2zLWWHF17q3tAT6nN1SrPQ+523oV1bRtPwfBOyjomywPTMyDwuFxoZicLPkOkdkDSCXrN+l834dsiOMXJwU/qESIVCXbWVPlPg20FwnJsWM8tCSNphJS+pK88XfARylXxTjon8JCsS4goTc8bKOtJ/crQiWE2b+jQ==","id":"77c4e7359f67"},{"s":"Y6uI+zxCuglfF14RSu2zqg==","i":"GnWwzpdMK4hwc+Ab","c":"k2m7d1cQYKJb+YhKmY6O0K4JlxrnyNeC9U6/QEYg+EyYfeh7A9rcqHfBUYxF49UbV1FQ5Ca13sFAznLgKF6xOBLxFcq017ClP0PtAPLPHA1IXGNSKCThulbRnEZqaijPfwe8LCKo2yTX/BVYffH6CoTULMFbkAnnYybcM+Z1oyBZKSrl8vC55LmAbIgOi2gDpsd+dGhMY4iZzw==","id":"04f6bd4d113f"},{"s":"oiBZIwt1qEqW0LxbOtICVA==","i":"A9sM8uB4ajMwilcM","c":"q3QBGlqINaiP2Zv6ZGsgmPRUQbDI+n1Awpp32GP37atHiyynfSo3KppIZAAe/dFMn0OBcBDYSR+oHzUQ0rDDpOQi/FJRciSvBQBu5GrIQ4Qql92wpYSyFXJRNTreZ/c1Puz8FvaUvw1zfG8YqbmfP2F1QJ9T7rWROYOWY6BAZXLZ2Y7ePRLUEiWlk1Xll7FIfEnmBeX8k1mVeg==","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -646,7 +646,7 @@ function omokBest(stones, color, depth) {
 
 /* ================= 사활 문제 ================= */
 /* 완전탐색 솔버로 정답과 유일성을 확인한 것만 실었습니다 */
-const TSUMEGO = [{"n":"직삼궁","q":"kill","b":[304,305,306,307,308,309,310,323,329,342,348],"w":[324,325,326,327,328,343,347],"a":345,"e":[344,345,346]},{"n":"직삼궁","q":"live","b":[304,305,306,307,308,309,310,323,329,342,348],"w":[324,325,326,327,328,343,347],"a":345,"e":[344,345,346]},{"n":"굽은 삼궁","q":"kill","b":[285,286,287,288,289,304,308,327,346],"w":[305,306,307,323,324,326,342,345],"a":344,"e":[343,344,325]},{"n":"굽은 삼궁","q":"live","b":[285,286,287,288,289,304,308,327,346],"w":[305,306,307,323,324,326,342,345],"a":344,"e":[343,344,325]},{"n":"삿갓 사궁","q":"kill","b":[286,287,288,289,290,304,305,309,310,323,329,342,348],"w":[306,307,308,324,325,327,328,343,347],"a":345,"e":[344,345,346,326]},{"n":"삿갓 사궁","q":"live","b":[286,287,288,289,290,304,305,309,310,323,329,342,348],"w":[306,307,308,324,325,327,328,343,347],"a":345,"e":[344,345,346,326]},{"n":"꽃 오궁","q":"kill","b":[248,249,250,251,252,266,267,271,272,285,291,304,310,323,329,342,343,347,348],"w":[268,269,270,286,287,289,290,305,309,324,325,327,328,344,345,346],"a":307,"e":[326,306,307,308,288]},{"n":"꽃 오궁","q":"live","b":[248,249,250,251,252,266,267,271,272,285,291,304,310,323,329,342,343,347,348],"w":[268,269,270,286,287,289,290,305,309,324,325,327,328,344,345,346],"a":307,"e":[326,306,307,308,288]},{"n":"자루 오궁","q":"kill","b":[286,287,288,289,290,291,304,305,310,323,329,342,348],"w":[306,307,308,309,324,325,328,343,347],"a":345,"e":[344,345,346,326,327]},{"n":"귀 삼궁","q":"live","b":[285,286,287,306,307,326,345],"w":[304,305,324,325,344],"a":342,"e":[342,343,323]}];
+const TSUMEGO = [{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,325,326,327,328,345,346,347],"a":343,"e":[342,343,344,323,324],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,345,346,347],"a":343,"e":[342,343,344,324,325],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,326,327,328,344,345,346,347],"a":324,"e":[342,343,323,324,325],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[305,306,307,308,309,326,327,328,343,344,345,346,347],"a":323,"e":[342,323,324,325,304],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,342,346,347],"a":344,"e":[343,344,345,324,325],"pv":5},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[305,306,307,308,309,327,328,344,345,346,347],"a":304,"e":[342,343,323,324,325,326,304],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,342],"a":347,"e":[343,344,345,346,347,324,325],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,327,328,342],"a":344,"e":[343,344,345,346,347,325,326],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,326,327,342],"a":344,"e":[343,344,345,346,347,325,328],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,327,328,342,343],"a":347,"e":[344,345,346,347,324,325,326],"pv":7},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,326,327,328,342],"a":344,"e":[343,344,345,346,347,325],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,327,328,342,346,347],"a":325,"e":[343,344,345,324,325,326],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,325,328,342,343],"a":345,"e":[344,345,346,347,326,327],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,325,327,342,343],"a":345,"e":[344,345,346,347,326,328],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,328,342,343,347],"a":326,"e":[344,345,346,325,326,327],"pv":9}];
 let tsIdx = 0, tsTry = 0, tsSolved = lsGet('baduk_ts_v1', {});
 /* 8가지 대칭 중 하나로 돌려서 같은 문제라도 매번 달라 보이게 */
 function tsSym(i, k) {
@@ -670,9 +670,9 @@ function tsLoad(k) {
   cfg.myColor = pos.toMove;
   clockStop(); clockReset();
   if (cfg.view3d && B3.ok) { for (const q in B3.meshes) { B3.scene.remove(B3.meshes[q]); delete B3.meshes[q]; } }
-  layout(); updateBar();
+  relabel(); layout(); updateBar();
   const done = tsSolved[String(tsIdx)] ? '  ✔ 푼 문제' : '';
-  setMsg('제' + (tsIdx + 1) + '문  ' + pr.n + ' — ' +
+  setMsg('제' + (tsIdx + 1) + '문 · ' + pr.n + ' (' + pr.pv + '수) — ' +
     (pr.q === 'kill' ? '흑 차례, 백을 잡으십시오.' : '백 차례, 살아야 합니다.') + done, '');
   say(pr.q === 'kill' ? 'hint' : 'hint');
 }
@@ -692,7 +692,7 @@ function tsGuess(mv) {
     tsTry++;
     Snd.beep(320, 0.14, 0.22);
     if (tsTry >= 3) {
-      setMsg('아닙니다. 급소는 ' + toGTP(tsAnswer) + ' 입니다. 다시 한 번 그 자리에 두어 보십시오.', 'err');
+      setMsg('아닙니다. 첫 수는 ' + toGTP(tsAnswer) + ' 입니다. 그 자리에 두어 보십시오.', 'err');
       hintMove = tsAnswer; draw();
     } else {
       setMsg('그 자리가 아닙니다. (' + tsTry + '/3)  다시 보십시오.', 'err');
@@ -2147,7 +2147,7 @@ function relabel() {
   const ts = cfg.game === 'tsumego';
   $('bUndo').textContent = ts ? '이전 문제' : '무르기';
   $('bPass').textContent = ts ? '다음 문제' : '착수포기';
-  $('bHint').textContent = ts ? '급소 보기' : '훈수';
+  $('bHint').textContent = ts ? '첫 수 보기' : '훈수';
   $('bNew').textContent = ts ? '다시 풀기' : '새 대국';
   $('bResign').style.display = ts ? 'none' : '';
   $('bScore').style.display = (cfg.game === 'go') ? '' : 'none';
@@ -2408,7 +2408,7 @@ $('bUndo').onclick = () => {
 };
 $('bHint').onclick = async () => {
   if (thinking || !ready || gameOver) return;
-  if (cfg.game === 'tsumego') { hintMove = tsAnswer; draw(); setMsg('급소는 ' + toGTP(tsAnswer) + ' 입니다.', ''); return; }
+  if (cfg.game === 'tsumego') { hintMove = tsAnswer; draw(); setMsg('첫 수는 ' + toGTP(tsAnswer) + ' 입니다. 이후 수순도 정확해야 잡힙니다.', ''); return; }
   if (cfg.game === 'omok') {
     hintMove = omokBest(pos.stones, pos.toMove, 2);
     draw(); setMsg('추천: ' + toGTP(hintMove), ''); say(['hint'].concat(moveKeys(hintMove)));
@@ -3026,7 +3026,7 @@ function seg(host, items, get, set) {
 }
 const GAME_HINT = { go: '19줄 정규 바둑. 연지아빠와 한 판 두십시오.',
                     omok: '먼저 다섯을 잇는 쪽이 이깁니다. 따냄·집 계산 없습니다.',
-                    tsumego: '사활 ' + TSUMEGO.length + '문제. 급소 한 자리를 찾으면 됩니다. 완전탐색으로 정답을 확인해 실었습니다.' };
+                    tsumego: '사활 ' + TSUMEGO.length + '문제 (중급~고급). 5~9수를 읽어야 풀립니다. 완전탐색으로 정답과 유일성을 확인했습니다.' };
 const gameRender = seg($('segGame'), [{ label: '바둑', value: 'go' }, { label: '오목', value: 'omok' },
                                       { label: '사활', value: 'tsumego' }],
   () => cfg.game, v => {
