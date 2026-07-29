@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1b1410">
-<title>나의 바둑친구 V1.71</title>
+<title>나의 바둑친구 V1.90</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="바둑친구">
@@ -63,12 +63,35 @@ canvas{touch-action:none;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.55)
 #ctrl{flex:0 0 auto;background:#1f1915;border-top:1px solid #322a23;padding:6px 6px 8px}
 .row{display:flex;gap:5px;margin-bottom:5px}
 .row:last-child{margin-bottom:0}
-button{flex:1;padding:9px 2px;font-size:12.5px;font-weight:600;border:1px solid #4a3d31;border-radius:7px;
-  background:#2c241d;color:#e6dccc;cursor:pointer;font-family:inherit;letter-spacing:-.3px}
-button:active{background:#3d3226}
-button:disabled{opacity:.35}
-button.pri{background:#6b4a22;border-color:#8a6330;color:#ffe6bf}
-button.on{background:#4a6b3a;border-color:#6d9455;color:#e2ffd4}
+button{flex:1;padding:10px 2px 11px;font-size:12.5px;font-weight:700;border:1px solid #524436;border-radius:9px;
+  background:linear-gradient(180deg,#3b3128 0%,#2a221b 55%,#221b15 100%);
+  color:#eadfcd;cursor:pointer;font-family:inherit;letter-spacing:-.3px;
+  text-shadow:0 1px 1px rgba(0,0,0,.6);
+  box-shadow:0 3px 0 #14110d, 0 5px 9px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.13),
+             inset 0 -2px 4px rgba(0,0,0,.35);
+  transition:transform .05s, box-shadow .05s, filter .12s}
+button:active{transform:translateY(3px);
+  box-shadow:0 0 0 #14110d, 0 1px 2px rgba(0,0,0,.5), inset 0 2px 6px rgba(0,0,0,.55);
+  filter:brightness(1.12)}
+button:disabled{opacity:.35;box-shadow:none;transform:none}
+button.pri{background:linear-gradient(180deg,#8a6330 0%,#6b4a22 55%,#553a19 100%);
+  border-color:#a87a3c;color:#fff0d6;
+  box-shadow:0 3px 0 #2e1f0c, 0 5px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.22),
+             inset 0 -2px 4px rgba(0,0,0,.3)}
+button.pri:active{box-shadow:0 0 0 #2e1f0c, inset 0 2px 6px rgba(0,0,0,.5)}
+button.on{background:linear-gradient(180deg,#5c8447 0%,#446434 55%,#35502a 100%);
+  border-color:#79a05e;color:#eaffdd;
+  box-shadow:0 3px 0 #1c2a15, 0 5px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2),
+             inset 0 -2px 4px rgba(0,0,0,.3)}
+button.on:active{box-shadow:0 0 0 #1c2a15, inset 0 2px 6px rgba(0,0,0,.5)}
+
+#revwrap{display:none;background:#1f1915;border-top:1px solid #322a23;padding:6px 6px 8px}
+#revwrap.show{display:block}
+#revgraph{width:100%;height:54px;display:block;border-radius:7px;background:#120e0b;
+  border:1px solid #322a23;margin-bottom:5px}
+#revinfo{font-size:11.5px;color:#c8b89e;min-height:32px;line-height:1.5;margin-bottom:5px;padding:0 2px}
+#revinfo b{color:#ffcf8a}
+#revinfo .bad{color:#ff8a6a}
 
 #panel{position:absolute;inset:0;background:rgba(12,9,7,.97);z-index:40;overflow-y:auto;padding:16px;display:none}
 #panel.show{display:block}
@@ -129,7 +152,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V1.71</span>
+    <span id="ver">V1.90</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -198,9 +221,26 @@ input[type=range]{accent-color:#e8a33d}
   <div class="row">
     <button id="bNew" class="pri">새 대국</button>
     <button id="bScore">계가</button>
+    <button id="bReview">복기</button>
     <button id="bSgf">기보저장</button>
     <button id="bCfg">설정</button>
     <button id="bExit">나가기</button>
+  </div>
+</div>
+
+<div id="revwrap">
+  <canvas id="revgraph"></canvas>
+  <div id="revinfo">복기</div>
+  <div class="row">
+    <button id="rvFirst">처음</button>
+    <button id="rvPrev">◀ 이전</button>
+    <button id="rvNext">다음 ▶</button>
+    <button id="rvLast">마지막</button>
+  </div>
+  <div class="row">
+    <button id="rvAnal" class="pri">AI 분석</button>
+    <button id="rvBad">패착 보기</button>
+    <button id="rvExit">복기 끝</button>
   </div>
 </div>
 
@@ -208,7 +248,12 @@ input[type=range]{accent-color:#e8a33d}
   <h3>설정</h3>
   <div class="fld"><label>내 돌</label><div class="seg" id="segColor"></div></div>
   <div class="fld"><label>상대 실력</label><div class="seg" id="segLevel"></div>
-    <div class="hint" id="lvlHint"></div></div>
+    <div class="hint" id="lvlHint"></div>
+    <div class="seg" style="margin-top:6px"><button id="bAuto">실력 자동 맞춤</button></div>
+    <div class="hint">2연승하면 한 단계 세지고, 2연패하면 한 단계 약해집니다.</div></div>
+  <div class="fld"><label>전적</label>
+    <div class="hint" id="statBox" style="line-height:1.7">—</div>
+    <div class="seg" style="margin-top:6px"><button id="bStatReset">전적 지우기</button></div></div>
   <div class="fld"><label>접바둑 (치석)</label><div class="seg" id="segHcp"></div></div>
   <div class="fld"><label>덤</label><div class="seg" id="segKomi"></div></div>
   <div class="fld"><label>제한시간 (본시간)</label><div class="seg" id="segMain"></div></div>
@@ -271,7 +316,7 @@ input[type=range]{accent-color:#e8a33d}
   </div>
   <div class="hint">
     설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
-    <b style="color:#c8b89e">나의 바둑친구 V1.71</b><br>
+    <b style="color:#c8b89e">나의 바둑친구 V1.90</b><br>
     © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
     개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
     엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
@@ -301,7 +346,7 @@ const GIFT = {
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"MybqgG2Il8zJ0YBHwwNP+Q==","i":"Up3DEV2Pskwineg1","c":"Y0rj0f9B105dfQtBUOYPtLrbA6aBCFPWue4eWV3uQ7ZqmKr6GX3ccvOrmqpLX0RdIuJsfOcC8LayXGKuAbiThJutDMYo6ivBUzO+XPoLYNv+39ZELPmtG4+m1an0kuSWLU1klJsDusz08zScXYPQNDcadWrKaxOZblalPxE5d0mUWlL25ta/uoi+fMrmal85tovvy9v9UCtTDg==","id":"77aab4f70c12"},{"s":"kkMWhHATXvW1fG7k0zE3YA==","i":"hnp7cvh3VD9FlGS3","c":"ujuA5EjIn4QnW7RoMqH/Ib0p+EbWQ2fPOzqattDoTdR3Acmvr0JSxwE0buT2mKCKKdIMrxwPkU2eLMTKOrakQ5YSLHLjOj9j2TO3YH/P4akNMx3yO0f/xrDzGoOKxeSZeG4wRQ7Xlvce3MuBTFYeTOihguLeSywxUydlBbM58zD6+bCBb6bKdYGfohZ/r1Wwg9qaI30mcSROGQ==","id":"77c4e7359f67"},{"s":"Pki+JfgxvDA3yVDrUL7tgA==","i":"S3z4E1vuMdVr3ipE","c":"7cLOHWMkC5N7kOHVK5AL1r1++6bxUtpKi4tKUDV5y1xKZZ+cOIDX3hGqncAtYpRNWHZy3P/OtBkVP412EmHa64ZDM+I3MXUsGDl4G47+Yu+47lOhqEz9bghrzX4zIGDLkHD0rHoQzUxbnOoJDjMIINa8z96AIM/pgnrtJiOjfAukllzg/rcP6zpPYO+5zEXTH3OIbmI3pg0HVA==","id":"04f6bd4d113f"},{"s":"kBqIq+77WQ4OT44dmsTAJw==","i":"GZYxrT1kg7rESBOf","c":"MCS7jR7SarzF51zLze3bMZ4Y5qQ55B+vullzsCTCb2R9dsXV0JoqTK4uTAczz9ZkZ/sm1Gy0AAJfEeeQVntAGuKCOTO8KFg/bvkhpsakIcUyKVUY3pF9NpDP1sGtQDNHXoqF4a9t3dQCIP7Ru3JhxShzNS7DdpDu3Oe/GAbFCtrKPGOPq8mfH9hY9uSru45ya44CYg0bymo8Iw==","id":"1a672f9765f7"}];
+const SECRETS = [{"s":"YXSw+H03YC6CxjGX5ufArA==","i":"v51heL1AFdECjLGD","c":"WaST/alo28d6VC3ou9zZ255kO3VhqU+8wbulFYKtfDW6Il0qitdpoy0nrIiHvm+EE8YDzX1M0TFFx5gCsU8vc5c/m1R4+ElTsSvLoCEGww2qpxP2t3yqBH0pJVwkSK0rz+Xd6U2JdTZTgBXZp828ufToZeMA6k94QL0tG9e8SSdXYfOmEabre9B1B40xQ+kG/yyqORILSj1Jjw==","id":"77aab4f70c12"},{"s":"hBMIJ1CfOrvUxqoYXP7Eog==","i":"9tCiA4sAeAqZ/S+6","c":"When+kLAgSI2wtxRm1JuBShe80QSmL7SmXFfSCNEWNOMLw9EJlRFpZgivKMHmOC1+B/Hzu3rsi0Ujhay8tmVCCv6sgqoXI2to8pi8r6iyH2MMe8JKlak7Hc6sZBWF2ewrWi68vzkB4FoKzoMy/XMinfs3aDNs3ZSdLY6d3+Js03CkOUXqPYmjd+Ma1h2auZlqXuJ91LfUiPfNw==","id":"77c4e7359f67"},{"s":"kFggrsCzMBbTodS/dIGWyw==","i":"YjLPLMsbqJO719U5","c":"58p3LOP2ho1Prku4M0dv8m1OrL4MecnRONrxKZygi9T0xIikcOb+CYwCFLMVwphijs3BxzkUKgi4SqDKS7J/3g8yVu8VyxabdUUWYATvSTUi7g6fsf7A4xei6ZhvGGcqZYM0Y2vNpSsX2yXuuc5+G6RkQznJahc/xkwCZ4H46Qq1WqNUT5rpFLHuh9sONVBSiNW/YMwLneiE1w==","id":"04f6bd4d113f"},{"s":"NdFUbAa6ByYF6bN13ila0w==","i":"RKPF6vbU8SU5ylVD","c":"Twtaiw2FfUnm4KPsd4yxILFT5DlO2BBBIBideOSLRkFN/48bZS1cDQwcrBQ0fZ1pvEUFTnzXkByqozaT7gj5SgmKimzL1q5cOb4BYfJcI3CnoVctlwg0OnkgdToB+Lu4VuZKmFhsv7+od1kSeSUTZvPyytUdO6YFJcWfBc8el21VJtlB1TGdAhMyC2/LmP4HHZSxv0WpvZObPw==","id":"1a672f9765f7"}];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -1101,6 +1146,7 @@ function timeLoss(side) {
   const loser = side === BLACK ? '흑' : '백';
   const winner = side === BLACK ? '백' : '흑';
   const mine = side === cfg.myColor;
+  finishGame(!mine, '시간패');
   speak(mine ? '시간패 하셨습니다' : '상대가 시간패 했습니다');
   setMsg('⏱ ' + loser + ' 시간패 — ' + winner + ' 불계승' + (mine ? ' (제가 졌습니다)' : ' (이기셨습니다)'), 'err');
   draw();
@@ -1122,7 +1168,7 @@ const cfg = {
   mainMin: 10, byoSec: 30, byoCount: 3, useClock: true,
   sfx: true, voice: true, nigiri: true,
   view3d: true, camView: 1, audio3d: true, atariVoice: true, volume: 1.35, beep: false,
-  sayMove: true
+  sayMove: true, autoLevel: true
 };
 /* 단수(자유도 1) 상태 추적 — 새로 단수가 된 대마만 알린다 */
 let atariKeys = new Set();
@@ -1160,6 +1206,90 @@ function announceAtari() {
     cueBeep(1180, 0.06, 0.14);
   }
 }
+/* ---------------- 6-b. 저장 / 전적 ---------------- */
+const SAVE_KEY = 'baduk_save_v1', STAT_KEY = 'baduk_stats_v1', CFG_KEY = 'baduk_cfg_v1';
+function lsGet(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+let stats = lsGet(STAT_KEY, { lv: {}, total: { w: 0, l: 0 }, streak: 0 });
+function recordResult(iWon, how) {
+  const k = String(cfg.level);
+  if (!stats.lv[k]) stats.lv[k] = { w: 0, l: 0 };
+  if (iWon) { stats.lv[k].w++; stats.total.w++; stats.streak = stats.streak >= 0 ? stats.streak + 1 : 1; }
+  else { stats.lv[k].l++; stats.total.l++; stats.streak = stats.streak <= 0 ? stats.streak - 1 : -1; }
+  stats.last = { won: iWon, how: how, level: cfg.level, at: Date.now() };
+  lsSet(STAT_KEY, stats);
+  renderStats();
+  autoLevel(iWon);
+}
+function renderStats() {
+  const el = $('statBox');
+  if (!el) return;
+  const t = stats.total, n = t.w + t.l;
+  let s = n ? ('전체 ' + n + '판  ' + t.w + '승 ' + t.l + '패  (승률 ' + Math.round(t.w / n * 100) + '%)') : '아직 둔 판이 없습니다.';
+  if (stats.streak >= 2) s += '  ·  ' + stats.streak + '연승 중';
+  if (stats.streak <= -2) s += '  ·  ' + (-stats.streak) + '연패 중';
+  const rows = LEVELS.map((L, i) => {
+    const r = stats.lv[String(i)];
+    return r ? (L.name + ' ' + r.w + '승' + r.l + '패') : null;
+  }).filter(Boolean);
+  el.innerHTML = s + (rows.length ? '<br><span style="color:#8a7862">' + rows.join(' · ') + '</span>' : '');
+}
+/* 이기면 조금 세지고, 지면 조금 약해진다 */
+function autoLevel(iWon) {
+  if (!cfg.autoLevel) return;
+  const before = cfg.level;
+  if (iWon && stats.streak >= 2 && cfg.level < LEVELS.length - 1) cfg.level++;
+  else if (!iWon && stats.streak <= -2 && cfg.level > 0) cfg.level--;
+  if (cfg.level !== before) {
+    stats.streak = 0; lsSet(STAT_KEY, stats);
+    saveCfg(); updateBar();
+    try { lvlRender(); } catch (e) {}
+    setTimeout(() => setMsg('상대 실력을 ' + LEVELS[cfg.level].name + '으로 바꿨습니다.', ''), 1400);
+  }
+}
+const CFG_SAVE = ['myColor', 'level', 'handicap', 'komi', 'showCoord', 'showNum', 'confirmTap',
+  'mainMin', 'byoSec', 'byoCount', 'useClock', 'sfx', 'voice', 'nigiri', 'view3d', 'camView',
+  'audio3d', 'atariVoice', 'volume', 'beep', 'sayMove', 'autoLevel'];
+function saveCfg() { const o = {}; for (const k of CFG_SAVE) o[k] = cfg[k]; lsSet(CFG_KEY, o); }
+function loadCfg() { const o = lsGet(CFG_KEY, null); if (o) for (const k of CFG_SAVE) if (o[k] !== undefined) cfg[k] = o[k]; }
+
+function saveGame() {
+  if (!moves.length || gameOver) { lsDel(SAVE_KEY); return; }
+  lsSet(SAVE_KEY, {
+    mv: moves.map(m => [m.mv, m.color]), komi: pos.komi,
+    myColor: cfg.myColor, handicap: cfg.handicap, level: cfg.level,
+    useClock: cfg.useClock, mainMin: cfg.mainMin, byoSec: cfg.byoSec, byoCount: cfg.byoCount,
+    ck: { main: Array.from(clock.main), byoT: Array.from(clock.byoT), byoN: Array.from(clock.byoN), inByo: clock.inByo.slice() },
+    at: Date.now()
+  });
+}
+function hasSave() { const s = lsGet(SAVE_KEY, null); return s && s.mv && s.mv.length ? s : null; }
+function restoreGame(s) {
+  cfg.myColor = s.myColor; cfg.handicap = s.handicap; cfg.level = s.level;
+  cfg.useClock = s.useClock; cfg.mainMin = s.mainMin; cfg.byoSec = s.byoSec; cfg.byoCount = s.byoCount;
+  pos = newPos(s.komi);
+  if (cfg.handicap >= 2) { for (const i of HANDICAP_PTS[cfg.handicap]) pos.stones[i] = BLACK; pos.toMove = WHITE; }
+  moves = [];
+  for (const [mv, col] of s.mv) { const np = play(pos, mv, col); if (np) { pos = np; moves.push({ mv: mv, color: col }); lastMove = mv; } }
+  gameOver = false; territory = null; hintMove = -1; pendingTap = -1;
+  atariKeys = atariScan();
+  clockStop(); clockReset();
+  if (s.ck) {
+    for (const c of [BLACK, WHITE]) {
+      clock.main[c] = s.ck.main[c]; clock.byoT[c] = s.ck.byoT[c];
+      clock.byoN[c] = s.ck.byoN[c]; clock.inByo[c] = s.ck.inByo[c];
+    }
+  }
+  curWinrate = 0.5; curLead = 0;
+  if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
+  layout(); updateBar(); renderClocks();
+  setMsg('두던 판을 이어서 둡니다 (' + moves.length + '수).', '');
+  if (pos.toMove !== cfg.myColor) { clockStart(pos.toMove); setTimeout(aiMove, 400); }
+  else clockStart(pos.toMove);
+}
+
 let pos, moves = [], lastMove = -1, thinking = false, gameOver = false;
 let territory = null, hintMove = -1, pendingTap = -1;
 let curWinrate = 0.5, curLead = 0, ready = false;
@@ -1671,6 +1801,7 @@ function newGame() {
   }
   curWinrate = 0.5; curLead = 0;
   clockStop(); clockReset();
+  resultDone = false; lsDel(SAVE_KEY);
   atariKeys = new Set();
   if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
   layout(); updateBar();
@@ -1697,7 +1828,16 @@ function pushMove(mv, color) {
   if (pos.passes >= 2) { gameOver = true; clockStop(); Snd.gong(); }
   else clockStart(pos.toMove);
   renderClocks();
+  saveGame();
   return true;
+}
+/* 대국이 끝났을 때 한 번만 기록한다 */
+let resultDone = false;
+function finishGame(iWon, how) {
+  if (resultDone) return;
+  resultDone = true;
+  lsDel(SAVE_KEY);
+  recordResult(iWon, how);
 }
 function normalizeToBlack(valFromToMove, toMove) {
   return toMove === BLACK ? valFromToMove : -valFromToMove;
@@ -1747,7 +1887,7 @@ async function aiMove() {
     updateBar(); draw();
     if (curWinrate !== null && ((toMove === BLACK && curWinrate < 0.03) || (toMove === WHITE && curWinrate > 0.97))) {
       setMsg('AI: 졌습니다. (기권) — ' + toGTP(mv), '');
-      gameOver = true; clockStop(); Snd.gong(); speak('졌습니다');
+      gameOver = true; clockStop(); Snd.gong(); speak('졌습니다'); finishGame(true, '상대 기권');
     } else if (gameOver) {
       setMsg('양측 착수포기 — 계가를 눌러 결과를 확인하세요.', '');
       speak('대국이 끝났습니다. 계가를 눌러 주십시오');
@@ -1789,7 +1929,8 @@ function hit(clientX, clientY) {
   return i;
 }
 function onTapIdx(i) {
-  stopSay();                                 /* 판을 누르면 읽던 안내를 멈춘다 */
+  stopSay();
+  if (review.on) return;                                 /* 판을 누르면 읽던 안내를 멈춘다 */
   if (cfg.confirmTap) {
     if (pendingTap === i) { pendingTap = -1; humanMove(i); }
     else { pendingTap = i; draw(); }
@@ -1881,6 +2022,7 @@ $('bScore').onclick = async () => {
       const w = sc.score > 0 ? '흑 ' + sc.score.toFixed(1) + '집 승' : '백 ' + Math.abs(sc.score).toFixed(1) + '집 승';
       setMsg('계가: 흑 ' + sc.black + ' · 백 ' + sc.white + ' · 덤 ' + pos.komi + '  →  ' + w, '');
       say(sc.score > 0 ? 'winB' : 'winW');
+      finishGame((sc.score > 0) === (cfg.myColor === BLACK), '계가');
     } else {
       /* 미완국: 확정 집만으로는 의미가 없으므로 신경망 영역 추정을 쓴다 */
       for (let i = 0; i < NN; i++) territory[i] = r.ownership[i] * sign;
@@ -1947,6 +2089,199 @@ $('b2d3d').onclick = () => {
   if (cfg.view3d) B3.updateTex();
   layout(); markViewBtns();
 };
+/* ---------------- 11-b2. 복기 ---------------- */
+const review = { on: false, i: 0, list: [], wr: [], lead: [], best: [], loss: [],
+                 done: false, live: null, badIdx: 0, busy: false, stop: false };
+/* 급수 추정 — 한 수당 평균 집 손실 기준 (추정치) */
+const RANK_BANDS = [
+  [0.8, '아마 5단 이상'], [1.3, '아마 3~4단'], [2.0, '아마 1~2단'],
+  [3.0, '1~2급'], [4.5, '3~5급'], [6.5, '6~9급'],
+  [9.5, '10~14급'], [14, '15~20급'], [1e9, '입문']
+];
+function rankOf(meanLoss) {
+  for (const [t, name] of RANK_BANDS) if (meanLoss < t) return name;
+  return '입문';
+}
+function buildPositions() {
+  const list = [];
+  let p = newPos(pos.komi);
+  if (cfg.handicap >= 2) { for (const i of HANDICAP_PTS[cfg.handicap]) p.stones[i] = BLACK; p.toMove = WHITE; }
+  list.push(p);
+  for (const m of moves) { const np = play(p, m.mv, m.color); if (!np) break; p = np; list.push(p); }
+  return list;
+}
+function reviewEnter() {
+  if (!moves.length) { setMsg('둔 수가 없습니다.', 'err'); return; }
+  clockPause();
+  review.live = { pos: pos, lastMove: lastMove, gameOver: gameOver, terr: territory };
+  review.list = buildPositions();
+  review.on = true; review.i = review.list.length - 1;
+  review.done = false; review.badIdx = 0;
+  review.wr = []; review.lead = []; review.best = []; review.loss = [];
+  $('ctrl').style.display = 'none';
+  $('revwrap').classList.add('show');
+  layout();
+  reviewGoto(review.i);
+}
+function reviewExit() {
+  review.on = false; review.stop = true;
+  $('revwrap').classList.remove('show');
+  $('ctrl').style.display = '';
+  const L = review.live;
+  pos = L.pos; lastMove = L.lastMove; gameOver = L.gameOver; territory = L.terr;
+  hintMove = -1;
+  if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
+  layout(); updateBar();
+  setMsg(gameOver ? '대국이 끝났습니다.' : '이어서 두십시오.', '');
+  if (!gameOver) clockResume();
+}
+function reviewGoto(i) {
+  review.i = Math.max(0, Math.min(review.list.length - 1, i));
+  pos = review.list[review.i];
+  lastMove = review.i > 0 ? moves[review.i - 1].mv : -1;
+  territory = null; pendingTap = -1;
+  hintMove = (review.done && review.best[review.i] != null) ? review.best[review.i] : -1;
+  if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
+  draw(); drawGraph(); reviewInfo();
+  if (review.done) {
+    curWinrate = review.wr[review.i];
+    curLead = review.lead[review.i];
+    updateBar();
+  }
+}
+function reviewInfo() {
+  const i = review.i, el = $('revinfo');
+  const mv = i > 0 ? moves[i - 1] : null;
+  let s = '<b>' + i + '수</b> / ' + moves.length;
+  if (mv) s += '  ·  ' + (mv.color === BLACK ? '흑' : '백') + ' ' + toGTP(mv.mv);
+  if (!review.done) { el.innerHTML = s + '<br><span style="color:#8a7862">AI 분석을 누르면 승률 흐름과 패착을 짚어 드립니다.</span>'; return; }
+  s += '  ·  흑 ' + (review.wr[i] * 100).toFixed(1) + '%';
+  s += ' (' + (review.lead[i] >= 0 ? '흑' : '백') + ' ' + Math.abs(review.lead[i]).toFixed(1) + '집)';
+  if (mv && review.loss[i - 1] != null) {
+    const L = review.loss[i - 1];
+    if (L >= 3) s += '<br><span class="bad">이 수로 ' + L.toFixed(1) + '집 손해</span>';
+    if (review.best[i - 1] != null && L >= 3) s += ' · AI 추천 <b>' + toGTP(review.best[i - 1]) + '</b>';
+  }
+  if (review.rank) s += '<br>' + review.rank;
+  el.innerHTML = s;
+}
+function drawGraph() {
+  const cv2 = $('revgraph'), g = cv2.getContext('2d');
+  const W = cv2.clientWidth || 380, H = 54;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv2.width = W * dpr; cv2.height = H * dpr;
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.clearRect(0, 0, W, H);
+  g.fillStyle = '#120e0b'; g.fillRect(0, 0, W, H);
+  g.strokeStyle = '#3a2f26'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+  const n = review.list.length;
+  if (review.done && n > 1) {
+    g.beginPath();
+    for (let k = 0; k < n; k++) {
+      const x = k / (n - 1) * W, y = H - review.wr[k] * H;
+      k ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.strokeStyle = '#e8a33d'; g.lineWidth = 1.8; g.stroke();
+    /* 큰 실수 표시 */
+    for (let k = 0; k < review.loss.length; k++) {
+      if (review.loss[k] == null || review.loss[k] < 5) continue;
+      const mine = moves[k].color === cfg.myColor;
+      const x = (k + 1) / (n - 1) * W;
+      g.fillStyle = mine ? '#ff6a4a' : '#6aa9ff';
+      g.beginPath(); g.arc(x, H - review.wr[k + 1] * H, 2.6, 0, 7); g.fill();
+    }
+  }
+  const cx = n > 1 ? review.i / (n - 1) * W : 0;
+  g.strokeStyle = '#7ed957'; g.lineWidth = 1.5;
+  g.beginPath(); g.moveTo(cx, 0); g.lineTo(cx, H); g.stroke();
+}
+$('revgraph').addEventListener('pointerdown', e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const f = (e.clientX - r.left) / r.width;
+  reviewGoto(Math.round(f * (review.list.length - 1)));
+});
+async function reviewAnalyze() {
+  if (review.busy || !ready) return;
+  review.busy = true; review.stop = false;
+  const n = review.list.length;
+  const wr = new Array(n), lead = new Array(n), best = new Array(n);
+  for (let k = 0; k < n; k++) {
+    if (review.stop) { review.busy = false; return; }
+    const p = review.list[k];
+    const r = await nnEval(p);
+    const w = winrateOf(r.value);
+    wr[k] = p.toMove === BLACK ? w : 1 - w;
+    lead[k] = p.toMove === BLACK ? r.lead : -r.lead;
+    /* 그 자리에서 AI가 두고 싶은 수 */
+    let bi = -1, bv = -Infinity;
+    for (let i = 0; i < NN; i++) {
+      if (p.stones[i] !== EMPTY || i === p.ko) continue;
+      if (r.policy[i] > bv) { bv = r.policy[i]; bi = i; }
+    }
+    best[k] = bi;
+    if (k % 3 === 0) {
+      $('revinfo').innerHTML = '<b>AI 분석 중…</b> ' + k + ' / ' + (n - 1) +
+        '<br><span style="color:#8a7862">잠시만 기다려 주십시오.</span>';
+      await tf.nextFrame();
+    }
+  }
+  review.wr = wr; review.lead = lead; review.best = best;
+  /* 각 수의 손해 = 그 수를 둔 쪽 기준 집 차이의 감소 */
+  review.loss = [];
+  for (let k = 0; k < moves.length; k++) {
+    const c = moves[k].color;
+    const before = c === BLACK ? lead[k] : -lead[k];
+    const after = c === BLACK ? lead[k + 1] : -lead[k + 1];
+    review.loss[k] = Math.max(0, before - after);
+  }
+  /* 급수 추정 — 내 수만, 초반 10수와 승부가 기운 뒤는 뺀다 */
+  const mine = [];
+  for (let k = 0; k < moves.length; k++) {
+    if (moves[k].color !== cfg.myColor) continue;
+    if (k < 10) continue;
+    if (Math.abs(wr[k] - 0.5) > 0.45) continue;
+    mine.push(review.loss[k]);
+  }
+  if (mine.length >= 15 && moves.length >= 60) {
+    mine.sort((a, b) => a - b);
+    const trimmed = mine.slice(0, Math.ceil(mine.length * 0.9));   /* 상위 10% 이상치 제외 */
+    const mean = trimmed.reduce((a, b) => a + b, 0) / trimmed.length;
+    review.meanLoss = mean;
+    review.rank = '한 수 평균 <b>' + mean.toFixed(1) + '집</b> 손해 → 대략 <b>' + rankOf(mean) + '</b>' +
+      ' <span style="color:#7b6b58">(' + mine.length + '수 기준 · 어디까지나 어림짐작입니다)</span>';
+  } else if (mine.length >= 8) {
+    mine.sort((a, b) => a - b);
+    const mean = mine.reduce((a, b) => a + b, 0) / mine.length;
+    review.meanLoss = mean;
+    review.rank = '한 수 평균 <b>' + mean.toFixed(1) + '집</b> 손해' +
+      ' <span style="color:#8a7862">— 판이 짧아 급수는 재지 않았습니다 (한 판을 끝까지 두시면 나옵니다)</span>';
+  } else {
+    review.rank = '<span style="color:#8a7862">급수를 재려면 판이 조금 더 진행돼야 합니다.</span>';
+  }
+  review.done = true; review.busy = false;
+  /* 내 최악의 수 3개 */
+  review.bad = review.loss.map((v, k) => [v, k]).filter(x => moves[x[1]].color === cfg.myColor)
+    .sort((a, b) => b[0] - a[0]).slice(0, 3).filter(x => x[0] >= 3);
+  review.badIdx = 0;
+  reviewGoto(review.i);
+  drawGraph();
+}
+$('bReview').onclick = () => { if (!thinking) reviewEnter(); };
+$('rvFirst').onclick = () => reviewGoto(0);
+$('rvPrev').onclick = () => reviewGoto(review.i - 1);
+$('rvNext').onclick = () => reviewGoto(review.i + 1);
+$('rvLast').onclick = () => reviewGoto(review.list.length - 1);
+$('rvExit').onclick = reviewExit;
+$('rvAnal').onclick = () => { if (!review.done) reviewAnalyze(); else reviewGoto(review.i); };
+$('rvBad').onclick = () => {
+  if (!review.done) { setMsg('먼저 AI 분석을 눌러 주십시오.', 'err'); return; }
+  if (!review.bad || !review.bad.length) { $('revinfo').innerHTML = '<b>큰 실수가 없었습니다.</b> 잘 두셨습니다.'; return; }
+  const b = review.bad[review.badIdx % review.bad.length];
+  review.badIdx++;
+  reviewGoto(b[1] + 1);
+};
+
 /* ---------------- 11-c. 기권 / 나가기 ---------------- */
 $('bResign').onclick = () => {
   if (thinking || gameOver || !moves.length) {
@@ -1955,6 +2290,7 @@ $('bResign').onclick = () => {
   }
   if (!confirm('기권하시겠습니까?')) return;
   clockStop(); gameOver = true; Snd.gong();
+  finishGame(false, '기권');
   speak('기권하셨습니다');
   setMsg('🏳 ' + (cfg.myColor === BLACK ? '흑' : '백') + ' 기권 — ' +
     (cfg.myColor === BLACK ? '백' : '흑') + ' 불계승', 'err');
@@ -2169,7 +2505,7 @@ $('ttsTest').onclick = async () => {
   }, 300);
 };
 $('bCfg').onclick = () => { clockPause(); $('panel').classList.add('show'); };
-$('bClose').onclick = () => { $('panel').classList.remove('show'); layout(); updateBar(); renderClocks(); clockResume(); };
+$('bClose').onclick = () => { saveCfg(); $('panel').classList.remove('show'); layout(); updateBar(); renderClocks(); clockResume(); };
 
 /* ---------------- 11-b. 돌가르기 ---------------- */
 let ngGuess = null, ngCount = 0;
@@ -2238,7 +2574,15 @@ function seg(host, items, get, set) {
 seg($('segColor'), [{ label: '흑 (선)', value: BLACK }, { label: '백 (후)', value: WHITE }],
   () => cfg.myColor, v => { cfg.myColor = v; });
 const lvlRender = seg($('segLevel'), LEVELS.map((l, i) => ({ label: l.name, value: i })),
-  () => cfg.level, v => { cfg.level = v; $('lvlHint').textContent = LEVELS[v].desc; updateBar(); });
+  () => cfg.level, v => { cfg.level = v; $('lvlHint').textContent = LEVELS[v].desc; updateBar(); saveCfg(); });
+$('bAuto').onclick = () => { cfg.autoLevel = !cfg.autoLevel; $('bAuto').className = cfg.autoLevel ? 'on' : ''; saveCfg(); };
+$('bAuto').className = cfg.autoLevel ? 'on' : '';
+$('bStatReset').onclick = () => {
+  if (!confirm('전적을 모두 지울까요?')) return;
+  stats = { lv: {}, total: { w: 0, l: 0 }, streak: 0 };
+  lsSet(STAT_KEY, stats); renderStats();
+};
+renderStats();
 $('lvlHint').textContent = LEVELS[cfg.level].desc;
 seg($('segHcp'), [0, 2, 3, 4, 5, 6, 7, 8, 9].map(v => ({ label: v ? v + '점' : '호선', value: v })),
   () => cfg.handicap, v => { cfg.handicap = v; });
@@ -2326,8 +2670,13 @@ if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
 }
+loadCfg();
 pos = newPos(6.5);
 if (cfg.view3d && !B3.init()) cfg.view3d = false;
+/* 앱을 벗어나도 판이 남도록 */
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveGame(); });
+window.addEventListener('pagehide', saveGame);
+window.addEventListener('beforeunload', saveGame);
 $('b2d3d').textContent = cfg.view3d ? '2D' : '3D';
 markViewBtns();
 layout();
@@ -2347,9 +2696,19 @@ clockReset();
     ov.classList.remove('show');
     setMsg('준비 완료 (' + be + '). 새 대국을 눌러 돌가르기부터 시작하세요.', '');
     clockReset();
-    newGame();
+    const saved = hasSave();
+    if (saved) {
+      restoreGame(saved);
+    } else {
+      newGame();
+    }
     const mine = await loadMyNote();
     if (GIFT.on || mine) { clockPause(); showGift(false); }
+    if (saved && !GIFT.on && !mine) {
+      const d = Math.round((Date.now() - saved.at) / 60000);
+      setMsg('두시던 판을 이어서 둡니다 (' + moves.length + '수' +
+        (d < 60 ? ', ' + Math.max(1, d) + '분 전' : '') + '). 새로 두시려면 새 대국.', '');
+    }
   } catch (e) {
     console.error(e);
     $('ovtitle').textContent = '신경망을 불러오지 못했습니다';
@@ -2366,6 +2725,9 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx, sayMove, moveKo, speak, ttsUnlock,
   ttsState: () => ({ ok: ttsOk, voice: koVoice && koVoice.name, unlocked: ttsUnlocked }), getClip, say, VOICE, stopSay,
   sayNodeCount: () => sayNodes.length,
+  review, reviewEnter, reviewExit, reviewGoto, reviewAnalyze, rankOf, buildPositions,
+  saveGame, hasSave, restoreGame, finishGame, get stats() { return stats; }, renderStats, saveCfg, loadCfg,
+  SAVE_KEY, STAT_KEY, CFG_KEY, lsGet, lsDel,
   GIFT, showGift, sha256, get PRISTINE() { return PRISTINE; }, get admin() { return admin; },
   get personal() { return personal; }, get myNote() { return myNote; }, loadMyNote,
   SECRETS, encJSON, decJSON, newCode, renderGift };
