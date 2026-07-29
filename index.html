@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1b1410">
+<title>나의 바둑친구 V1.40</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="바둑친구">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="혼자서도 두는 바둑 — KataGo 신경망 + 몬테카를로 탐색">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<!--
+  나의 바둑친구 (Baduk Friend)
+  Copyright (c) 2026 연지아빠. All rights reserved.
+  개인적으로 즐기시는 것은 자유입니다. 무단 수정 및 재배포는 금지합니다.
+  바둑 엔진 신경망: KataGo (lightvector, MIT License)
+  TensorFlow.js 변환: Yuji Ichikawa / Maksim Korzh
+-->
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%;background:#171310;color:#e8e0d4;
+  font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif}
+body{display:flex;flex-direction:column;overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}
+
+#top{flex:0 0 auto;padding:6px 10px 4px;background:#1f1915;border-bottom:1px solid #322a23}
+#titlerow{display:flex;align-items:center;gap:8px;font-size:13px;color:#bfae94}
+#titlerow b{color:#f0e6d6;font-size:14px;letter-spacing:-.3px}
+#ver{font-size:10px;color:#7b6b58;margin-left:auto}
+
+#wrbar{position:relative;height:16px;border-radius:8px;overflow:hidden;background:#000;margin-top:5px;border:1px solid #3a2f26}
+#wrblack{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#000,#2b2b2b);width:50%}
+#wrwhite{position:absolute;right:0;top:0;bottom:0;background:linear-gradient(270deg,#fff,#d9d2c6);width:50%}
+#wrtext{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#wrtext span{background:rgba(18,13,9,.82);color:#ffcf8a;font-size:10px;font-weight:700;
+  letter-spacing:-.2px;padding:2px 10px;border-radius:7px;white-space:nowrap}
+
+#clocks{display:flex;gap:6px;margin-top:5px}
+.clk{flex:1;display:flex;align-items:center;gap:6px;padding:4px 8px;border-radius:7px;
+  background:#171210;border:1px solid #322a23;font-size:11px;color:#8f8069}
+.clk.act{border-color:#8a6330;background:#2a1f14;color:#e8dcc6}
+.clk .stone{width:12px;height:12px;border-radius:50%;flex:0 0 auto;border:1px solid #5a4a3a}
+.clk .stone.b{background:#0a0a0a}
+.clk .stone.w{background:#f2ede3}
+.clk b{margin-left:auto;font-size:15px;font-variant-numeric:tabular-nums;letter-spacing:.5px;color:#e8dcc6}
+.clk.act b{color:#ffcf8a}
+.clk.urgent{border-color:#d3543f;background:#3a1a13}
+.clk.urgent b{color:#ff7a5e;animation:pulse .5s infinite}
+.clk .byo{font-size:10px;color:#a08a6a}
+
+#status{font-size:12px;color:#c8b89e;margin-top:4px;min-height:16px;display:flex;align-items:center;gap:6px}
+#dot{width:9px;height:9px;border-radius:50%;background:#4a7;flex:0 0 auto}
+#dot.think{background:#e8a33d;animation:pulse .9s infinite}
+#dot.err{background:#d3543f}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+#boardwrap{flex:1 1 auto;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;padding:4px}
+canvas{touch-action:none;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.55)}
+
+#ctrl{flex:0 0 auto;background:#1f1915;border-top:1px solid #322a23;padding:6px 6px 8px}
+.row{display:flex;gap:5px;margin-bottom:5px}
+.row:last-child{margin-bottom:0}
+button{flex:1;padding:9px 2px;font-size:12.5px;font-weight:600;border:1px solid #4a3d31;border-radius:7px;
+  background:#2c241d;color:#e6dccc;cursor:pointer;font-family:inherit;letter-spacing:-.3px}
+button:active{background:#3d3226}
+button:disabled{opacity:.35}
+button.pri{background:#6b4a22;border-color:#8a6330;color:#ffe6bf}
+button.on{background:#4a6b3a;border-color:#6d9455;color:#e2ffd4}
+
+#panel{position:absolute;inset:0;background:rgba(12,9,7,.97);z-index:40;overflow-y:auto;padding:16px;display:none}
+#panel.show{display:block}
+#panel h3{margin:0 0 12px;font-size:16px;color:#ffcf8a}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12px;color:#a89680;margin-bottom:5px}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{flex:1 1 auto;min-width:56px;padding:8px 6px;font-size:12px}
+.hint{font-size:11px;color:#8a7862;line-height:1.5;margin-top:4px}
+#panel .close{width:100%;margin-top:6px}
+.ginp{width:100%;padding:9px;margin-bottom:6px;border-radius:7px;border:1px solid #4a3d31;
+  background:#171210;color:#e6dccc;font-family:inherit;font-size:13px;resize:vertical}
+input[type=range]{accent-color:#e8a33d}
+
+#gift{position:absolute;inset:0;background:linear-gradient(160deg,#241a0f,#0d0906 60%);z-index:60;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px 24px;text-align:center}
+#gift.show{display:flex}
+#gTitleV{font-size:23px;font-weight:800;color:#ffcf8a;letter-spacing:-.6px;line-height:1.35}
+#gToV{font-size:14px;color:#d9c39c}
+#gBodyV{font-size:14px;color:#cbbca3;line-height:1.85;white-space:pre-wrap;max-width:420px}
+#gFromV{font-size:13px;color:#a08a6a;margin-top:2px}
+#gift hr{width:70px;border:none;border-top:1px solid #6b563a;margin:4px 0}
+#gift > *{flex:0 0 auto}
+#gCopy{font-size:10.5px;color:#5d4f3c;margin-top:16px;letter-spacing:.2px}
+#gift button{flex:0 0 auto;max-width:260px;width:100%;padding:13px 4px;margin-top:10px}
+
+#overlay{position:absolute;inset:0;background:rgba(10,8,6,.9);z-index:50;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#overlay.show{display:flex}
+
+#nigiri{position:absolute;inset:0;background:rgba(10,8,6,.96);z-index:45;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center}
+#nigiri.show{display:flex}
+#nigiri > *{flex:0 0 auto}
+#nigiri button{flex:1 1 auto}
+#ngGo{flex:0 0 auto !important}
+#ngTitle{font-size:17px;color:#ffcf8a;font-weight:700;letter-spacing:-.3px}
+#ngMsg{font-size:13px;color:#bfae94;line-height:1.7}
+#ngStones{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;max-width:300px;min-height:30px}
+.ngs{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#f2ede3 60%,#c3baa8);
+  border:1px solid rgba(0,0,0,.3);animation:pop .25s ease-out backwards}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+#ngBtns{display:flex;gap:10px;width:min(300px,90%)}
+#ngBtns button{padding:14px 4px;font-size:15px}
+#ngBowl{width:96px;height:70px;filter:drop-shadow(0 5px 12px rgba(0,0,0,.7))}
+#ngBowl.shake{animation:shk .18s infinite}
+@keyframes shk{0%,100%{transform:translateX(-4px) rotate(-3deg)}50%{transform:translateX(4px) rotate(3deg)}}
+#ovtitle{font-size:15px;color:#ffcf8a;font-weight:700}
+#ovmsg{font-size:12.5px;color:#b9a88e;line-height:1.6}
+#bar{width:min(320px,80vw);height:8px;background:#2a221b;border-radius:4px;overflow:hidden}
+#barfill{height:100%;width:0%;background:linear-gradient(90deg,#8a6330,#e8a33d);transition:width .2s}
+#ovbtn{display:none}
+</style>
+</head>
+<body>
+
+<div id="top">
+  <div id="titlerow">
+    <b>나의 바둑친구</b>
+    <span id="modeLbl">중급 · 흑번</span>
+    <span id="ver">V1.40</span>
+  </div>
+  <div id="wrbar">
+    <div id="wrblack"></div><div id="wrwhite"></div>
+    <div id="wrtext"><span>모델 준비 중…</span></div>
+  </div>
+  <div id="clocks">
+    <div class="clk" id="clkB"><span class="stone b"></span><span class="byo" id="byoB"></span><b id="tB">--:--</b></div>
+    <div class="clk" id="clkW"><span class="stone w"></span><span class="byo" id="byoW"></span><b id="tW">--:--</b></div>
+  </div>
+  <div id="status"><span id="dot"></span><span id="msg">시작하려면 아무 곳이나 두세요.</span></div>
+</div>
+
+<div id="boardwrap">
+  <canvas id="bd" style="display:none"></canvas>
+  <canvas id="bd3"></canvas>
+  <div id="overlay">
+    <div id="ovtitle">신경망 불러오는 중</div>
+    <div id="ovmsg">처음 한 번만 약 12MB를 내려받습니다.<br>이후에는 기기에 저장되어 오프라인으로 동작합니다.</div>
+    <div id="bar"><div id="barfill"></div></div>
+    <button id="ovbtn" style="max-width:200px">확인</button>
+  </div>
+  <div id="nigiri">
+    <svg id="ngBowl" viewBox="0 0 96 70" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="48" cy="24" rx="40" ry="12" fill="#2a1c10"/>
+      <circle cx="34" cy="24" r="8" fill="#f2ede3"/><circle cx="50" cy="21" r="8" fill="#f7f3ea"/>
+      <circle cx="62" cy="26" r="8" fill="#e8e2d6"/><circle cx="44" cy="29" r="7" fill="#fbf8f1"/>
+      <path d="M8 24 Q8 62 48 66 Q88 62 88 24 Z" fill="#7a4a1e"/>
+      <path d="M8 24 Q8 62 48 66 Q88 62 88 24 Z" fill="url(#bg1)" opacity=".55"/>
+      <ellipse cx="48" cy="24" rx="40" ry="12" fill="none" stroke="#9c6a30" stroke-width="3"/>
+      <defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d9a55e"/><stop offset="1" stop-color="#3a2109"/></linearGradient></defs>
+    </svg>
+    <div id="ngTitle">돌가르기</div>
+    <div id="ngMsg">상대가 백돌을 한 줌 쥡니다…</div>
+    <div id="ngStones"></div>
+    <div id="ngBtns"><button id="ngOdd" class="pri">홀 (짝수 아님)</button><button id="ngEven" class="pri">짝</button></div>
+    <button id="ngGo" style="display:none;width:min(300px,90%)" class="pri">대국 시작</button>
+  </div>
+  <div id="gift">
+    <div id="gTitleV"></div>
+    <hr>
+    <div id="gToV"></div>
+    <div id="gBodyV"></div>
+    <div id="gFromV"></div>
+    <button id="gClose" class="pri">바둑판으로</button>
+    <div id="gCopy">© 2026 연지아빠</div>
+  </div>
+</div>
+
+<div id="ctrl">
+  <div class="row" id="viewRow">
+    <button data-v="0">위에서</button>
+    <button data-v="1">대국자</button>
+    <button data-v="2">낮게</button>
+    <button data-v="3">측면</button>
+    <button data-v="4">건너편</button>
+    <button id="b2d3d">2D</button>
+  </div>
+  <div class="row">
+    <button id="bUndo">무르기</button>
+    <button id="bHint">훈수</button>
+    <button id="bTerr">형세판단</button>
+    <button id="bPass">착수포기</button>
+    <button id="bResign">기권</button>
+  </div>
+  <div class="row">
+    <button id="bNew" class="pri">새 대국</button>
+    <button id="bScore">계가</button>
+    <button id="bSgf">기보저장</button>
+    <button id="bCfg">설정</button>
+    <button id="bExit">나가기</button>
+  </div>
+</div>
+
+<div id="panel">
+  <h3>설정</h3>
+  <div class="fld"><label>내 돌</label><div class="seg" id="segColor"></div></div>
+  <div class="fld"><label>상대 실력</label><div class="seg" id="segLevel"></div>
+    <div class="hint" id="lvlHint"></div></div>
+  <div class="fld"><label>접바둑 (치석)</label><div class="seg" id="segHcp"></div></div>
+  <div class="fld"><label>덤</label><div class="seg" id="segKomi"></div></div>
+  <div class="fld"><label>제한시간 (본시간)</label><div class="seg" id="segMain"></div></div>
+  <div class="fld"><label>초읽기</label><div class="seg" id="segByo"></div>
+    <div class="hint">본시간을 다 쓰면 초읽기로 넘어갑니다. 남은 10초부터 음성으로 세어 줍니다.</div></div>
+  <div class="fld"><label>초읽기 횟수</label><div class="seg" id="segByoN"></div>
+    <div class="hint">마지막 1회까지 넘기면 시간패로 대국이 끝납니다.</div></div>
+  <div class="fld"><label>소리 / 진행</label><div class="seg" id="segSnd"></div></div>
+  <div class="fld"><label>음량 <b id="volLbl" style="color:#ffcf8a">135%</b></label>
+    <input type="range" id="vol" min="0" max="250" step="5" value="135" style="width:100%">
+    <div class="hint">소리가 작으면 올리세요. 기기 자체 볼륨도 함께 확인해 주십시오.</div></div>
+  <div class="fld"><label>표시</label><div class="seg" id="segView"></div></div>
+  <div class="fld"><label>기보 불러오기 (SGF)</label>
+    <input type="file" id="sgfFile" accept=".sgf" style="width:100%;font-size:12px;color:#a89680">
+  </div>
+  <div class="fld"><label>관리자</label>
+    <div id="admLocked">
+      <div style="display:flex;gap:5px">
+        <input type="password" id="admPw" placeholder="관리자 비밀번호" autocomplete="off"
+          style="flex:1;padding:9px;border-radius:7px;border:1px solid #4a3d31;background:#171210;color:#e6dccc;font-family:inherit">
+        <button id="admIn" style="flex:0 0 76px">열기</button>
+      </div>
+      <div class="hint" id="admHint">선물 문구는 관리자만 넣을 수 있습니다.</div>
+    </div>
+    <div id="admOpen" style="display:none">
+      <label style="margin-top:8px">제목</label>
+      <input id="gTitle" class="ginp" placeholder="예: 스물여덟 해, 고맙습니다">
+      <label>받는 분</label>
+      <input id="gTo" class="ginp" placeholder="예: 평택항 검수부 여러분께">
+      <label>본문</label>
+      <textarea id="gBody" class="ginp" rows="5" placeholder="전하고 싶은 말씀을 적으십시오."></textarea>
+      <label>보내는 사람</label>
+      <input id="gFrom" class="ginp" placeholder="예: 김성일 드림">
+      <label>새 관리자 비밀번호 (비워두면 그대로)</label>
+      <input id="gPw" type="password" class="ginp" autocomplete="new-password">
+
+      <hr style="border:none;border-top:1px solid #3a2f26;margin:14px 0">
+      <label>개인 문구 — 그분 링크로만 보입니다</label>
+      <div id="pList" class="hint" style="margin-bottom:6px"></div>
+      <input id="pName" class="ginp" placeholder="받는 분 이름 (예: 박부장님)">
+      <textarea id="pBody" class="ginp" rows="3" placeholder="이 분에게만 보일 말씀"></textarea>
+      <div class="seg"><button id="pAdd">목록에 추가</button><button id="pClear">입력 지우기</button></div>
+      <label style="margin-top:10px">배포 주소 (링크 만들 때 씀)</label>
+      <input id="pBase" class="ginp" placeholder="https://…/baduk.html">
+      <button id="pLinks" style="width:100%">카톡용 링크 목록 만들기</button>
+      <textarea id="pOut" class="ginp" rows="4" readonly placeholder="여기에 사람별 링크가 나옵니다 — 복사해서 각자에게 보내십시오"></textarea>
+      <div class="hint">개인 문구를 쓰시려면 <b>관리자 비밀번호가 반드시 있어야</b> 합니다.
+        비밀번호로 목록을 잠가 두어야 나중에 다시 열어 고칠 수 있습니다.</div>
+      <div class="seg" style="margin-top:8px">
+        <button id="gPrev">미리보기</button>
+        <button id="gOn">문구 켜기</button>
+        <button id="gExport" class="pri">선물용 파일 만들기</button>
+      </div>
+      <div class="hint">‘선물용 파일 만들기’를 누르면 문구가 박힌 새 HTML이 저장됩니다.
+        그 파일을 나눠 주시면 받는 분은 문구를 고칠 수 없습니다.</div>
+    </div>
+  </div>
+  <div class="hint">
+    설정 변경은 <b>새 대국</b>부터 적용됩니다.<br><br>
+    <b style="color:#c8b89e">나의 바둑친구 V1.40</b><br>
+    © 2026 <b style="color:#c8b89e">연지아빠</b>. All rights reserved.<br>
+    개인적으로 즐기시는 것은 자유입니다. 무단 수정·재배포는 금지합니다.<br><br>
+    엔진: KataGo b10c128 신경망 + PUCT 몬테카를로 탐색.<br>
+    신경망 원본 KataGo(lightvector, MIT) / TFJS 변환 Yuji Ichikawa · Maksim Korzh.
+  </div>
+  <button class="close pri" id="bClose">닫기</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@4.22.0/dist/tf-backend-wasm.min.js"></script>
+<script>
+"use strict";
+/* 문구를 바꿔 새 파일로 내보내기 위해, 손대지 않은 원본을 먼저 확보해 둔다 */
+const PRISTINE = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+/*GIFT_START*/
+const GIFT = {
+  on: false,                      /* 선물 문구 화면 사용 */
+  title: '',                      /* 큰 제목 */
+  to: '',                         /* 받는 분 */
+  body: '',                       /* 본문 (줄바꿈 가능) */
+  from: '',                       /* 보내는 사람 */
+  pwHash: ''                      /* 관리자 비밀번호 SHA-256 (빈 값이면 잠금 없음) */
+};
+/*GIFT_END*/
+
+/* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
+/*SECRETS_START*/
+const SECRETS = [];
+const VAULT = null;
+/*SECRETS_END*/
+
+/* ==========================================================================
+   나의 바둑친구 — 단일 파일 바둑 앱
+   1) 룰 엔진   2) KataGo 신경망 입력 인코딩   3) PUCT MCTS   4) UI
+   ========================================================================== */
+
+/* ---------------- 1. 룰 엔진 ---------------- */
+const N = 19, NN = 361, PASS = 361;
+const EMPTY = 0, BLACK = 1, WHITE = 2;
+
+const NEIGH = (() => {
+  const a = [];
+  for (let i = 0; i < NN; i++) {
+    const x = i % N, y = (i / N) | 0, n = [];
+    if (x > 0) n.push(i - 1);
+    if (x < N - 1) n.push(i + 1);
+    if (y > 0) n.push(i - N);
+    if (y < N - 1) n.push(i + N);
+    a.push(n);
+  }
+  return a;
+})();
+
+function newPos(komi) {
+  return { stones: new Int8Array(NN), toMove: BLACK, ko: -1, komi: komi,
+           caps: [0, 0, 0], hist: [], passes: 0, moveNo: 0 };
+}
+function clonePos(p) {
+  return { stones: Int8Array.from(p.stones), toMove: p.toMove, ko: p.ko, komi: p.komi,
+           caps: p.caps.slice(), hist: p.hist.slice(-8), passes: p.passes, moveNo: p.moveNo };
+}
+const _stack = new Int32Array(NN), _mark = new Int32Array(NN);
+let _mk = 0;
+function group(stones, idx) {
+  const color = stones[idx], cells = [], libCells = [];
+  _mk++;
+  let sp = 0;
+  _stack[sp++] = idx; _mark[idx] = _mk;
+  const seenLib = new Set();
+  while (sp) {
+    const c = _stack[--sp];
+    cells.push(c);
+    const nb = NEIGH[c];
+    for (let k = 0; k < nb.length; k++) {
+      const q = nb[k];
+      if (stones[q] === EMPTY) { if (!seenLib.has(q)) { seenLib.add(q); libCells.push(q); } }
+      else if (stones[q] === color && _mark[q] !== _mk) { _mark[q] = _mk; _stack[sp++] = q; }
+    }
+  }
+  return { cells: cells, libs: libCells.length, libCells: libCells };
+}
+function play(p, mv, color) {
+  if (color == null) color = p.toMove;
+  const np = clonePos(p);
+  np.moveNo++;
+  if (mv === PASS || mv < 0) {
+    np.ko = -1; np.toMove = 3 - color; np.passes = p.passes + 1;
+    np.hist.push({ mv: PASS, color: color });
+    if (np.hist.length > 8) np.hist.shift();
+    return np;
+  }
+  if (p.stones[mv] !== EMPTY) return null;
+  if (mv === p.ko) return null;
+  np.stones[mv] = color;
+  const opp = 3 - color;
+  let capCount = 0, lastCap = -1;
+  for (const nb of NEIGH[mv]) {
+    if (np.stones[nb] === opp) {
+      const g = group(np.stones, nb);
+      if (g.libs === 0) { for (const c of g.cells) { np.stones[c] = EMPTY; lastCap = c; } capCount += g.cells.length; }
+    }
+  }
+  const mine = group(np.stones, mv);
+  if (mine.libs === 0) return null;
+  np.caps[color] += capCount;
+  np.ko = (capCount === 1 && mine.cells.length === 1 && mine.libs === 1) ? lastCap : -1;
+  np.toMove = opp; np.passes = 0;
+  np.hist.push({ mv: mv, color: color });
+  if (np.hist.length > 8) np.hist.shift();
+  return np;
+}
+function isOwnEye(stones, i, color) {
+  if (stones[i] !== EMPTY) return false;
+  for (const nb of NEIGH[i]) if (stones[nb] !== color) return false;
+  const x = i % N, y = (i / N) | 0;
+  let bad = 0, off = 0;
+  const D = [[-1,-1],[-1,1],[1,-1],[1,1]];
+  for (const d of D) {
+    const nx = x + d[0], ny = y + d[1];
+    if (nx < 0 || ny < 0 || nx >= N || ny >= N) { off++; continue; }
+    if (stones[ny * N + nx] !== color) bad++;
+  }
+  return off > 0 ? bad === 0 : bad <= 1;
+}
+/* Tromp-Taylor 집계산 (중국룰). + 이면 흑 우세 */
+function areaScore(stones, komi) {
+  const owner = new Int8Array(NN), seen = new Uint8Array(NN);
+  let b = 0, w = 0;
+  for (let i = 0; i < NN; i++) {
+    if (stones[i] !== EMPTY) { owner[i] = stones[i]; continue; }
+    if (seen[i]) continue;
+    const region = [], st = [i];
+    let tB = false, tW = false;
+    seen[i] = 1;
+    while (st.length) {
+      const c = st.pop(); region.push(c);
+      for (const nb of NEIGH[c]) {
+        if (stones[nb] === EMPTY) { if (!seen[nb]) { seen[nb] = 1; st.push(nb); } }
+        else if (stones[nb] === BLACK) tB = true; else tW = true;
+      }
+    }
+    const col = (tB && !tW) ? BLACK : (tW && !tB) ? WHITE : EMPTY;
+    for (const c of region) owner[c] = col;
+  }
+  for (let i = 0; i < NN; i++) { if (owner[i] === BLACK) b++; else if (owner[i] === WHITE) w++; }
+  return { black: b, white: w, score: b - w - komi, owner: owner };
+}
+const LETTERS = 'ABCDEFGHJKLMNOPQRST';
+function toGTP(mv) { return (mv === PASS || mv < 0) ? '패스' : LETTERS[mv % N] + (N - ((mv / N) | 0)); }
+function sgfCoord(mv) {
+  if (mv === PASS || mv < 0) return '';
+  return String.fromCharCode(97 + (mv % N)) + String.fromCharCode(97 + ((mv / N) | 0));
+}
+function fromSgf(s) {
+  if (!s || s.length < 2) return PASS;
+  return (s.charCodeAt(1) - 97) * N + (s.charCodeAt(0) - 97);
+}
+const HANDICAP_PTS = { /* 화점 좌표 (row*19+col) */
+  3: [60, 288, 300], 4: [60, 72, 288, 300], 5: [60, 72, 180, 288, 300],
+  6: [60, 72, 168, 192, 288, 300], 7: [60, 72, 168, 180, 192, 288, 300],
+  8: [60, 66, 72, 168, 192, 288, 294, 300], 9: [60, 66, 72, 168, 180, 192, 288, 294, 300],
+  2: [72, 288]
+};
+
+/* ---------------- 2. 신경망 입력 인코딩 ---------------- */
+function encodeInputs(p) {
+  const bin = new Float32Array(NN * 22), glob = new Float32Array(19);
+  const me = p.toMove, opp = 3 - me;
+  const libsAt = new Int8Array(NN), done = new Uint8Array(NN);
+  for (let i = 0; i < NN; i++) {
+    if (p.stones[i] === EMPTY || done[i]) continue;
+    const g = group(p.stones, i), l = g.libs > 3 ? 4 : g.libs;
+    for (const c of g.cells) { libsAt[c] = l; done[c] = 1; }
+  }
+  for (let i = 0; i < NN; i++) {
+    const o = i * 22;
+    bin[o] = 1;
+    const s = p.stones[i];
+    if (s === me) bin[o + 1] = 1; else if (s === opp) bin[o + 2] = 1;
+    if (s !== EMPTY) {
+      const l = libsAt[i];
+      if (l === 1) bin[o + 3] = 1; else if (l === 2) bin[o + 4] = 1; else if (l === 3) bin[o + 5] = 1;
+    }
+  }
+  if (p.ko >= 0) bin[p.ko * 22 + 6] = 1;
+  const h = p.hist;
+  for (let k = 1; k <= 5; k++) {
+    const e = h[h.length - k];
+    if (!e) break;
+    if (e.mv === PASS) glob[k - 1] = 1; else bin[e.mv * 22 + (8 + k)] = 1;
+  }
+  glob[5] = (me === WHITE ? p.komi : -p.komi) / 20.0;
+  return { bin: bin, glob: glob };
+}
+
+/* ---------------- 3. 신경망 로더 + 평가 ---------------- */
+const MODEL_DB = 'indexeddb://katanet-b10c128-v1';
+const MODEL_CDN = [
+  'https://cdn.jsdelivr.net/gh/maksimKorzh/kata-model-js@main/model/b10c128-s1141046784-d204142634/model.json',
+  'https://raw.githubusercontent.com/maksimKorzh/kata-model-js/main/model/b10c128-s1141046784-d204142634/model.json'
+];
+let model = null, outIdx = null, evalCount = 0;
+
+async function pickBackend() {
+  try {
+    if (tf.wasm && tf.wasm.setWasmPaths)
+      tf.wasm.setWasmPaths('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@4.22.0/dist/');
+  } catch (e) {}
+  const order = new URLSearchParams(location.search).get('backend');
+  const list = order ? [order, 'wasm', 'cpu'] : ['webgl', 'wasm', 'cpu'];
+  for (const b of list) {
+    try { if (await tf.setBackend(b)) { await tf.ready(); return b; } } catch (e) {}
+  }
+  await tf.setBackend('cpu'); await tf.ready(); return 'cpu';
+}
+async function loadModel(onProg) {
+  const be = await pickBackend();
+  try {
+    onProg('저장된 신경망 확인 중…', 5);
+    model = await tf.loadGraphModel(MODEL_DB);
+    onProg('신경망 준비 완료', 100);
+  } catch (e) {
+    let last = null;
+    for (const url of MODEL_CDN) {
+      try {
+        onProg('신경망 내려받는 중 (약 12MB, 최초 1회)…', 10);
+        model = await tf.loadGraphModel(url, {
+          onProgress: f => onProg('신경망 내려받는 중 ' + Math.round(f * 100) + '%', 10 + f * 80)
+        });
+        last = null; break;
+      } catch (e2) { last = e2; }
+    }
+    if (!model) throw last || new Error('모델 다운로드 실패');
+    onProg('기기에 저장 중…', 94);
+    try { await model.save(MODEL_DB); } catch (e3) { console.warn('IndexedDB 저장 실패', e3); }
+    onProg('신경망 준비 완료', 100);
+  }
+  const nm = model.outputNodes;
+  outIdx = {
+    pol: nm.findIndex(n => n.indexOf('policy') >= 0),
+    val: nm.findIndex(n => n.indexOf('value_output') >= 0),
+    misc: nm.findIndex(n => n.indexOf('misc') >= 0),
+    own: nm.findIndex(n => n.indexOf('ownership') >= 0)
+  };
+  return be;
+}
+/* 반환: policy(logit 362), value(logit 3), lead(집, 둘 차례 기준), ownership(361, 둘 차례 기준) */
+async function nnEval(p) {
+  const io = encodeInputs(p);
+  const bt = tf.tensor(io.bin, [1, 361, 22], 'float32');
+  const gt = tf.tensor(io.glob, [1, 19], 'float32');
+  const r = await model.executeAsync({ 'swa_model/bin_inputs': bt, 'swa_model/global_inputs': gt });
+  const pol = await r[outIdx.pol].data();
+  const val = await r[outIdx.val].data();
+  const misc = await r[outIdx.misc].data();
+  const own = await r[outIdx.own].data();
+  tf.dispose(r); bt.dispose(); gt.dispose();
+  evalCount++;
+  return { policy: pol.subarray(0, 362), value: [val[0], val[1], val[2]],
+           lead: misc[2] * 20, ownership: own };
+}
+function winrateOf(v) {
+  const a = Math.exp(v[0]), b = Math.exp(v[1]), c = Math.exp(v[2]);
+  return a / (a + b + c);
+}
+
+/* ---------------- 4. PUCT MCTS ---------------- */
+function softmaxMasked(logits, idxs) {
+  const out = new Float32Array(362);
+  let mx = -Infinity;
+  for (const i of idxs) if (logits[i] > mx) mx = logits[i];
+  let s = 0;
+  for (const i of idxs) { const e = Math.exp(logits[i] - mx); out[i] = e; s += e; }
+  for (const i of idxs) out[i] /= s;
+  return out;
+}
+function candidates(pos, logits, K) {
+  const order = [];
+  for (let i = 0; i < NN; i++)
+    if (pos.stones[i] === EMPTY && i !== pos.ko && !isOwnEye(pos.stones, i, pos.toMove)) order.push(i);
+  order.sort((a, b) => logits[b] - logits[a]);
+  const moves = [], kids = [];
+  for (const mv of order) {
+    if (moves.length >= K) break;
+    const np = play(pos, mv, pos.toMove);
+    if (np) { moves.push(mv); kids.push(np); }
+  }
+  moves.push(PASS); kids.push(play(pos, PASS, pos.toMove));
+  return { moves: moves, kids: kids };
+}
+class Node {
+  constructor(pos) { this.pos = pos; this.expanded = false; this.n = 0; this.w = 0; }
+}
+class Searcher {
+  constructor(opts) {
+    opts = opts || {};
+    this.cpuct = opts.cpuct || 1.3;
+    this.topK = opts.topK || 24;
+    this.fpu = opts.fpu != null ? opts.fpu : 0.25;
+    this.stop = false;
+  }
+  async expand(node) {
+    const r = await nnEval(node.pos);
+    const c = candidates(node.pos, r.policy, this.topK);
+    node.moves = c.moves;
+    node.kids = c.kids.map(p => new Node(p));
+    node.P = softmaxMasked(r.policy, c.moves);
+    node.cn = new Int32Array(c.moves.length);
+    node.cw = new Float64Array(c.moves.length);
+    node.lead = r.lead; node.own = r.ownership;
+    node.winrate = winrateOf(r.value);
+    node.expanded = true;
+    const a = Math.exp(r.value[0]), b = Math.exp(r.value[1]), d = Math.exp(r.value[2]);
+    return (a - b) / (a + b + d);
+  }
+  async playout(node) {
+    if (!node.expanded) return await this.expand(node);
+    const pq = node.n > 0 ? node.w / node.n : 0;
+    const sq = Math.sqrt(Math.max(1, node.n));
+    let best = 0, bs = -Infinity;
+    for (let i = 0; i < node.moves.length; i++) {
+      const n = node.cn[i];
+      const q = n > 0 ? node.cw[i] / n : (pq - this.fpu);
+      const s = q + this.cpuct * node.P[node.moves[i]] * sq / (1 + n);
+      if (s > bs) { bs = s; best = i; }
+    }
+    const v = -(await this.playout(node.kids[best]));
+    node.cn[best]++; node.cw[best] += v;
+    node.n++; node.w += v;
+    return v;
+  }
+  async search(pos, playouts, onProg) {
+    this.stop = false;
+    const root = new Node(pos);
+    await this.expand(root);
+    for (let i = 0; i < playouts; i++) {
+      if (this.stop) break;
+      await this.playout(root);
+      if ((i & 3) === 3) { if (onProg) onProg(i + 1, playouts); await tf.nextFrame(); }
+    }
+    const res = [];
+    for (let i = 0; i < root.moves.length; i++)
+      res.push({ mv: root.moves[i], n: root.cn[i], q: root.cn[i] ? root.cw[i] / root.cn[i] : -1, p: root.P[root.moves[i]] });
+    res.sort((a, b) => b.n - a.n || b.q - a.q);
+    return { moves: res, winrate: root.winrate, lead: root.lead, own: root.own };
+  }
+}
+
+/* ---------------- 4-b. 음향 (Web Audio 합성, 외부 파일 없음) ---------------- */
+const Snd = {
+  ctx: null, out: null, noise: null,
+  init: function () {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      this.ctx = new AC();
+      const c = this.ctx;
+      this.out = c.createGain();
+      this.out.gain.value = cfg.volume;
+      /* 마른 소리 + 방 울림(잔향)을 섞어 입체감을 준다 */
+      const dry = c.createGain(); dry.gain.value = 0.92;
+      this.out.connect(dry); dry.connect(c.destination);
+      try {
+        const conv = c.createConvolver();
+        const rate = c.sampleRate, L = Math.floor(rate * 0.55);
+        const ir = c.createBuffer(2, L, rate);
+        for (let ch = 0; ch < 2; ch++) {
+          const d2 = ir.getChannelData(ch);
+          for (let i = 0; i < L; i++) d2[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / L, 3.1);
+        }
+        conv.buffer = ir;
+        const wet = c.createGain(); wet.gain.value = 0.20;
+        this.out.connect(conv); conv.connect(wet); wet.connect(c.destination);
+      } catch (e) {}
+      /* 청취자 = 대국자 위치 (반상 앞, 약간 위에서 내려다봄) */
+      try {
+        const L2 = c.listener;
+        if (L2.positionX) {
+          L2.positionX.value = 0; L2.positionY.value = 0.42; L2.positionZ.value = 0.55;
+          L2.forwardX.value = 0; L2.forwardY.value = -0.55; L2.forwardZ.value = -1;
+          L2.upX.value = 0; L2.upY.value = 1; L2.upZ.value = 0;
+        } else if (L2.setPosition) {
+          L2.setPosition(0, 0.42, 0.55); L2.setOrientation(0, -0.55, -1, 0, 1, 0);
+        }
+      } catch (e) {}
+      const len = Math.floor(c.sampleRate * 0.5);
+      this.noise = c.createBuffer(1, len, c.sampleRate);
+      const d = this.noise.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    }
+    try {
+      if (this.ctx.state === 'suspended') {
+        const pr = this.ctx.resume();
+        if (pr && pr.catch) pr.catch(function () {});
+      }
+    } catch (e) {}
+  },
+  now: function () { return this.ctx ? this.ctx.currentTime : 0; },
+  setVolume: function (v) {
+    cfg.volume = v;
+    if (this.out) this.out.gain.value = v;
+  },
+  /* 착수 위치를 3D 공간에 배치한다 (바둑판 좌표 -> 청취자 기준 미터) */
+  panner: function (wx, wz) {
+    const c = this.ctx;
+    if (!c.createPanner) return null;
+    const p = c.createPanner();
+    p.panningModel = 'HRTF';
+    p.distanceModel = 'inverse';
+    p.refDistance = 0.28; p.maxDistance = 6; p.rolloffFactor = 0.7;
+    const S = 0.024;   /* 1칸 ≈ 2.4cm */
+    try {
+      if (p.positionX) { p.positionX.value = wx * S; p.positionY.value = 0; p.positionZ.value = wz * S; }
+      else p.setPosition(wx * S, 0, wz * S);
+    } catch (e) {}
+    p.connect(this.out);
+    return p;
+  },
+  /* 돌 하나가 판(또는 통)에 닿는 "탁" 소리 */
+  stone: function (when, vol, det, wx, wz) {
+    if (!this.ctx || !cfg.sfx) return;
+    vol = vol == null ? 1 : vol; det = det || 1;
+    const c = this.ctx;
+    const dest = (cfg.audio3d && wx != null) ? (this.panner(wx, wz) || this.out) : this.out;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(1150 * det, when);
+    o.frequency.exponentialRampToValueAtTime(300 * det, when + 0.04);
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(0.45 * vol, when + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + 0.10);
+    o.connect(g); g.connect(dest);
+    o.start(when); o.stop(when + 0.13);
+    const s = c.createBufferSource(); s.buffer = this.noise;
+    s.playbackRate.value = 0.7 + Math.random() * 0.7;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.value = 2400 * det; bp.Q.value = 1.1;
+    const g2 = c.createGain();
+    g2.gain.setValueAtTime(0.30 * vol, when);
+    g2.gain.exponentialRampToValueAtTime(0.0001, when + 0.05);
+    s.connect(bp); bp.connect(g2); g2.connect(dest);
+    s.start(when); s.stop(when + 0.07);
+  },
+  /* 착수음 — 놓인 자리에서 소리가 난다 */
+  place: function (mv) {
+    this.init();
+    let wx = null, wz = null;
+    if (mv != null && mv >= 0 && mv !== PASS) { wx = -HALF + (mv % N); wz = -HALF + ((mv / N) | 0); }
+    this.stone(this.now() + 0.005, 1, 0.94 + Math.random() * 0.14, wx, wz);
+  },
+  /* 돌을 따낼 때 — 여러 알이 부딪히며 통에 담기는 소리 */
+  capture: function (n, mv) {
+    this.init();
+    if (!this.ctx || !cfg.sfx) return;
+    let wx = null, wz = null;
+    if (mv != null && mv >= 0 && mv !== PASS) { wx = -HALF + (mv % N); wz = -HALF + ((mv / N) | 0); }
+    const t = this.now() + 0.02, k = Math.min(6, Math.max(2, n));
+    for (let i = 0; i < k; i++)
+      this.stone(t + i * (0.035 + Math.random() * 0.05), 0.55 + Math.random() * 0.3, 1.15 + Math.random() * 0.5, wx, wz);
+  },
+  /* 돌가르기 — 통 안에서 돌을 휘젓는 소리 */
+  shuffle: function (dur) {
+    this.init();
+    if (!this.ctx || !cfg.sfx) return;
+    dur = dur || 1.7;
+    const t0 = this.now() + 0.02, c = this.ctx;
+    const s = c.createBufferSource(); s.buffer = this.noise; s.loop = true;
+    s.playbackRate.value = 0.35;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.value = 1800; bp.Q.value = 0.7;
+    const g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.linearRampToValueAtTime(0.07, t0 + 0.15);
+    g.gain.setValueAtTime(0.07, t0 + dur - 0.3);
+    g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
+    s.connect(bp); bp.connect(g); g.connect(this.out);
+    s.start(t0); s.stop(t0 + dur + 0.05);
+    const n = Math.floor(dur * 46);
+    for (let i = 0; i < n; i++)
+      this.stone(t0 + Math.random() * dur, 0.10 + Math.random() * 0.16, 1.1 + Math.random() * 1.0);
+  },
+  beep: function (freq, dur, vol) {
+    this.init();
+    if (!this.ctx || !cfg.sfx) return;
+    const c = this.ctx, t = this.now() + 0.005;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol || 0.22, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (dur || 0.09));
+    o.connect(g); g.connect(this.out);
+    o.start(t); o.stop(t + (dur || 0.09) + 0.02);
+  },
+  gong: function () {
+    this.init();
+    if (!this.ctx || !cfg.sfx) return;
+    const c = this.ctx, t = this.now() + 0.01;
+    [196, 294, 440, 587].forEach((f, i) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.16 / (i + 1), t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+      o.connect(g); g.connect(this.out);
+      o.start(t); o.stop(t + 1.9);
+    });
+  }
+};
+/* 한국어 음성 (없으면 비프음만) */
+let koVoice = null;
+function loadVoices() {
+  if (!window.speechSynthesis) return;
+  const vs = speechSynthesis.getVoices() || [];
+  koVoice = vs.find(v => /^ko/i.test(v.lang)) || null;
+}
+if (window.speechSynthesis) {
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+function speak(text) {
+  if (!cfg.voice || !window.speechSynthesis || !koVoice) return false;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = koVoice; u.lang = koVoice.lang; u.rate = 1.2; u.pitch = 1.0;
+    u.volume = Math.max(0, Math.min(1, cfg.volume / 1.35));
+    speechSynthesis.speak(u);
+    return true;
+  } catch (e) { return false; }
+}
+const COUNT_WORD = { 10: '십 초 남았습니다', 9: '구', 8: '팔', 7: '칠', 6: '육',
+                     5: '오', 4: '사', 3: '삼', 2: '이', 1: '일' };
+
+/* ---------------- 4-c. 대국 시계 (제한시간 + 초읽기) ---------------- */
+const clock = {
+  main: [0, 0, 0], byoT: [0, 0, 0], byoN: [0, 0, 0], inByo: [false, false, false],
+  running: false, side: 0, last: 0, id: null, spoken: -1
+};
+function clockReset() {
+  for (const c of [BLACK, WHITE]) {
+    clock.main[c] = cfg.mainMin * 60;
+    clock.byoN[c] = cfg.byoCount;
+    clock.byoT[c] = cfg.byoSec;
+    clock.inByo[c] = (cfg.mainMin === 0);
+  }
+  clock.running = false; clock.spoken = -1;
+  if (clock.id) { clearInterval(clock.id); clock.id = null; }
+  renderClocks();
+}
+function clockStart(side) {
+  if (gameOver || !cfg.useClock) return;
+  clock.side = side; clock.last = performance.now(); clock.running = true;
+  clock.spoken = -1;
+  if (!clock.id) clock.id = setInterval(clockTick, 100);
+}
+function clockPause() { clock.running = false; }
+function clockResume() { if (!gameOver && cfg.useClock) { clock.last = performance.now(); clock.running = true; } }
+function clockStop() {
+  clock.running = false;
+  if (clock.id) { clearInterval(clock.id); clock.id = null; }
+}
+function onMovePlayed(side) {
+  /* 착수하면 그 쪽 초읽기 시간이 되살아난다 */
+  if (clock.inByo[side]) clock.byoT[side] = cfg.byoSec;
+  clock.spoken = -1;
+}
+function clockTick() {
+  if (!clock.running || gameOver) { renderClocks(); return; }
+  const now = performance.now(), dt = (now - clock.last) / 1000;
+  clock.last = now;
+  const s = clock.side;
+  if (!clock.inByo[s]) {
+    clock.main[s] -= dt;
+    if (clock.main[s] <= 0) { clock.main[s] = 0; clock.inByo[s] = true; clock.byoT[s] = cfg.byoSec; clock.spoken = -1; }
+  } else {
+    clock.byoT[s] -= dt;
+    if (s === cfg.myColor) {
+      const left = Math.ceil(clock.byoT[s]);
+      if (left >= 1 && left <= 10 && left !== clock.spoken) {
+        clock.spoken = left;
+        Snd.beep(left <= 3 ? 1320 : 880, left <= 3 ? 0.12 : 0.08, left <= 3 ? 0.30 : 0.20);
+        speak(COUNT_WORD[left]);
+      }
+    }
+    if (clock.byoT[s] <= 0) {
+      clock.byoN[s] -= 1;
+      clock.spoken = -1;
+      if (clock.byoN[s] <= 0) { clock.byoT[s] = 0; renderClocks(); timeLoss(s); return; }
+      clock.byoT[s] = cfg.byoSec;
+      speak('초읽기 ' + clock.byoN[s] + '회 남았습니다');
+    }
+  }
+  renderClocks();
+}
+function fmt(sec) {
+  sec = Math.max(0, Math.ceil(sec));
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return m + ':' + (s < 10 ? '0' : '') + s;
+}
+function renderClocks() {
+  for (const c of [BLACK, WHITE]) {
+    const box = $(c === BLACK ? 'clkB' : 'clkW');
+    const tEl = $(c === BLACK ? 'tB' : 'tW');
+    const bEl = $(c === BLACK ? 'byoB' : 'byoW');
+    if (!cfg.useClock) { tEl.textContent = '무제한'; bEl.textContent = ''; box.className = 'clk'; continue; }
+    const act = clock.running && clock.side === c && !gameOver;
+    if (clock.inByo[c]) {
+      tEl.textContent = Math.max(0, Math.ceil(clock.byoT[c])) + '초';
+      bEl.textContent = '초읽기 ' + clock.byoN[c] + '회';
+    } else {
+      tEl.textContent = fmt(clock.main[c]);
+      bEl.textContent = '본시간';
+    }
+    box.className = 'clk' + (act ? ' act' : '') +
+      (act && clock.inByo[c] && clock.byoT[c] <= 10 ? ' urgent' : '');
+  }
+}
+function timeLoss(side) {
+  clockStop();
+  gameOver = true;
+  Snd.gong();
+  const loser = side === BLACK ? '흑' : '백';
+  const winner = side === BLACK ? '백' : '흑';
+  const mine = side === cfg.myColor;
+  speak(mine ? '시간패 하셨습니다' : '상대가 시간패 했습니다');
+  setMsg('⏱ ' + loser + ' 시간패 — ' + winner + ' 불계승' + (mine ? ' (제가 졌습니다)' : ' (이기셨습니다)'), 'err');
+  draw();
+}
+
+/* ---------------- 5. 난이도 ---------------- */
+const LEVELS = [
+  { key: 'a', name: '입문',  playouts: 0,   temp: 1.30, topN: 14, desc: '탐색 없이 감각으로만. 초보자 연습용.' },
+  { key: 'b', name: '초급',  playouts: 0,   temp: 0.70, topN: 5,  desc: '탐색 없음. 상위 후보 중 확률적으로 선택.' },
+  { key: 'c', name: '중급',  playouts: 12,  temp: 0.35, topN: 3,  desc: '탐색 12회. 한 수 약 1초. 초반은 조금 변화를 줍니다.' },
+  { key: 'd', name: '상급',  playouts: 40,  temp: 0,    topN: 1,  desc: '탐색 40회. 한 수 약 3초. 수읽기가 붙기 시작합니다.' },
+  { key: 'e', name: '최강',  playouts: 120, temp: 0,    topN: 1,  desc: '탐색 120회. 한 수 약 8~10초. 가장 강합니다.' }
+];
+
+/* ---------------- 6. 앱 상태 ---------------- */
+const cfg = {
+  myColor: BLACK, level: 2, handicap: 0, komi: 6.5,
+  showCoord: true, showNum: false, confirmTap: ('ontouchstart' in window),
+  mainMin: 10, byoSec: 30, byoCount: 3, useClock: true,
+  sfx: true, voice: true, nigiri: true,
+  view3d: true, camView: 1, audio3d: true, atariVoice: true, volume: 1.35
+};
+/* 단수(자유도 1) 상태 추적 — 새로 단수가 된 대마만 알린다 */
+let atariKeys = new Set();
+function atariScan() {
+  const cur = new Set();
+  const seen = new Uint8Array(NN);
+  for (let i = 0; i < NN; i++) {
+    if (!pos.stones[i] || seen[i]) continue;
+    const g = group(pos.stones, i);
+    for (const c of g.cells) seen[c] = 1;
+    if (g.libs === 1) {
+      let mn = g.cells[0];
+      for (const c of g.cells) if (c < mn) mn = c;
+      cur.add(pos.stones[i] + ':' + mn + ':' + g.cells.length);
+    }
+  }
+  return cur;
+}
+function announceAtari() {
+  const cur = atariScan();
+  let mineNew = 0, oppNew = 0, mineSize = 0;
+  for (const k of cur) {
+    if (atariKeys.has(k)) continue;
+    const p = k.split(':');
+    if (+p[0] === cfg.myColor) { mineNew++; mineSize = Math.max(mineSize, +p[2]); }
+    else oppNew++;
+  }
+  atariKeys = cur;
+  if (!cfg.atariVoice) return;
+  if (mineNew) {
+    Snd.beep(660, 0.10, 0.26);
+    setTimeout(() => Snd.beep(520, 0.12, 0.24), 110);
+    speak(mineSize >= 5 ? '대마가 단수입니다' : '단수입니다');
+  } else if (oppNew) {
+    Snd.beep(1180, 0.06, 0.14);
+  }
+}
+let pos, moves = [], lastMove = -1, thinking = false, gameOver = false;
+let territory = null, hintMove = -1, pendingTap = -1;
+let curWinrate = 0.5, curLead = 0, ready = false;
+const searcher = new Searcher({ topK: 24 });
+
+/* ---------------- 7. 렌더링 ---------------- */
+const cv = document.getElementById('bd'), ctx = cv.getContext('2d');
+let cell = 20, pad = 20, boardPx = 400;
+
+const cv3 = document.getElementById('bd3');
+function layout() {
+  const wrap = document.getElementById('boardwrap');
+  const W = Math.max(240, wrap.clientWidth - 4), H = Math.max(240, wrap.clientHeight - 4);
+  const use3d = cfg.view3d && B3.ok;
+  cv.style.display = use3d ? 'none' : 'block';
+  cv3.style.display = use3d ? 'block' : 'none';
+  document.getElementById('viewRow').style.display = use3d ? 'flex' : 'none';
+  const s = Math.floor(Math.min(W, H));
+  boardPx = Math.max(240, s);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  cv.width = boardPx * dpr; cv.height = boardPx * dpr;
+  cv.style.width = boardPx + 'px'; cv.style.height = boardPx + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  pad = cfg.showCoord ? boardPx * 0.055 : boardPx * 0.032;
+  cell = (boardPx - pad * 2) / (N - 1);
+  if (use3d) {
+    cv3.style.width = W + 'px'; cv3.style.height = H + 'px';
+    B3.resize(W, H);
+  }
+  draw();
+}
+function px(i) { return pad + (i % N) * cell; }
+function py(i) { return pad + ((i / N) | 0) * cell; }
+
+/* 반상 바탕(나무결·집 표시·선·화점·좌표) — 2D 화면과 3D 텍스처가 함께 쓴다 */
+function paintBase(ctx, boardPx, pad, cell) {
+  ctx.fillStyle = '#d8a95f';
+  ctx.fillRect(0, 0, boardPx, boardPx);
+  const g = ctx.createLinearGradient(0, 0, boardPx, boardPx);
+  g.addColorStop(0, 'rgba(255,232,190,.35)'); g.addColorStop(1, 'rgba(120,70,20,.28)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, boardPx, boardPx);
+  /* 나무결 */
+  ctx.save();
+  ctx.globalAlpha = 0.10;
+  for (let k = 0; k < 46; k++) {
+    const y = (k / 46) * boardPx + Math.sin(k * 1.7) * 3;
+    ctx.strokeStyle = k % 3 === 0 ? '#6b3d10' : '#a9702c';
+    ctx.lineWidth = (k % 5 === 0 ? 2.4 : 1.1) * (boardPx / 800);
+    ctx.beginPath();
+    for (let x = 0; x <= boardPx; x += boardPx / 16)
+      ctx.lineTo(x, y + Math.sin(x * 0.012 + k) * (boardPx * 0.006));
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  if (territory) {
+    for (let i = 0; i < NN; i++) {
+      const v = territory[i];
+      if (Math.abs(v) < 0.12) continue;
+      const a = Math.min(0.55, Math.abs(v) * 0.55);
+      const x = pad + (i % N) * cell, y = pad + ((i / N) | 0) * cell;
+      ctx.fillStyle = v > 0 ? 'rgba(0,0,0,' + a + ')' : 'rgba(255,255,255,' + a + ')';
+      ctx.fillRect(x - cell * 0.34, y - cell * 0.34, cell * 0.68, cell * 0.68);
+    }
+  }
+  ctx.strokeStyle = 'rgba(40,25,8,.85)'; ctx.lineWidth = Math.max(0.7, cell * 0.035);
+  ctx.beginPath();
+  for (let i = 0; i < N; i++) {
+    ctx.moveTo(pad, pad + i * cell); ctx.lineTo(pad + (N - 1) * cell, pad + i * cell);
+    ctx.moveTo(pad + i * cell, pad); ctx.lineTo(pad + i * cell, pad + (N - 1) * cell);
+  }
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(30,18,4,.9)';
+  for (const s of [3, 9, 15]) for (const t of [3, 9, 15]) {
+    ctx.beginPath(); ctx.arc(pad + t * cell, pad + s * cell, Math.max(1.8, cell * 0.11), 0, 7); ctx.fill();
+  }
+  if (cfg.showCoord) {
+    ctx.fillStyle = 'rgba(50,32,10,.85)';
+    ctx.font = Math.max(8, cell * 0.42) + 'px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let i = 0; i < N; i++) {
+      ctx.fillText(LETTERS[i], pad + i * cell, pad * 0.45);
+      ctx.fillText(String(N - i), pad * 0.45, pad + i * cell);
+    }
+  }
+}
+
+function draw2D() {
+  paintBase(ctx, boardPx, pad, cell);
+  const r = cell * 0.475;
+  for (let i = 0; i < NN; i++) {
+    const s = pos.stones[i];
+    if (!s) continue;
+    const x = px(i), y = py(i);
+    ctx.beginPath(); ctx.arc(x + r * 0.14, y + r * 0.18, r, 0, 7);
+    ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.fill();
+    const gr = ctx.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r);
+    if (s === BLACK) { gr.addColorStop(0, '#666'); gr.addColorStop(.45, '#1c1c1c'); gr.addColorStop(1, '#000'); }
+    else { gr.addColorStop(0, '#fff'); gr.addColorStop(.6, '#f2ede3'); gr.addColorStop(1, '#c9c0b0'); }
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fillStyle = gr; ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.6; ctx.stroke();
+  }
+  if (cfg.showNum) {
+    ctx.font = 'bold ' + Math.max(7, cell * 0.42) + 'px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const numAt = {};
+    moves.forEach((m, k) => { if (m.mv !== PASS && pos.stones[m.mv]) numAt[m.mv] = k + 1; });
+    for (const k in numAt) {
+      const i = +k;
+      ctx.fillStyle = pos.stones[i] === BLACK ? '#eee' : '#222';
+      ctx.fillText(numAt[k], px(i), py(i));
+    }
+  } else if (lastMove >= 0 && lastMove !== PASS) {
+    ctx.beginPath(); ctx.arc(px(lastMove), py(lastMove), r * 0.34, 0, 7);
+    ctx.fillStyle = pos.stones[lastMove] === BLACK ? '#e8a33d' : '#c1451f'; ctx.fill();
+  }
+  if (hintMove >= 0 && hintMove !== PASS) {
+    ctx.strokeStyle = '#2ecc71'; ctx.lineWidth = Math.max(2, cell * 0.11);
+    ctx.beginPath(); ctx.arc(px(hintMove), py(hintMove), r * 0.85, 0, 7); ctx.stroke();
+  }
+  if (pendingTap >= 0) {
+    ctx.globalAlpha = 0.55;
+    ctx.beginPath(); ctx.arc(px(pendingTap), py(pendingTap), r, 0, 7);
+    ctx.fillStyle = cfg.myColor === BLACK ? '#000' : '#fff'; ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#2ecc71'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(px(pendingTap), py(pendingTap), r * 1.15, 0, 7); ctx.stroke();
+  }
+}
+
+/* ============ 7-b. 3D 바둑판 (three.js) ============ */
+const VIEWS = [
+  { name: '위에서',  yaw: 0,        pitch: 1.48, zoom: 1.00 },
+  { name: '대국자',  yaw: 0,        pitch: 0.88, zoom: 1.00 },
+  { name: '낮게',    yaw: 0.10,     pitch: 0.44, zoom: 1.06 },
+  { name: '측면',    yaw: 0.95,     pitch: 0.66, zoom: 1.14 },
+  { name: '건너편',  yaw: Math.PI,  pitch: 0.88, zoom: 1.00 }
+];
+const GRID = 1.0, HALF = 9, MARGIN = 1.2, BW = 2 * HALF + 2 * MARGIN, BT = 1.7;
+const SR = 0.47, SH = 0.175;   /* 알 반지름 / 알 반높이 */
+
+const B3 = {
+  ok: false, ren: null, scene: null, cam: null, ray: null, ptr: null,
+  top: null, tex: null, texCv: null, texCtx: null, TEX: 1024,
+  meshes: {}, anims: [], marker: null, ring: null, ghost: null,
+  yaw: 0, pitch: 0.86, zoom: 1.04, need: true, looping: false,
+
+  idxToWorld: function (i) { return { x: -HALF + (i % N) * GRID, z: -HALF + ((i / N) | 0) * GRID }; },
+  worldToIdx: function (x, z) {
+    const c = Math.round(x + HALF), r = Math.round(z + HALF);
+    if (c < 0 || r < 0 || c >= N || r >= N) return -1;
+    return r * N + c;
+  },
+  envMap: function () {
+    const c = document.createElement('canvas');
+    c.width = 512; c.height = 256;
+    const g = c.getContext('2d');
+    /* 대체로 어두운 실내 + 좁고 밝은 조명 -> 알에 또렷한 하이라이트가 맺힌다 */
+    const grd = g.createLinearGradient(0, 0, 0, 256);
+    grd.addColorStop(0.00, '#3a3f4a');
+    grd.addColorStop(0.34, '#23252b');
+    grd.addColorStop(0.50, '#191b1f');
+    grd.addColorStop(0.52, '#241a10');
+    grd.addColorStop(1.00, '#0a0705');
+    g.fillStyle = grd; g.fillRect(0, 0, 512, 256);
+    g.filter = 'blur(3px)';
+    g.fillStyle = 'rgba(255,252,242,1)';
+    g.fillRect(96, 20, 108, 20);                 /* 주 조명 */
+    g.fillStyle = 'rgba(210,228,255,.85)';
+    g.fillRect(330, 30, 60, 13);                 /* 보조 조명 */
+    g.filter = 'blur(14px)';
+    g.fillStyle = 'rgba(255,240,214,.45)';
+    g.fillRect(70, 6, 170, 52);
+    g.filter = 'none';
+    const t = new THREE.CanvasTexture(c);
+    t.mapping = THREE.EquirectangularReflectionMapping;
+    return t;
+  },
+  init: function () {
+    if (this.ok || typeof THREE === 'undefined') return this.ok;
+    const canvas = document.getElementById('bd3');
+    try {
+      this.ren = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    } catch (e) { return false; }
+    this.ren.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.ren.shadowMap.enabled = true;
+    this.ren.shadowMap.type = THREE.PCFSoftShadowMap;
+    if (THREE.sRGBEncoding) this.ren.outputEncoding = THREE.sRGBEncoding;
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x14100d);
+    this.scene.fog = new THREE.Fog(0x14100d, 55, 130);
+    this.cam = new THREE.PerspectiveCamera(36, 1, 0.1, 300);
+    this.ray = new THREE.Raycaster();
+    this.ptr = new THREE.Vector2();
+    const env = this.envMap();
+    this.scene.environment = env;
+
+    /* 반상 텍스처 */
+    this.texCv = document.createElement('canvas');
+    this.texCv.width = this.texCv.height = this.TEX;
+    this.texCtx = this.texCv.getContext('2d');
+    this.tex = new THREE.CanvasTexture(this.texCv);
+    if (THREE.sRGBEncoding) this.tex.encoding = THREE.sRGBEncoding;
+    this.tex.anisotropy = 8;
+
+    /* 반(몸통) */
+    const body = new THREE.Mesh(
+      new THREE.BoxGeometry(BW, BT, BW),
+      new THREE.MeshStandardMaterial({ color: 0xb07a35, roughness: 0.62, metalness: 0.03 }));
+    body.position.y = -BT / 2;
+    body.receiveShadow = true;
+    this.scene.add(body);
+    /* 반상 윗면 */
+    const topGeo = new THREE.PlaneGeometry(BW, BW);
+    topGeo.rotateX(-Math.PI / 2);
+    this.top = new THREE.Mesh(topGeo, new THREE.MeshStandardMaterial({
+      map: this.tex, roughness: 0.45, metalness: 0.02, envMapIntensity: 0.25
+    }));
+    this.top.position.y = 0.002;
+    this.top.receiveShadow = true;
+    this.scene.add(this.top);
+    /* 다리 */
+    const legGeo = new THREE.CylinderGeometry(0.85, 1.05, 2.2, 16);
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x8a5c22, roughness: 0.7 });
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      const leg = new THREE.Mesh(legGeo, legMat);
+      leg.position.set(sx * (BW / 2 - 2.2), -BT - 1.1, sz * (BW / 2 - 2.2));
+      leg.castShadow = true;
+      this.scene.add(leg);
+    }
+    /* 바닥(그림자 받이) */
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(160, 160),
+      new THREE.MeshStandardMaterial({ color: 0x100c09, roughness: 0.98, metalness: 0 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -BT - 2.2;
+    floor.receiveShadow = true;
+    this.scene.add(floor);
+
+    /* 조명 */
+    this.scene.add(new THREE.AmbientLight(0x5a5f6e, 0.75));
+    const key = new THREE.DirectionalLight(0xfff1d8, 1.15);
+    key.position.set(13, 26, 11);
+    key.castShadow = true;
+    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.camera.left = -18; key.shadow.camera.right = 18;
+    key.shadow.camera.top = 18; key.shadow.camera.bottom = -18;
+    key.shadow.camera.near = 5; key.shadow.camera.far = 70;
+    key.shadow.bias = -0.0012;
+    this.scene.add(key);
+    const fill = new THREE.DirectionalLight(0x93b4ff, 0.35);
+    fill.position.set(-15, 12, -10);
+    this.scene.add(fill);
+    const rim = new THREE.PointLight(0xffd9a0, 0.55, 90);
+    rim.position.set(0, 16, -14);
+    this.scene.add(rim);
+
+    /* 바둑알 — 볼록 렌즈꼴 + 클리어코트로 광택 */
+    this.stoneGeo = new THREE.SphereGeometry(SR, 40, 26);
+    this.stoneGeo.scale(1, SH / SR, 1);
+    const common = { envMap: env, clearcoat: 1.0, reflectivity: 1.0, metalness: 0.0 };
+    /* 흑돌(나치구로석): 몸통은 새까맣고 표면만 또렷하게 빛난다 */
+    this.matB = new THREE.MeshPhysicalMaterial(Object.assign({
+      color: 0x050506, roughness: 0.32, clearcoatRoughness: 0.015, envMapIntensity: 0.55
+    }, common));
+    /* 백돌(하마구리): 유백색 진주 느낌 */
+    this.matW = new THREE.MeshPhysicalMaterial(Object.assign({
+      color: 0xfbf8f1, roughness: 0.26, clearcoatRoughness: 0.05, envMapIntensity: 0.42
+    }, common));
+
+    /* 마지막 수 표시 */
+    this.marker = new THREE.Mesh(new THREE.TorusGeometry(SR * 0.52, 0.045, 10, 28),
+      new THREE.MeshBasicMaterial({ color: 0xff9a2e }));
+    this.marker.rotation.x = -Math.PI / 2;
+    this.marker.visible = false;
+    this.scene.add(this.marker);
+    /* 훈수 / 착수 예정 표시 */
+    this.ring = new THREE.Mesh(new THREE.TorusGeometry(SR * 1.02, 0.06, 10, 32),
+      new THREE.MeshBasicMaterial({ color: 0x2ecc71 }));
+    this.ring.rotation.x = -Math.PI / 2;
+    this.ring.visible = false;
+    this.scene.add(this.ring);
+    this.ghost = new THREE.Mesh(this.stoneGeo,
+      new THREE.MeshBasicMaterial({ color: 0x2ecc71, transparent: true, opacity: 0.42 }));
+    this.ghost.visible = false;
+    this.scene.add(this.ghost);
+
+    this.ok = true;
+    this.applyView(cfg.camView);
+    this.updateTex();
+    this.bindInput(canvas);
+    this.loop();
+    return true;
+  },
+  updateTex: function () {
+    if (!this.ok) return;
+    const s = this.TEX / BW;
+    paintBase(this.texCtx, this.TEX, MARGIN * s, GRID * s);
+    this.tex.needsUpdate = true;
+    this.need = true;
+  },
+  applyView: function (k) {
+    const v = VIEWS[k] || VIEWS[1];
+    this.yaw = v.yaw; this.pitch = v.pitch; this.zoom = v.zoom;
+    this.need = true;
+  },
+  /* 화면 비율에 맞춰 반 전체가 들어오는 거리를 계산 (세로로 긴 폰에서도 안 잘리게) */
+  fitDist: function () {
+    const tv = Math.tan(this.cam.fov * Math.PI / 360);
+    const th = tv * this.cam.aspect;
+    const R = BW * 0.5;
+    const dh = R / Math.max(0.05, th);
+    const dv = (R * Math.sin(this.pitch) + 2.2) / Math.max(0.05, tv);
+    return Math.max(dh, dv) * this.zoom;
+  },
+  placeCam: function () {
+    const d = this.fitDist();
+    const cp = Math.cos(this.pitch), sp = Math.sin(this.pitch);
+    this.cam.position.set(d * cp * Math.sin(this.yaw), d * sp, d * cp * Math.cos(this.yaw));
+    this.cam.lookAt(0, 0, 0);
+  },
+  resize: function (w, h) {
+    if (!this.ok) return;
+    this.ren.setSize(w, h, false);
+    this.cam.aspect = w / h;
+    this.cam.updateProjectionMatrix();
+    this.need = true;
+  },
+  /* 판 상태를 3D 장면에 반영 */
+  sync: function (animateIdx) {
+    if (!this.ok) return;
+    for (const k in this.meshes) {
+      const i = +k;
+      if (pos.stones[i] === EMPTY) {
+        const m = this.meshes[i];
+        delete this.meshes[i];
+        this.anims.push({ m: m, t: 0, dur: 0.16, kind: 'out' });
+      }
+    }
+    for (let i = 0; i < NN; i++) {
+      const s = pos.stones[i];
+      if (!s) continue;
+      let m = this.meshes[i];
+      if (m && m.userData.col !== s) { this.scene.remove(m); m = null; }
+      if (!m) {
+        m = new THREE.Mesh(this.stoneGeo, s === BLACK ? this.matB : this.matW);
+        m.castShadow = true; m.receiveShadow = false;
+        m.userData.col = s;
+        const w = this.idxToWorld(i);
+        m.position.set(w.x, SH, w.z);
+        m.rotation.y = Math.random() * Math.PI;
+        this.scene.add(m);
+        this.meshes[i] = m;
+        if (i === animateIdx) {
+          m.position.y = SH + 2.4;
+          this.anims.push({ m: m, t: 0, dur: 0.17, kind: 'drop', y0: SH + 2.4, y1: SH });
+        }
+      }
+    }
+    if (lastMove >= 0 && lastMove !== PASS && pos.stones[lastMove]) {
+      const w = this.idxToWorld(lastMove);
+      this.marker.position.set(w.x, SH * 2 + 0.02, w.z);
+      this.marker.material.color.setHex(pos.stones[lastMove] === BLACK ? 0xff9a2e : 0xd63a1a);
+      this.marker.visible = true;
+    } else this.marker.visible = false;
+    const rIdx = hintMove >= 0 && hintMove !== PASS ? hintMove : -1;
+    if (rIdx >= 0) { const w = this.idxToWorld(rIdx); this.ring.position.set(w.x, 0.05, w.z); this.ring.visible = true; }
+    else this.ring.visible = false;
+    if (pendingTap >= 0) { const w = this.idxToWorld(pendingTap); this.ghost.position.set(w.x, SH, w.z); this.ghost.visible = true; }
+    else this.ghost.visible = false;
+    this.need = true;
+  },
+  pick: function (clientX, clientY) {
+    if (!this.ok) return -1;
+    const r = this.ren.domElement.getBoundingClientRect();
+    this.ptr.x = ((clientX - r.left) / r.width) * 2 - 1;
+    this.ptr.y = -((clientY - r.top) / r.height) * 2 + 1;
+    this.ray.setFromCamera(this.ptr, this.cam);
+    const hit = this.ray.intersectObject(this.top, false);
+    if (!hit.length) return -1;
+    const p = hit[0].point;
+    if (Math.abs(p.x) > HALF + 0.55 || Math.abs(p.z) > HALF + 0.55) return -1;
+    return this.worldToIdx(p.x, p.z);
+  },
+  bindInput: function (cvs) {
+    const self = this;
+    let down = false, moved = 0, lx = 0, ly = 0, sx = 0, sy = 0, pts = {};
+    let pinch0 = 0, dist0 = 0;
+    cvs.addEventListener('pointerdown', e => {
+      e.preventDefault(); Snd.init();
+      pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      cvs.setPointerCapture && cvs.setPointerCapture(e.pointerId);
+      down = true; moved = 0; lx = sx = e.clientX; ly = sy = e.clientY;
+      const ids = Object.keys(pts);
+      if (ids.length === 2) {
+        const a = pts[ids[0]], b = pts[ids[1]];
+        dist0 = Math.hypot(a.x - b.x, a.y - b.y); pinch0 = self.zoom;
+      }
+    });
+    cvs.addEventListener('pointermove', e => {
+      if (pts[e.pointerId]) { pts[e.pointerId].x = e.clientX; pts[e.pointerId].y = e.clientY; }
+      const ids = Object.keys(pts);
+      if (ids.length === 2 && dist0 > 0) {
+        const a = pts[ids[0]], b = pts[ids[1]];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        self.zoom = Math.max(0.5, Math.min(1.8, pinch0 * dist0 / Math.max(1, d)));
+        self.need = true; moved = 999; return;
+      }
+      if (!down) return;
+      const dx = e.clientX - lx, dy = e.clientY - ly;
+      lx = e.clientX; ly = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (moved > 6) {
+        self.yaw -= dx * 0.0075;
+        self.pitch = Math.max(0.16, Math.min(1.52, self.pitch + dy * 0.0060));
+        self.need = true;
+        cfg.camView = -1; markViewBtns();
+      }
+    });
+    const up = e => {
+      delete pts[e.pointerId];
+      if (Object.keys(pts).length < 2) dist0 = 0;
+      if (!down) return;
+      down = false;
+      if (moved <= 6) {
+        const i = self.pick(sx, sy);
+        if (i >= 0) onTapIdx(i); else { pendingTap = -1; draw(); }
+      }
+    };
+    cvs.addEventListener('pointerup', up);
+    cvs.addEventListener('pointercancel', up);
+    cvs.addEventListener('wheel', e => {
+      e.preventDefault();
+      self.zoom = Math.max(0.5, Math.min(1.8, self.zoom + e.deltaY * 0.0012));
+      self.need = true;
+    }, { passive: false });
+  },
+  loop: function () {
+    if (this.looping) return;
+    this.looping = true;
+    const self = this;
+    let prev = performance.now();
+    (function frame(t) {
+      requestAnimationFrame(frame);
+      const dt = Math.min(0.05, (t - prev) / 1000); prev = t;
+      if (self.anims.length) {
+        for (let k = self.anims.length - 1; k >= 0; k--) {
+          const a = self.anims[k];
+          a.t += dt;
+          const u = Math.min(1, a.t / a.dur);
+          if (a.kind === 'drop') {
+            const e = 1 - Math.pow(1 - u, 3);
+            a.m.position.y = a.y0 + (a.y1 - a.y0) * e;
+            if (u >= 1) { a.m.position.y = a.y1; self.anims.splice(k, 1); }
+          } else {
+            a.m.scale.setScalar(Math.max(0.001, 1 - u));
+            a.m.position.y = SH + u * 0.9;
+            if (u >= 1) { self.scene.remove(a.m); self.anims.splice(k, 1); }
+          }
+        }
+        self.need = true;
+      }
+      if (self.need && cfg.view3d && self.ok) {
+        self.need = false;
+        self.placeCam();
+        self.ren.render(self.scene, self.cam);
+      }
+    })(prev);
+  }
+};
+
+function markViewBtns() {
+  const bs = document.querySelectorAll('#viewRow button[data-v]');
+  for (const b of bs) b.className = (+b.dataset.v === cfg.camView) ? 'on' : '';
+}
+let dropIdx = -1, lastTerrRef;
+function draw() {
+  if (cfg.view3d && B3.ok) {
+    if (territory !== lastTerrRef) { lastTerrRef = territory; B3.updateTex(); }
+    B3.sync(dropIdx);
+    dropIdx = -1;
+  } else draw2D();
+}
+
+/* ---------------- 8. 상태 표시 ---------------- */
+const $ = id => document.getElementById(id);
+function setMsg(t, kind) {
+  $('msg').textContent = t;
+  $('dot').className = kind || '';
+}
+function updateBar() {
+  const wb = Math.round(curWinrate * 1000) / 10;
+  $('wrblack').style.width = wb + '%';
+  $('wrwhite').style.width = (100 - wb) + '%';
+  const lead = curLead;
+  const who = lead >= 0 ? '흑' : '백';
+  $('wrtext').innerHTML = '<span>흑 ' + wb.toFixed(1) + '%   ·   ' + who + ' ' + Math.abs(lead).toFixed(1) + '집 유리</span>';
+  $('modeLbl').textContent = LEVELS[cfg.level].name + ' · ' + (cfg.myColor === BLACK ? '흑번' : '백번') +
+    (cfg.handicap ? ' · ' + cfg.handicap + '점' : '');
+}
+
+/* ---------------- 9. 대국 흐름 ---------------- */
+function newGame() {
+  const komi = cfg.handicap > 0 ? 0.5 : cfg.komi;
+  pos = newPos(komi);
+  moves = []; lastMove = -1; gameOver = false; territory = null; hintMove = -1; pendingTap = -1;
+  if (cfg.handicap >= 2) {
+    for (const i of HANDICAP_PTS[cfg.handicap]) pos.stones[i] = BLACK;
+    pos.toMove = WHITE;
+  }
+  curWinrate = 0.5; curLead = 0;
+  clockStop(); clockReset();
+  atariKeys = new Set();
+  if (cfg.view3d && B3.ok) { for (const k in B3.meshes) { B3.scene.remove(B3.meshes[k]); delete B3.meshes[k]; } }
+  layout(); updateBar();
+  setMsg(pos.toMove === cfg.myColor ? '두실 차례입니다.' : 'AI 차례', '');
+  if (!ready) return;
+  if (pos.toMove !== cfg.myColor) { clockStart(pos.toMove); setTimeout(aiMove, 250); }
+  else clockStart(pos.toMove);
+}
+function pushMove(mv, color) {
+  const capBefore = pos.caps[color];
+  const np = play(pos, mv, color);
+  if (!np) return false;
+  const taken = np.caps[color] - capBefore;
+  pos = np; moves.push({ mv: mv, color: color }); lastMove = mv;
+  territory = null; hintMove = -1; pendingTap = -1;
+  if (mv !== PASS) {
+    dropIdx = mv;
+    Snd.place(mv);
+    if (taken > 0) setTimeout(() => Snd.capture(taken, mv), 90);
+    setTimeout(announceAtari, taken > 0 ? 320 : 200);
+  }
+  onMovePlayed(color);
+  if (pos.passes >= 2) { gameOver = true; clockStop(); Snd.gong(); }
+  else clockStart(pos.toMove);
+  renderClocks();
+  return true;
+}
+function normalizeToBlack(valFromToMove, toMove) {
+  return toMove === BLACK ? valFromToMove : -valFromToMove;
+}
+async function aiMove() {
+  if (thinking || gameOver || !ready) return;
+  thinking = true;
+  const L = LEVELS[cfg.level];
+  setMsg('AI 생각 중…', 'think');
+  try {
+    let mv, wr, lead;
+    if (L.playouts === 0) {
+      const r = await nnEval(pos);
+      const legal = [];
+      for (let i = 0; i < NN; i++)
+        if (pos.stones[i] === EMPTY && i !== pos.ko && !isOwnEye(pos.stones, i, pos.toMove) && play(pos, i, pos.toMove)) legal.push(i);
+      const sm = softmaxMasked(r.policy, legal.length ? legal : [PASS]);
+      const top = legal.map(i => [sm[i], i]).sort((a, b) => b[0] - a[0]).slice(0, L.topN);
+      if (!top.length) mv = PASS;
+      else if (L.temp <= 0) mv = top[0][1];
+      else {
+        const w = top.map(t => Math.pow(t[0], 1 / L.temp));
+        const sum = w.reduce((a, b) => a + b, 0);
+        let x = Math.random() * sum, k = 0;
+        while (k < w.length - 1 && x > w[k]) { x -= w[k]; k++; }
+        mv = top[k][1];
+      }
+      wr = winrateOf(r.value); lead = r.lead;
+      if (pos.passes > 0 && lead > 0) mv = PASS;
+    } else {
+      const res = await searcher.search(pos, L.playouts, (i, t) => setMsg('AI 생각 중… ' + i + '/' + t, 'think'));
+      mv = res.moves[0].mv;
+      if (mv === PASS && !(pos.passes > 0 && res.lead > 0)) {
+        const alt = res.moves.find(m => m.mv !== PASS && m.n > 0);
+        if (alt) mv = alt.mv;
+      }
+      wr = res.winrate; lead = res.lead;
+      if (L.temp > 0 && moves.length < 12) {
+        const cands = res.moves.filter(m => m.n > 0).slice(0, L.topN);
+        if (cands.length) mv = cands[Math.floor(Math.random() * cands.length)].mv;
+      }
+    }
+    const toMove = pos.toMove;
+    curWinrate = toMove === BLACK ? wr : 1 - wr;
+    curLead = normalizeToBlack(lead, toMove);
+    if (!pushMove(mv, toMove)) pushMove(PASS, toMove);
+    updateBar(); draw();
+    if (curWinrate !== null && ((toMove === BLACK && curWinrate < 0.03) || (toMove === WHITE && curWinrate > 0.97))) {
+      setMsg('AI: 졌습니다. (기권) — ' + toGTP(mv), '');
+      gameOver = true; clockStop(); Snd.gong(); speak('졌습니다');
+    } else if (gameOver) {
+      setMsg('양측 착수포기 — 계가를 눌러 결과를 확인하세요.', '');
+    } else {
+      setMsg('AI: ' + toGTP(mv) + '  ·  두실 차례입니다.', '');
+    }
+  } catch (e) {
+    console.error(e);
+    setMsg('AI 오류: ' + e.message, 'err');
+  }
+  thinking = false;
+}
+function humanMove(mv) {
+  if (thinking || gameOver || !ready) return;
+  if (pos.toMove !== cfg.myColor) return;
+  if (mv !== PASS && (pos.stones[mv] !== EMPTY || mv === pos.ko)) { setMsg('그곳에는 둘 수 없습니다.', 'err'); return; }
+  if (!pushMove(mv, cfg.myColor)) { setMsg('착수금지 자리입니다.', 'err'); return; }
+  draw();
+  if (gameOver) { setMsg('양측 착수포기 — 계가를 눌러 결과를 확인하세요.', ''); return; }
+  setTimeout(aiMove, 60);
+}
+
+/* ---------------- 10. 입력 ---------------- */
+function hit(clientX, clientY) {
+  const r = cv.getBoundingClientRect();
+  const x = clientX - r.left, y = clientY - r.top;
+  const col = Math.round((x - pad) / cell), row = Math.round((y - pad) / cell);
+  if (col < 0 || row < 0 || col >= N || row >= N) return -1;
+  const i = row * N + col;
+  const dx = x - px(i), dy = y - py(i);
+  if (Math.sqrt(dx * dx + dy * dy) > cell * 0.62) return -1;
+  return i;
+}
+function onTapIdx(i) {
+  if (cfg.confirmTap) {
+    if (pendingTap === i) { pendingTap = -1; humanMove(i); }
+    else { pendingTap = i; draw(); }
+  } else humanMove(i);
+}
+function onTap(cx, cy) {
+  const i = hit(cx, cy);
+  if (i < 0) { pendingTap = -1; draw(); return; }
+  onTapIdx(i);
+}
+cv.addEventListener('pointerdown', e => { e.preventDefault(); Snd.init(); onTap(e.clientX, e.clientY); });
+document.addEventListener('pointerdown', () => Snd.init(), { once: true });
+
+/* ---------------- 11. 버튼 ---------------- */
+$('bUndo').onclick = () => {
+  if (thinking) { searcher.stop = true; return; }
+  if (!moves.length) return;
+  /* 상대의 마지막 수들을 먼저 지우고, 내 마지막 수 한 개를 지운다 → 다시 내 차례 */
+  while (moves.length && moves[moves.length - 1].color !== cfg.myColor) moves.pop();
+  if (moves.length) moves.pop();
+  const komi = pos.komi, mv = moves.slice();
+  pos = newPos(komi);
+  if (cfg.handicap >= 2) { for (const i of HANDICAP_PTS[cfg.handicap]) pos.stones[i] = BLACK; pos.toMove = WHITE; }
+  for (const m of mv) pos = play(pos, m.mv, m.color) || pos;
+  lastMove = mv.length ? mv[mv.length - 1].mv : -1;
+  gameOver = false; territory = null; hintMove = -1; pendingTap = -1;
+  clock.byoT[cfg.myColor] = cfg.byoSec; clock.spoken = -1;
+  clockStart(pos.toMove);
+  draw(); setMsg('무르기 완료 — 두실 차례입니다.', '');
+};
+$('bHint').onclick = async () => {
+  if (thinking || !ready || gameOver) return;
+  thinking = true; clockPause(); setMsg('훈수 계산 중…', 'think');
+  try {
+    const res = await searcher.search(pos, Math.max(16, LEVELS[cfg.level].playouts), (i, t) => setMsg('훈수 계산 중… ' + i + '/' + t, 'think'));
+    hintMove = res.moves[0].mv;
+    curWinrate = pos.toMove === BLACK ? res.winrate : 1 - res.winrate;
+    curLead = normalizeToBlack(res.lead, pos.toMove);
+    updateBar(); draw();
+    setMsg('추천: ' + toGTP(hintMove) + '   (2·3순위: ' + res.moves.slice(1, 3).map(m => toGTP(m.mv)).join(', ') + ')', '');
+  } catch (e) { setMsg('오류: ' + e.message, 'err'); }
+  thinking = false; clockResume();
+};
+$('bTerr').onclick = async () => {
+  if (thinking || !ready) return;
+  thinking = true; clockPause(); setMsg('형세 판단 중…', 'think');
+  try {
+    const r = await nnEval(pos);
+    const sign = pos.toMove === BLACK ? 1 : -1;
+    territory = new Float32Array(NN);
+    for (let i = 0; i < NN; i++) territory[i] = r.ownership[i] * sign;
+    curWinrate = pos.toMove === BLACK ? winrateOf(r.value) : 1 - winrateOf(r.value);
+    curLead = normalizeToBlack(r.lead, pos.toMove);
+    let tb = 0, tw = 0;
+    for (let i = 0; i < NN; i++) { if (territory[i] > 0) tb += territory[i]; else tw -= territory[i]; }
+    updateBar(); draw();
+    setMsg('예상 흑 ' + tb.toFixed(0) + ' · 백 ' + tw.toFixed(0) + '  (덤 ' + pos.komi + ' 포함 ' +
+      (curLead >= 0 ? '흑' : '백') + ' ' + Math.abs(curLead).toFixed(1) + '집 우세)', '');
+  } catch (e) { setMsg('오류: ' + e.message, 'err'); }
+  thinking = false; clockResume();
+};
+$('bPass').onclick = () => { if (!thinking && !gameOver) humanMove(PASS); };
+$('bNew').onclick = () => { if (!thinking) startNewGame(); };
+$('bScore').onclick = async () => {
+  if (thinking || !ready) return;
+  thinking = true; clockPause(); setMsg('계가 중…', 'think');
+  try {
+    const r = await nnEval(pos);
+    const sign = pos.toMove === BLACK ? 1 : -1;
+    const st = Int8Array.from(pos.stones);
+    for (let i = 0; i < NN; i++) {
+      if (!st[i]) continue;
+      const own = r.ownership[i] * sign;            /* + = 흑 소유 */
+      if (st[i] === BLACK && own < -0.55) st[i] = EMPTY;   /* 죽은 흑돌 */
+      if (st[i] === WHITE && own > 0.55) st[i] = EMPTY;    /* 죽은 백돌 */
+    }
+    const sc = areaScore(st, pos.komi);
+    const finished = gameOver || pos.passes >= 2;
+    territory = new Float32Array(NN);
+    if (finished) {
+      for (let i = 0; i < NN; i++) territory[i] = sc.owner[i] === BLACK ? 1 : sc.owner[i] === WHITE ? -1 : 0;
+      curLead = sc.score;
+      draw(); updateBar();
+      const w = sc.score > 0 ? '흑 ' + sc.score.toFixed(1) + '집 승' : '백 ' + Math.abs(sc.score).toFixed(1) + '집 승';
+      setMsg('계가: 흑 ' + sc.black + ' · 백 ' + sc.white + ' · 덤 ' + pos.komi + '  →  ' + w, '');
+    } else {
+      /* 미완국: 확정 집만으로는 의미가 없으므로 신경망 영역 추정을 쓴다 */
+      for (let i = 0; i < NN; i++) territory[i] = r.ownership[i] * sign;
+      curLead = normalizeToBlack(r.lead, pos.toMove);
+      curWinrate = pos.toMove === BLACK ? winrateOf(r.value) : 1 - winrateOf(r.value);
+      draw(); updateBar();
+      setMsg('아직 대국 중입니다 — 추정 계가: ' + (curLead >= 0 ? '흑' : '백') + ' ' +
+        Math.abs(curLead).toFixed(1) + '집 우세 (확정 계가는 양측 착수포기 후)', '');
+    }
+  } catch (e) { setMsg('오류: ' + e.message, 'err'); }
+  thinking = false;
+  if (!gameOver) clockResume();
+};
+$('bSgf').onclick = () => {
+  let s = '(;GM[1]FF[4]CA[UTF-8]SZ[19]KM[' + pos.komi + ']';
+  if (cfg.handicap >= 2) {
+    s += 'HA[' + cfg.handicap + ']AB';
+    for (const i of HANDICAP_PTS[cfg.handicap]) s += '[' + sgfCoord(i) + ']';
+  }
+  s += 'PB[' + (cfg.myColor === BLACK ? '나' : 'KataNet') + ']PW[' + (cfg.myColor === WHITE ? '나' : 'KataNet') + ']';
+  s += 'DT[' + new Date().toISOString().slice(0, 10) + ']AP[나의바둑친구]';
+  for (const m of moves) s += ';' + (m.color === BLACK ? 'B' : 'W') + '[' + sgfCoord(m.mv) + ']';
+  s += ')';
+  const blob = new Blob([s], { type: 'application/x-go-sgf' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'baduk_' + new Date().toISOString().slice(0, 16).replace(/[:T-]/g, '') + '.sgf';
+  a.click();
+  setMsg('기보를 저장했습니다.', '');
+};
+$('sgfFile').onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const txt = rd.result;
+      const km = /KM\[([\d.]+)\]/.exec(txt);
+      cfg.handicap = 0;
+      newGame();
+      if (km) pos.komi = parseFloat(km[1]);
+      const re = /;([BW])\[([a-s]{0,2})\]/g;
+      let m2;
+      while ((m2 = re.exec(txt))) {
+        const col = m2[1] === 'B' ? BLACK : WHITE;
+        const mv = m2[2] ? fromSgf(m2[2]) : PASS;
+        const np = play(pos, mv, col);
+        if (np) { pos = np; moves.push({ mv: mv, color: col }); lastMove = mv; }
+      }
+      draw(); setMsg('기보 ' + moves.length + '수를 불러왔습니다.', '');
+      $('panel').classList.remove('show');
+    } catch (er) { setMsg('SGF 읽기 실패: ' + er.message, 'err'); }
+  };
+  rd.readAsText(f);
+};
+for (const b of document.querySelectorAll('#viewRow button[data-v]'))
+  b.onclick = () => { cfg.camView = +b.dataset.v; B3.applyView(cfg.camView); markViewBtns(); };
+$('b2d3d').onclick = () => {
+  cfg.view3d = !cfg.view3d;
+  if (cfg.view3d && !B3.ok) {
+    if (!B3.init()) { cfg.view3d = false; setMsg('이 기기에서는 3D(WebGL)를 쓸 수 없어 2D로 표시합니다.', 'err'); }
+  }
+  $('b2d3d').textContent = cfg.view3d ? '2D' : '3D';
+  if (cfg.view3d) B3.updateTex();
+  layout(); markViewBtns();
+};
+/* ---------------- 11-c. 기권 / 나가기 ---------------- */
+$('bResign').onclick = () => {
+  if (thinking || gameOver || !moves.length) {
+    if (!moves.length) setMsg('아직 시작하지 않았습니다.', 'err');
+    return;
+  }
+  if (!confirm('기권하시겠습니까?')) return;
+  clockStop(); gameOver = true; Snd.gong();
+  speak('기권하셨습니다');
+  setMsg('🏳 ' + (cfg.myColor === BLACK ? '흑' : '백') + ' 기권 — ' +
+    (cfg.myColor === BLACK ? '백' : '흑') + ' 불계승', 'err');
+  draw();
+};
+$('bExit').onclick = () => {
+  if (moves.length && !gameOver && !confirm('대국 중입니다. 나가시겠습니까?')) return;
+  clockStop(); thinking = false; searcher.stop = true;
+  try { speechSynthesis.cancel(); } catch (e) {}
+  try { if (Snd.ctx) Snd.ctx.suspend(); } catch (e) {}
+  $('panel').classList.remove('show');
+  showGift(true);
+};
+
+/* ---------------- 11-d. 선물 문구 / 관리자 ---------------- */
+let admin = false, adminPw = '', personal = [];   /* personal: [{name, code, body}] */
+
+/* --- 암호화 도구 (AES-GCM + PBKDF2) --- */
+const b64 = u => btoa(String.fromCharCode.apply(null, u));
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+function hasCrypto() { return !!(window.crypto && crypto.subtle && crypto.subtle.deriveKey); }
+async function deriveKey(pass, salt) {
+  const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: salt, iterations: 120000, hash: 'SHA-256' },
+    km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+}
+async function encJSON(pass, obj) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(pass, salt);
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key,
+    new TextEncoder().encode(JSON.stringify(obj)));
+  return { s: b64(salt), i: b64(iv), c: b64(new Uint8Array(ct)) };
+}
+async function decJSON(pass, rec) {
+  const key = await deriveKey(pass, unb64(rec.s));
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(rec.i) }, key, unb64(rec.c));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+function newCode() {
+  const a = 'abcdefghjkmnpqrstuvwxyz23456789';
+  let s = '';
+  const r = crypto.getRandomValues(new Uint8Array(8));
+  for (let i = 0; i < 8; i++) s += a[r[i] % a.length];
+  return s;
+}
+async function sha256(s) {
+  if (!s) return '';
+  const b = new TextEncoder().encode(s);
+  const h = await crypto.subtle.digest('SHA-256', b);
+  return Array.from(new Uint8Array(h)).map(x => x.toString(16).padStart(2, '0')).join('');
+}
+let myNote = null;   /* 링크 코드로 열린 개인 문구 */
+function renderGift(farewell) {
+  $('gTitleV').textContent = GIFT.title || '나의 바둑친구';
+  $('gToV').textContent = myNote ? (myNote.name + ' 께') : (GIFT.to || '');
+  $('gBodyV').textContent = myNote ? myNote.body : (GIFT.body || '');
+  $('gFromV').textContent = GIFT.from || '';
+  $('gClose').textContent = farewell ? '창 닫기' : '바둑판으로';
+}
+/* 주소 뒤 #k=코드 를 읽어 그 사람 문구만 풀어 본다 */
+async function loadMyNote() {
+  const m = /[#&?]k=([a-z0-9]+)/i.exec(location.hash + location.search);
+  if (!m || !SECRETS.length || !hasCrypto()) return false;
+  const code = m[1];
+  let id = '';
+  try { id = (await sha256(code)).slice(0, 12); } catch (e) { return false; }
+  const rec = SECRETS.find(r => r.id === id);
+  if (!rec) return false;
+  try { myNote = await decJSON(code, rec); return true; }
+  catch (e) { return false; }
+}
+function showGift(farewell) {
+  renderGift(farewell);
+  $('gift').dataset.bye = farewell ? '1' : '';
+  $('gift').classList.add('show');
+}
+$('gClose').onclick = () => {
+  const bye = $('gift').dataset.bye === '1';
+  $('gift').classList.remove('show');
+  if (bye) {
+    window.close();
+    setTimeout(() => {
+      if (!document.hidden) {
+        $('gTitleV').textContent = '수고 많으셨습니다';
+        $('gBodyV').textContent = '브라우저가 자동으로 닫히지 않는 설정입니다.\n창(탭)을 직접 닫아 주십시오.';
+        $('gToV').textContent = ''; $('gFromV').textContent = '';
+        $('gClose').textContent = '다시 두기';
+        $('gift').dataset.bye = '';
+        $('gift').classList.add('show');
+      }
+    }, 400);
+  } else { clockResume(); }
+};
+$('admIn').onclick = async () => {
+  const pw = $('admPw').value;
+  const ok = GIFT.pwHash ? (await sha256(pw)) === GIFT.pwHash : true;
+  if (!ok) { $('admHint').textContent = '비밀번호가 맞지 않습니다.'; $('admHint').style.color = '#e8836a'; return; }
+  admin = true; adminPw = pw;
+  $('admLocked').style.display = 'none';
+  $('admOpen').style.display = 'block';
+  $('gTitle').value = GIFT.title; $('gTo').value = GIFT.to;
+  $('gBody').value = GIFT.body; $('gFrom').value = GIFT.from;
+  $('gOn').className = GIFT.on ? 'on' : '';
+  $('pBase').value = location.origin + location.pathname;
+  personal = [];
+  if (VAULT && pw && hasCrypto()) {
+    try { personal = await decJSON(pw, VAULT); }
+    catch (e) { $('admHint').textContent = '개인 문구 목록을 여는 데 실패했습니다.'; }
+  }
+  renderPList();
+};
+function renderPList() {
+  const h = $('pList');
+  if (!personal.length) { h.textContent = '아직 등록된 개인 문구가 없습니다.'; return; }
+  h.innerHTML = '';
+  personal.forEach((p, k) => {
+    const d = document.createElement('div');
+    d.style.cssText = 'display:flex;gap:6px;align-items:center;padding:4px 0;border-bottom:1px solid #2a221b';
+    d.innerHTML = '<b style="color:#c8b89e">' + p.name + '</b><span style="color:#7b6b58">' + p.code + '</span>';
+    const ed = document.createElement('button');
+    ed.textContent = '고치기'; ed.style.cssText = 'flex:0 0 60px;padding:4px;font-size:11px;margin-left:auto';
+    ed.onclick = () => { $('pName').value = p.name; $('pBody').value = p.body; personal.splice(k, 1); renderPList(); };
+    const rm = document.createElement('button');
+    rm.textContent = '삭제'; rm.style.cssText = 'flex:0 0 48px;padding:4px;font-size:11px';
+    rm.onclick = () => { personal.splice(k, 1); renderPList(); };
+    d.appendChild(ed); d.appendChild(rm);
+    h.appendChild(d);
+  });
+}
+$('pAdd').onclick = () => {
+  const n = $('pName').value.trim(), b = $('pBody').value.trim();
+  if (!n || !b) { $('admHint').textContent = '이름과 말씀을 모두 적어 주십시오.'; return; }
+  personal.push({ name: n, code: newCode(), body: b });
+  $('pName').value = ''; $('pBody').value = '';
+  renderPList();
+};
+$('pClear').onclick = () => { $('pName').value = ''; $('pBody').value = ''; };
+$('pLinks').onclick = () => {
+  const base = ($('pBase').value || '').trim().replace(/#.*$/, '');
+  if (!base) { $('admHint').textContent = '배포 주소를 적어 주십시오.'; return; }
+  $('pOut').value = personal.map(p => p.name + '\n' + base + '#k=' + p.code).join('\n\n');
+  $('pOut').select();
+  try { document.execCommand('copy'); } catch (e) {}
+};
+function collectGift() {
+  GIFT.title = $('gTitle').value; GIFT.to = $('gTo').value;
+  GIFT.body = $('gBody').value; GIFT.from = $('gFrom').value;
+}
+$('gPrev').onclick = () => { collectGift(); $('panel').classList.remove('show'); showGift(false); };
+$('gOn').onclick = () => { GIFT.on = !GIFT.on; $('gOn').className = GIFT.on ? 'on' : ''; };
+$('gExport').onclick = async () => {
+  collectGift();
+  const newPw = $('gPw').value;
+  const hash = newPw ? await sha256(newPw) : GIFT.pwHash;
+  const esc = s => JSON.stringify(String(s == null ? '' : s));
+  const block = '/*GIFT_START*/\nconst GIFT = {\n' +
+    '  on: ' + (GIFT.on ? 'true' : 'false') + ',\n' +
+    '  title: ' + esc(GIFT.title) + ',\n' +
+    '  to: ' + esc(GIFT.to) + ',\n' +
+    '  body: ' + esc(GIFT.body) + ',\n' +
+    '  from: ' + esc(GIFT.from) + ',\n' +
+    '  pwHash: ' + esc(hash) + '\n};\n/*GIFT_END*/';
+  if (PRISTINE.indexOf('/*GIFT_START*/') < 0) { setMsg('원본을 찾지 못했습니다.', 'err'); return; }
+  let out = PRISTINE.replace(/\/\*GIFT_START\*\/[\s\S]*?\/\*GIFT_END\*\//, block);
+
+  /* 개인 문구: 각자의 코드로 암호화 + 전체 목록은 관리자 비밀번호로 잠가 보관 */
+  const pw = newPw || adminPw;
+  if (personal.length) {
+    if (!hasCrypto()) { setMsg('이 브라우저에서는 암호화를 쓸 수 없습니다.', 'err'); return; }
+    if (!pw) { $('admHint').textContent = '개인 문구를 쓰시려면 관리자 비밀번호를 먼저 정해 주십시오.'; return; }
+    const recs = [];
+    for (const p of personal) {
+      const r = await encJSON(p.code, { name: p.name, body: p.body });
+      r.id = (await sha256(p.code)).slice(0, 12);
+      recs.push(r);
+    }
+    const vault = await encJSON(pw, personal);
+    const sblock = '/*SECRETS_START*/\nconst SECRETS = ' + JSON.stringify(recs) + ';\n' +
+      'const VAULT = ' + JSON.stringify(vault) + ';\n/*SECRETS_END*/';
+    out = out.replace(/\/\*SECRETS_START\*\/[\s\S]*?\/\*SECRETS_END\*\//, sblock);
+  }
+  const blob = new Blob([out], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '나의바둑친구_선물본.html';
+  a.click();
+  $('admHint').textContent = '';
+  setMsg('선물용 파일을 저장했습니다. 이 파일을 나눠 주십시오.', '');
+};
+
+$('bCfg').onclick = () => { clockPause(); $('panel').classList.add('show'); };
+$('bClose').onclick = () => { $('panel').classList.remove('show'); layout(); updateBar(); renderClocks(); clockResume(); };
+
+/* ---------------- 11-b. 돌가르기 ---------------- */
+let ngGuess = null, ngCount = 0;
+function startNewGame() {
+  Snd.init();
+  if (!cfg.nigiri || cfg.handicap >= 2) { newGame(); return; }
+  clockStop();
+  $('ngStones').innerHTML = '';
+  $('ngGo').style.display = 'none';
+  $('ngBtns').style.display = 'none';
+  $('ngTitle').textContent = '돌가르기';
+  $('ngMsg').innerHTML = '상대가 백돌을 한 줌 쥡니다…';
+  $('ngBowl').classList.add('shake');
+  $('nigiri').classList.add('show');
+  Snd.shuffle(1.7);
+  setTimeout(() => {
+    $('ngBowl').classList.remove('shake');
+    $('ngMsg').innerHTML = '몇 개를 쥐었을까요?<br><b style="color:#ffcf8a">홀</b>인지 <b style="color:#ffcf8a">짝</b>인지 맞히면 흑을 잡습니다.';
+    $('ngBtns').style.display = 'flex';
+  }, 1750);
+}
+function nigiriGuess(g) {
+  ngGuess = g;
+  $('ngBtns').style.display = 'none';
+  ngCount = 1 + Math.floor(Math.random() * 17);
+  const isEven = (ngCount % 2 === 0);
+  const host = $('ngStones');
+  host.innerHTML = '';
+  Snd.init();
+  for (let i = 0; i < ngCount; i++) {
+    const d = document.createElement('div');
+    d.className = 'ngs';
+    d.style.animationDelay = (i * 0.055) + 's';
+    host.appendChild(d);
+    if (Snd.ctx) Snd.stone(Snd.now() + 0.05 + i * 0.055, 0.4, 1.0 + Math.random() * 0.5);
+  }
+  const win = (g === 'even') === isEven;
+  cfg.myColor = win ? BLACK : WHITE;
+  setTimeout(() => {
+    $('ngTitle').textContent = ngCount + '개 — ' + (isEven ? '짝' : '홀');
+    $('ngMsg').innerHTML = win
+      ? '<b style="color:#7ed957">맞히셨습니다.</b> 흑을 잡고 먼저 두십시오.'
+      : '<b style="color:#e8a33d">틀리셨습니다.</b> 백을 잡습니다. (덤 ' + cfg.komi + '집)';
+    speak(win ? '맞히셨습니다. 흑입니다' : '틀리셨습니다. 백입니다');
+    $('ngGo').style.display = 'block';
+  }, 150 + ngCount * 55);
+}
+$('ngOdd').onclick = () => nigiriGuess('odd');
+$('ngEven').onclick = () => nigiriGuess('even');
+$('ngGo').onclick = () => { $('nigiri').classList.remove('show'); newGame(); };
+
+/* ---------------- 12. 설정 UI ---------------- */
+function seg(host, items, get, set) {
+  host.innerHTML = '';
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    b.onclick = () => { set(it.value); render(); };
+    host.appendChild(b);
+    it._el = b;
+  });
+  function render() { items.forEach(it => it._el.className = (get() === it.value ? 'on' : '')); }
+  render();
+  return render;
+}
+seg($('segColor'), [{ label: '흑 (선)', value: BLACK }, { label: '백 (후)', value: WHITE }],
+  () => cfg.myColor, v => { cfg.myColor = v; });
+const lvlRender = seg($('segLevel'), LEVELS.map((l, i) => ({ label: l.name, value: i })),
+  () => cfg.level, v => { cfg.level = v; $('lvlHint').textContent = LEVELS[v].desc; updateBar(); });
+$('lvlHint').textContent = LEVELS[cfg.level].desc;
+seg($('segHcp'), [0, 2, 3, 4, 5, 6, 7, 8, 9].map(v => ({ label: v ? v + '점' : '호선', value: v })),
+  () => cfg.handicap, v => { cfg.handicap = v; });
+seg($('segKomi'), [{ label: '6.5', value: 6.5 }, { label: '7.5', value: 7.5 }, { label: '0.5', value: 0.5 }],
+  () => cfg.komi, v => { cfg.komi = v; });
+seg($('segMain'), [{ label: '없음', value: 0 }, { label: '5분', value: 5 }, { label: '10분', value: 10 },
+                   { label: '20분', value: 20 }, { label: '30분', value: 30 }],
+  () => cfg.useClock ? cfg.mainMin : -1,
+  v => { cfg.useClock = true; cfg.mainMin = v; renderClocks(); });
+seg($('segByo'), [20, 30, 40, 60].map(v => ({ label: v === 60 ? '1분' : v + '초', value: v })),
+  () => cfg.byoSec, v => { cfg.byoSec = v; renderClocks(); });
+seg($('segByoN'), [{ label: '1회', value: 1 }, { label: '3회', value: 3 }, { label: '5회', value: 5 },
+                   { label: '시계 끄기', value: -1 }],
+  () => cfg.useClock ? cfg.byoCount : -1,
+  v => { if (v === -1) { cfg.useClock = false; clockStop(); } else { cfg.useClock = true; cfg.byoCount = v; } renderClocks(); });
+const sndItems = [{ label: '효과음', value: 'sfx' }, { label: '음성 카운트', value: 'voice' },
+                  { label: '입체 음향', value: 'audio3d' }, { label: '단수 알림', value: 'atariVoice' },
+                  { label: '돌가르기', value: 'nigiri' }];
+(function () {
+  const host = $('segSnd');
+  host.innerHTML = '';
+  sndItems.forEach(it => {
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    b.onclick = () => {
+      Snd.init();
+      cfg[it.value] = !cfg[it.value];
+      if ((it.value === 'sfx' || it.value === 'audio3d') && cfg.sfx) Snd.place(180);
+      if (it.value === 'voice' && cfg.voice) {
+        if (!speak('음성 카운트를 켰습니다')) setMsg('이 브라우저에 한국어 음성이 없어 비프음으로만 알립니다.', 'err');
+      }
+      upd();
+    };
+    host.appendChild(b); it._el = b;
+  });
+  function upd() { sndItems.forEach(it => it._el.className = cfg[it.value] ? 'on' : ''); }
+  upd();
+})();
+(function () {
+  const sl = $('vol');
+  sl.value = Math.round(cfg.volume * 100);
+  $('volLbl').textContent = sl.value + '%';
+  const apply = () => {
+    Snd.init();
+    Snd.setVolume(+sl.value / 100);
+    $('volLbl').textContent = sl.value + '%';
+  };
+  sl.oninput = apply;
+  sl.onchange = () => { apply(); Snd.place(180); };
+})();
+const viewItems = [{ label: '좌표', value: 'coord' }, { label: '수순', value: 'num' }, { label: '두 번 눌러 착수', value: 'tap' }];
+(function () {
+  const host = $('segView');
+  host.innerHTML = '';
+  viewItems.forEach(it => {
+    const b = document.createElement('button');
+    b.textContent = it.label;
+    b.onclick = () => {
+      if (it.value === 'coord') cfg.showCoord = !cfg.showCoord;
+      if (it.value === 'num') cfg.showNum = !cfg.showNum;
+      if (it.value === 'tap') cfg.confirmTap = !cfg.confirmTap;
+      upd();
+      if (cfg.view3d && B3.ok) B3.updateTex();
+      layout();
+    };
+    host.appendChild(b); it._el = b;
+  });
+  function upd() {
+    viewItems[0]._el.className = cfg.showCoord ? 'on' : '';
+    viewItems[1]._el.className = cfg.showNum ? 'on' : '';
+    viewItems[2]._el.className = cfg.confirmTap ? 'on' : '';
+  }
+  upd();
+})();
+
+/* ---------------- 13. 시작 ---------------- */
+window.addEventListener('resize', layout);
+window.addEventListener('orientationchange', () => setTimeout(layout, 200));
+
+pos = newPos(6.5);
+if (cfg.view3d && !B3.init()) cfg.view3d = false;
+$('b2d3d').textContent = cfg.view3d ? '2D' : '3D';
+markViewBtns();
+layout();
+clockReset();
+
+(async function boot() {
+  const ov = $('overlay'), fill = $('barfill');
+  ov.classList.add('show');
+  if (location.protocol === 'file:') {
+    $('ovmsg').innerHTML = '처음 한 번만 약 12MB를 내려받습니다.<br>' +
+      '<span style="color:#e8a33d">※ 파일로 직접 여신 상태라 신경망이 기기에 저장되지 않습니다.<br>' +
+      '웹 주소(링크)로 여시면 한 번만 받고 이후엔 오프라인으로 동작합니다.</span>';
+  }
+  try {
+    const be = await loadModel((t, p) => { $('ovmsg').innerHTML = t; fill.style.width = p + '%'; });
+    ready = true;
+    ov.classList.remove('show');
+    setMsg('준비 완료 (' + be + '). 새 대국을 눌러 돌가르기부터 시작하세요.', '');
+    clockReset();
+    newGame();
+    const mine = await loadMyNote();
+    if (GIFT.on || mine) { clockPause(); showGift(false); }
+  } catch (e) {
+    console.error(e);
+    $('ovtitle').textContent = '신경망을 불러오지 못했습니다';
+    $('ovmsg').innerHTML = '인터넷 연결을 확인한 뒤 새로고침해 주세요.<br><br><small>' + e.message + '</small>';
+    $('bar').style.display = 'none';
+    $('ovbtn').style.display = 'block';
+    $('ovbtn').onclick = () => location.reload();
+  }
+})();
+window.__app = { get pos() { return pos; }, get thinking() { return thinking; }, get gameOver() { return gameOver; },
+  get moves() { return moves; }, humanMove, aiMove, nnEval, searcher, newGame, startNewGame, nigiriGuess,
+  get ready() { return ready; }, cfg, LEVELS, play, newPos, toGTP, areaScore, isOwnEye, encodeInputs, group,
+  clock, clockReset, clockStart, clockStop, clockTick, renderClocks, Snd, timeLoss,
+  B3, draw, layout, VIEWS, atariScan, announceAtari, onTapIdx,
+  GIFT, showGift, sha256, get PRISTINE() { return PRISTINE; }, get admin() { return admin; },
+  get personal() { return personal; }, get myNote() { return myNote; }, loadMyNote,
+  SECRETS, encJSON, decJSON, newCode, renderGift };
+</script>
+</body>
+</html>
