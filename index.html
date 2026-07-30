@@ -144,6 +144,21 @@ input[type=range]{accent-color:#e8a33d}
 #bar{width:min(320px,80vw);height:8px;background:#2a221b;border-radius:4px;overflow:hidden}
 #barfill{height:100%;width:0%;background:linear-gradient(90deg,#8a6330,#e8a33d);transition:width .2s}
 #ovbtn{display:none}
+
+/* ---- 홈 화면 ---- */
+#home{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 30%,#241a10,#120d08);z-index:70;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
+#home.show{display:flex}
+#homeTitle{font-size:26px;font-weight:800;color:#ffcf8a;letter-spacing:-.5px}
+#homeSub{font-size:13px;color:#bfae94}
+#homeGames{display:grid;grid-template-columns:repeat(2,minmax(130px,180px));gap:12px;margin-top:6px}
+.homeTile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 10px 14px;border-radius:14px;
+  background:linear-gradient(160deg,#2c2115,#1c150d);border:1px solid #4a3a26;color:#e6dccc;cursor:pointer;font-family:inherit}
+.homeTile:active{transform:scale(.97)}
+.homeTile .hIcon{font-size:34px;line-height:1}
+.homeTile b{font-size:16px;color:#ffcf8a}
+.homeTile small{font-size:11px;color:#a08c72;line-height:1.4}
+#jgbd{position:absolute;inset:0;touch-action:none}
 </style>
 </head>
 <body>
@@ -152,7 +167,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V2.80</span>
+    <span id="ver">V3.00</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -168,6 +183,7 @@ input[type=range]{accent-color:#e8a33d}
 <div id="boardwrap">
   <canvas id="bd" style="display:none"></canvas>
   <canvas id="bd3"></canvas>
+  <canvas id="jgbd" style="display:none"></canvas>
   <div id="overlay">
     <div id="ovtitle">신경망 불러오는 중</div>
     <div id="ovmsg">처음 한 번만 약 12MB를 내려받습니다.<br>이후에는 기기에 저장되어 오프라인으로 동작합니다.</div>
@@ -224,6 +240,7 @@ input[type=range]{accent-color:#e8a33d}
     <button id="bReview">복기</button>
     <button id="bSgf">기보저장</button>
     <button id="bCfg">설정</button>
+    <button id="bHome">홈</button>
     <button id="bExit">나가기</button>
   </div>
 </div>
@@ -243,6 +260,12 @@ input[type=range]{accent-color:#e8a33d}
     <button id="rvExit">복기 끝</button>
   </div>
 </div>
+
+<div id="home">
+  <div id="homeTitle">나의 바둑친구</div>
+  <div id="homeSub">연지아빠 · 아마 5단 — 무엇을 두시겠습니까?</div>
+  <div id="homeGames"></div>
+  <div style="font-size:11px;color:#7a6a54">© 2026 연지아빠</div>
 
 <div id="panel">
   <h3>설정</h3>
@@ -337,18 +360,18 @@ const PRISTINE = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
 /*GIFT_START*/
 const GIFT = {
-  on: true,
-  title: "나의 바둑친구",
-  to: "",
-  body: "심심할 때 즐겨 주세요.",
-  from: "",
-  pwHash: ""
+  on: false,                      /* 선물 문구 화면 사용 */
+  title: '',                      /* 큰 제목 */
+  to: '',                         /* 받는 분 */
+  body: '',                       /* 본문 (줄바꿈 가능) */
+  from: '',                       /* 보내는 사람 */
+  pwHash: ''                      /* 관리자 비밀번호 SHA-256 (빈 값이면 잠금 없음) */
 };
 /*GIFT_END*/
 
 /* 개인 문구 — 각자의 코드로 암호화되어 있어 링크 주인만 읽을 수 있다 */
 /*SECRETS_START*/
-const SECRETS = [{"s":"KzQ2LT73mTV+z6/KIijD0Q==","i":"2YwNXfwSUIY3X7hB","c":"+SoEcGx6ygCJEMssXlTdR8HMPivDi1A90o34Hz7cxw7YpGT34k4j4gYuSLbfPyHFmKryRUg4XJwVFGgii+6SQWjKXimUolkVtzMQ2O7TEI96VrFXmd9mp19KhInNqS7r0T3rUCzbRE6y/n0eRXl1q2CURp1rb6Qz9dAiWnEA3e/AxHxVifYmX2aC2EcMbT8g7/sQUB7CTcwHlg==","id":"77aab4f70c12"},{"s":"p5cpwOKwDXd/bAE+NNKicA==","i":"DFI/Bosx4ipq/soR","c":"sqVV9u/ZOxwZBUOZCwXQl2xBioC8PNLwsBINdIdlBrsUi2zLWWHF17q3tAT6nN1SrPQ+523oV1bRtPwfBOyjomywPTMyDwuFxoZicLPkOkdkDSCXrN+l834dsiOMXJwU/qESIVCXbWVPlPg20FwnJsWM8tCSNphJS+pK88XfARylXxTjon8JCsS4goTc8bKOtJ/crQiWE2b+jQ==","id":"77c4e7359f67"},{"s":"Y6uI+zxCuglfF14RSu2zqg==","i":"GnWwzpdMK4hwc+Ab","c":"k2m7d1cQYKJb+YhKmY6O0K4JlxrnyNeC9U6/QEYg+EyYfeh7A9rcqHfBUYxF49UbV1FQ5Ca13sFAznLgKF6xOBLxFcq017ClP0PtAPLPHA1IXGNSKCThulbRnEZqaijPfwe8LCKo2yTX/BVYffH6CoTULMFbkAnnYybcM+Z1oyBZKSrl8vC55LmAbIgOi2gDpsd+dGhMY4iZzw==","id":"04f6bd4d113f"},{"s":"oiBZIwt1qEqW0LxbOtICVA==","i":"A9sM8uB4ajMwilcM","c":"q3QBGlqINaiP2Zv6ZGsgmPRUQbDI+n1Awpp32GP37atHiyynfSo3KppIZAAe/dFMn0OBcBDYSR+oHzUQ0rDDpOQi/FJRciSvBQBu5GrIQ4Qql92wpYSyFXJRNTreZ/c1Puz8FvaUvw1zfG8YqbmfP2F1QJ9T7rWROYOWY6BAZXLZ2Y7ePRLUEiWlk1Xll7FIfEnmBeX8k1mVeg==","id":"1a672f9765f7"}];
+const SECRETS = [];
 const VAULT = null;
 /*SECRETS_END*/
 
@@ -646,8 +669,8 @@ function omokBest(stones, color, depth) {
 
 /* ================= 사활 문제 ================= */
 /* 완전탐색 솔버로 정답과 유일성을 확인한 것만 실었습니다 */
-const TSUMEGO = [{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,325,326,327,328,345,346,347],"a":343,"e":[342,343,344,323,324],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,345,346,347],"a":343,"e":[342,343,344,324,325],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,326,327,328,344,345,346,347],"a":324,"e":[342,343,323,324,325],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[305,306,307,308,309,326,327,328,343,344,345,346,347],"a":323,"e":[342,323,324,325,304],"pv":5},{"n":"중급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,342,346,347],"a":344,"e":[343,344,345,324,325],"pv":5},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[305,306,307,308,309,327,328,344,345,346,347],"a":304,"e":[342,343,323,324,325,326,304],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,326,327,328,342],"a":347,"e":[343,344,345,346,347,324,325],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,327,328,342],"a":344,"e":[343,344,345,346,347,325,326],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,326,327,342],"a":344,"e":[343,344,345,346,347,325,328],"pv":7},{"n":"중상급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,327,328,342,343],"a":347,"e":[344,345,346,347,324,325,326],"pv":7},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,326,327,328,342],"a":344,"e":[343,344,345,346,347,325],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,327,328,342,346,347],"a":325,"e":[343,344,345,324,325,326],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,325,328,342,343],"a":345,"e":[344,345,346,347,326,327],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,325,327,342,343],"a":345,"e":[344,345,346,347,326,328],"pv":9},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,310,329,348],"w":[304,305,306,307,308,309,323,324,328,342,343,347],"a":326,"e":[344,345,346,325,326,327],"pv":9}];
-let tsIdx = 0, tsTry = 0, tsSolved = lsGet('baduk_ts_v1', {});
+const TSUMEGO = [{"n":"상급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[285,286,288,304,305,306,307,323,325,326,327,328,342,343,344,345],"a":347,"pv":7},{"n":"상급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[285,286,287,288,289,304,305,306,307,308,324,325,342,343,344,345],"a":327,"pv":7},{"n":"고급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[285,286,287,288,304,305,306,307,324,325,342,343,344,345],"a":327,"pv":8},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,291,292,292,311,330,349],"w":[305,308,323,324,325,326,327,343,344,345,346],"a":329,"pv":8},{"n":"고급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[290,306,309,323,324,325,326,327,328,343,344,345,346,347],"a":289,"pv":8},{"n":"고급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[286,288,305,307,308,309,324,325,326,327,328,343,344,345,346,347],"a":287,"pv":8},{"n":"고급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[285,286,287,288,304,305,306,323,324,325,326,343,344,345,346],"a":308,"pv":8},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,291,292,292,311,330,349],"w":[306,307,308,309,325,326,327,344,345,346],"a":323,"pv":8},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,291,292,292,311,330,349],"w":[306,307,308,309,310,326,327,328,329,345,347,348],"a":324,"pv":8},{"n":"고급","q":"kill","b":[285,286,287,288,289,290,291,292,292,311,330,349],"w":[304,305,306,307,324,325,326,327,328,343,344,345],"a":347,"pv":8},{"n":"고급","q":"kill","b":[266,267,268,269,270,271,272,272,291,310,329,348],"w":[287,288,289,290,306,307,309,325,326,327,328,344,345,346,347],"a":323,"pv":8}];
+let tsIdx = 0, tsTry = 0, tsSolved = lsGet('baduk_ts_v2', {});
 /* 8가지 대칭 중 하나로 돌려서 같은 문제라도 매번 달라 보이게 */
 function tsSym(i, k) {
   let x = i % N, y = (i / N) | 0;
@@ -682,7 +705,7 @@ function tsGuess(mv) {
     pos.stones[mv] = pos.toMove;
     lastMove = mv; draw();
     Snd.place(mv);
-    tsSolved[String(tsIdx)] = 1; lsSet('baduk_ts_v1', tsSolved);
+    tsSolved[String(tsIdx)] = 1; lsSet('baduk_ts_v2', tsSolved);
     const n = Object.keys(tsSolved).length;
     setMsg('정답입니다.  (' + n + ' / ' + TSUMEGO.length + ' 풀었습니다)  잠시 뒤 다음 문제로 갑니다.', '');
     say('ngWin');
@@ -1363,6 +1386,7 @@ function renderClocks() {
   }
 }
 function timeLoss(side) {
+  if (cfg.game === 'janggi') { JGUI.finish(side !== BLACK, '시간패'); return; }
   clockStop();
   gameOver = true;
   Snd.gong();
@@ -2144,17 +2168,20 @@ function setMsg(t, kind) {
 }
 /* 놀이에 따라 버튼 이름을 바꾼다 */
 function relabel() {
-  const ts = cfg.game === 'tsumego';
+  const ts = cfg.game === 'tsumego' || cfg.game === 'jgmate';
+  const jg = cfg.game === 'janggi';
   $('bUndo').textContent = ts ? '이전 문제' : '무르기';
-  $('bPass').textContent = ts ? '다음 문제' : '착수포기';
+  $('bPass').textContent = ts ? '다음 문제' : (jg ? '한수쉼' : '착수포기');
   $('bHint').textContent = ts ? '첫 수 보기' : '훈수';
   $('bNew').textContent = ts ? '다시 풀기' : '새 대국';
   $('bResign').style.display = ts ? 'none' : '';
   $('bScore').style.display = (cfg.game === 'go') ? '' : 'none';
   $('bTerr').style.display = (cfg.game === 'go') ? '' : 'none';
   $('bReview').style.display = (cfg.game === 'go') ? '' : 'none';
+  $('bSgf').style.display = (cfg.game === 'go') ? '' : 'none';
 }
 function updateBar() {
+  if (cfg.game === 'janggi' || cfg.game === 'jgmate') { jgBar(); return; }
   if (cfg.game === 'tsumego') {
     $('wrblack').style.width = '50%'; $('wrwhite').style.width = '50%';
     const n = Object.keys(tsSolved).length;
@@ -2185,6 +2212,8 @@ function updateBar() {
 /* ---------------- 9. 대국 흐름 ---------------- */
 function newGame() {
   if (cfg.game === 'tsumego') { resultDone = false; lsDel(SAVE_KEY); tsLoad(tsIdx); return; }
+  if (cfg.game === 'janggi') { JGUI.newGame(); return; }
+  if (cfg.game === 'jgmate') { JGUI.loadPabo(JGUI.pbIdx); return; }
   const komi = (cfg.game === 'omok') ? 0 : (cfg.handicap > 0 ? 0.5 : cfg.komi);
   pos = newPos(komi);
   moves = []; lastMove = -1; gameOver = false; territory = null; hintMove = -1; pendingTap = -1;
@@ -2390,6 +2419,8 @@ document.addEventListener('touchstart', () => { Snd.init(); ttsUnlock(); }, { on
 /* ---------------- 11. 버튼 ---------------- */
 $('bUndo').onclick = () => {
   if (cfg.game === 'tsumego') { tsLoad(tsIdx - 1); return; }
+  if (cfg.game === 'jgmate') { JGUI.loadPabo(JGUI.pbIdx - 1); return; }
+  if (cfg.game === 'janggi') { JGUI.undo(); return; }
   if (thinking) { searcher.stop = true; return; }
   if (!moves.length) return;
   /* 상대의 마지막 수들을 먼저 지우고, 내 마지막 수 한 개를 지운다 → 다시 내 차례 */
@@ -2407,6 +2438,14 @@ $('bUndo').onclick = () => {
   speak('한 수 물렀습니다');
 };
 $('bHint').onclick = async () => {
+  if (cfg.game === 'jgmate') {
+    if (JGUI.busy) return;
+    if (JGUI.hist.length) { setMsg('이미 수순이 진행됐습니다. 계속 장군을 찾으십시오.', ''); return; }
+    JGUI.hintM = PABO[JGUI.pbIdx].a; JGUI.draw();
+    setMsg('첫 수는 ' + jgMoveName(JGUI.b, PABO[JGUI.pbIdx].a) + ' 입니다. 이후에도 매 수 장군이어야 합니다.', '');
+    return;
+  }
+  if (cfg.game === 'janggi') { JGUI.hint(); return; }
   if (thinking || !ready || gameOver) return;
   if (cfg.game === 'tsumego') { hintMove = tsAnswer; draw(); setMsg('첫 수는 ' + toGTP(tsAnswer) + ' 입니다. 이후 수순도 정확해야 잡힙니다.', ''); return; }
   if (cfg.game === 'omok') {
@@ -2448,9 +2487,20 @@ $('bTerr').onclick = async () => {
 };
 $('bPass').onclick = () => {
   if (cfg.game === 'tsumego') { tsLoad(tsIdx + 1); return; }
+  if (cfg.game === 'jgmate') { JGUI.loadPabo(JGUI.pbIdx + 1); return; }
+  if (cfg.game === 'janggi') { JGUI.pass(); return; }
   if (!thinking && !gameOver) humanMove(PASS);
 };
-$('bNew').onclick = () => { if (!thinking) startNewGame(); };
+$('bNew').onclick = () => {
+  if (cfg.game === 'janggi') { if (!JGUI.busy) JGUI.newGame(); return; }
+  if (cfg.game === 'jgmate') { if (!JGUI.busy) JGUI.loadPabo(JGUI.pbIdx); return; }
+  if (!thinking) startNewGame();
+};
+$('bHome').onclick = () => {
+  if (thinking || JGUI.busy) return;
+  gameOver = true; clockStop(); stopSay();
+  showHome();
+};
 $('bScore').onclick = async () => {
   if (thinking || !ready) return;
   if (cfg.game !== 'go') { setMsg('사활에서는 쓰지 않습니다.', 'err'); return; }
@@ -2737,6 +2787,7 @@ $('rvBad').onclick = () => {
 
 /* ---------------- 11-c. 기권 / 나가기 ---------------- */
 $('bResign').onclick = () => {
+  if (cfg.game === 'janggi') { if (!JGUI.over && confirm('기권하시겠습니까?')) JGUI.resign(); return; }
   if (thinking || gameOver || !moves.length) {
     if (!moves.length) setMsg('아직 시작하지 않았습니다.', 'err');
     return;
@@ -2750,7 +2801,8 @@ $('bResign').onclick = () => {
   draw();
 };
 $('bExit').onclick = () => {
-  if (moves.length && !gameOver && !confirm('대국 중입니다. 나가시겠습니까?')) return;
+  if (cfg.game === 'janggi' && JGUI.hist.length && !JGUI.over && !confirm('대국 중입니다. 나가시겠습니까?')) return;
+  if (cfg.game === 'go' && moves.length && !gameOver && !confirm('대국 중입니다. 나가시겠습니까?')) return;
   clockStop(); thinking = false; searcher.stop = true;
   try { speechSynthesis.cancel(); } catch (e) {}
   try { if (Snd.ctx) Snd.ctx.suspend(); } catch (e) {}
@@ -3010,6 +3062,987 @@ $('ngOdd').onclick = () => nigiriGuess('odd');
 $('ngEven').onclick = () => nigiriGuess('even');
 $('ngGo').onclick = () => { $('nigiri').classList.remove('show'); newGame(); };
 
+
+/* ================= 장기 엔진 소스 ================= */
+const JG_SRC = `/* ================= 장기 엔진 (규칙 + 탐색) =================
+   보드: 9열(x:0-8) x 10행(y:0-9). y=0이 위(한), y=9가 아래(초).
+   말: 대문자=초(아래, 선수), 소문자=한(위).
+   K=궁 A=사 R=차 C=포 H=마 E=상 P=졸/병
+   궁성: x 3~5, 초 y 7~9 / 한 y 0~2. 대각선은 궁성 모서리·중앙만.
+*/
+var JG = (function () {
+  var W = 9, H = 10, SZ = 90;
+  var ix = function (x, y) { return y * 9 + x; };
+  var inB = function (x, y) { return x >= 0 && x < 9 && y >= 0 && y < 10; };
+  var isCho = function (p) { return p >= 'A' && p <= 'Z'; };
+  var isHan = function (p) { return p >= 'a' && p <= 'z'; };
+  var mine = function (p, cho) { return p !== '.' && (cho ? isCho(p) : isHan(p)); };
+  var enemy = function (p, cho) { return p !== '.' && (cho ? isHan(p) : isCho(p)); };
+  // 궁성
+  var inPal = function (x, y, cho) { return x >= 3 && x <= 5 && (cho ? (y >= 7 && y <= 9) : (y >= 0 && y <= 2)); };
+  var inAnyPal = function (x, y) { return x >= 3 && x <= 5 && ((y >= 7 && y <= 9) || (y >= 0 && y <= 2)); };
+  // 궁성 대각선: 모서리4+중앙 에만 대각 이동선이 있다
+  var palDiag = function (x, y) {
+    if (!inAnyPal(x, y)) return false;
+    var yy = y >= 7 ? y - 7 : y;
+    return (x === 3 || x === 5) ? (yy === 0 || yy === 2) : (x === 4 && yy === 1);
+  };
+  // 초기 배치. 상마 차림: 'ms'=마상마상? 표기: 안쪽부터. 우리는 바깥부터 [b,c]로 좌우 각각.
+  // setup: {choL:'HE'|'EH', choR:..., hanL:..., hanR:...}  H=마 E=상 (왼쪽 벽에서 안쪽으로)
+  function initBoard(setup) {
+    setup = setup || { choL: 'EH', choR: 'HE', hanL: 'EH', hanR: 'HE' };  // 기본: 원앙마 아님, 많이 쓰는 마상상마
+    var b = [];
+    for (var i = 0; i < SZ; i++) b.push('.');
+    var back = function (l, r) { return ['R', l[0], l[1], 'A', '.', 'A', r[0], r[1], 'R']; };
+    var hb = back(setup.hanL, setup.hanR).map(function (c) { return c === '.' ? '.' : c.toLowerCase(); });
+    var cb = back(setup.choL, setup.choR);
+    for (var x = 0; x < 9; x++) { b[ix(x, 0)] = hb[x]; b[ix(x, 9)] = cb[x]; }
+    b[ix(4, 1)] = 'k'; b[ix(4, 8)] = 'K';
+    b[ix(1, 2)] = 'c'; b[ix(7, 2)] = 'c'; b[ix(1, 7)] = 'C'; b[ix(7, 7)] = 'C';
+    for (var x2 = 0; x2 <= 8; x2 += 2) { b[ix(x2, 3)] = 'p'; b[ix(x2, 6)] = 'P'; }
+    return b;
+  }
+  // ---------- 수 생성 ----------
+  // 마: 직1+대각1, 직선 칸이 비어야. 상: 직1+대각2, 경로 2칸 비어야.
+  var H_STEPS = [
+    [0, -1, 1, -2], [0, -1, -1, -2], [0, 1, 1, 2], [0, 1, -1, 2],
+    [1, 0, 2, -1], [1, 0, 2, 1], [-1, 0, -2, -1], [-1, 0, -2, 1]
+  ];
+  var E_STEPS = [
+    [0, -1, 1, -2, 2, -3], [0, -1, -1, -2, -2, -3], [0, 1, 1, 2, 2, 3], [0, 1, -1, 2, -2, 3],
+    [1, 0, 2, -1, 3, -2], [1, 0, 2, 1, 3, 2], [-1, 0, -2, -1, -3, -2], [-1, 0, -2, 1, -3, 2]
+  ];
+  var ORTH = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  // 궁성 대각 연결: from(x,y) -> to(x,y) 대각 한 칸이 유효한가
+  var diagOK = function (x1, y1, x2, y2) {
+    if (!inAnyPal(x1, y1) || !inAnyPal(x2, y2)) return false;
+    if (Math.abs(x1 - x2) !== 1 || Math.abs(y1 - y2) !== 1) return false;
+    return palDiag(x1, y1) && palDiag(x2, y2);
+  };
+  // moves: [from, to] 목록. cho 차례.
+  function genMoves(b, cho, capOnly) {
+    var out = [];
+    var push = function (f, t) {
+      var tp = b[t];
+      if (tp !== '.' && !enemy(tp, cho)) return;
+      if (capOnly && tp === '.') return;
+      out.push(f * 128 + t);
+    };
+    for (var y = 0; y < 10; y++) for (var x = 0; x < 9; x++) {
+      var f = ix(x, y), p = b[f];
+      if (p === '.' || !mine(p, cho)) continue;
+      var u = p.toUpperCase();
+      if (u === 'K' || u === 'A') {
+        for (var d = 0; d < 4; d++) {
+          var nx = x + ORTH[d][0], ny = y + ORTH[d][1];
+          if (inB(nx, ny) && inPal(nx, ny, cho)) push(f, ix(nx, ny));
+        }
+        for (var dx = -1; dx <= 1; dx += 2) for (var dy = -1; dy <= 1; dy += 2) {
+          var nx2 = x + dx, ny2 = y + dy;
+          if (inB(nx2, ny2) && inPal(nx2, ny2, cho) && diagOK(x, y, nx2, ny2)) push(f, ix(nx2, ny2));
+        }
+      } else if (u === 'R') {
+        for (var d2 = 0; d2 < 4; d2++) {
+          var cx = x, cy = y;
+          for (;;) {
+            cx += ORTH[d2][0]; cy += ORTH[d2][1];
+            if (!inB(cx, cy)) break;
+            var t = ix(cx, cy);
+            if (b[t] === '.') { if (!capOnly) out.push(f * 128 + t); continue; }
+            push(f, t); break;
+          }
+        }
+        // 궁성 대각 활주 (차는 궁성 안 대각선으로도 직선처럼)
+        if (palDiag(x, y)) {
+          for (var dd = 0; dd < 4; dd++) {
+            var vx = [1, 1, -1, -1][dd], vy = [1, -1, 1, -1][dd];
+            var px = x, py = y, steps = 0;
+            for (;;) {
+              if (!diagOK(px, py, px + vx, py + vy)) break;
+              px += vx; py += vy; steps++;
+              var t2 = ix(px, py);
+              if (b[t2] === '.') { if (!capOnly) out.push(f * 128 + t2); if (steps >= 2) break; continue; }
+              push(f, t2); break;
+            }
+          }
+        }
+      } else if (u === 'C') {
+        // 포: 정확히 하나의 포가 아닌 말을 넘어 이동/캡처. 포는 못 넘고 포는 못 잡는다.
+        for (var d3 = 0; d3 < 4; d3++) {
+          var cx3 = x, cy3 = y, jumped = false;
+          for (;;) {
+            cx3 += ORTH[d3][0]; cy3 += ORTH[d3][1];
+            if (!inB(cx3, cy3)) break;
+            var t3 = ix(cx3, cy3), q = b[t3];
+            if (!jumped) {
+              if (q === '.') continue;
+              if (q.toUpperCase() === 'C') break;   // 포는 못 넘음
+              jumped = true; continue;
+            }
+            if (q === '.') { if (!capOnly) out.push(f * 128 + t3); continue; }
+            if (q.toUpperCase() === 'C') break;      // 포는 못 잡음
+            push(f, t3); break;
+          }
+        }
+        // 궁성 대각: 모서리 포가 중앙에 말이 있으면 반대 모서리로
+        if (palDiag(x, y) && (x === 3 || x === 5)) {
+          var yy2 = y >= 7 ? y - 7 : y;
+          if (yy2 === 0 || yy2 === 2) {
+            var cxm = 4, cym = (y >= 7 ? 8 : 1);
+            var ox = x === 3 ? 5 : 3, oy = (yy2 === 0 ? (y >= 7 ? 9 : 2) : (y >= 7 ? 7 : 0));
+            var mid = b[ix(cxm, cym)];
+            if (mid !== '.' && mid.toUpperCase() !== 'C') {
+              var tt = ix(ox, oy), qq = b[tt];
+              if (qq === '.') { if (!capOnly) out.push(f * 128 + tt); }
+              else if (qq.toUpperCase() !== 'C' && enemy(qq, cho)) out.push(f * 128 + tt);
+            }
+          }
+        }
+      } else if (u === 'H') {
+        for (var s = 0; s < 8; s++) {
+          var st = H_STEPS[s];
+          var lx = x + st[0], ly = y + st[1];
+          if (!inB(lx, ly) || b[ix(lx, ly)] !== '.') continue;
+          var tx = x + st[2], ty = y + st[3];
+          if (inB(tx, ty)) push(f, ix(tx, ty));
+        }
+      } else if (u === 'E') {
+        for (var s2 = 0; s2 < 8; s2++) {
+          var st2 = E_STEPS[s2];
+          var l1x = x + st2[0], l1y = y + st2[1];
+          if (!inB(l1x, l1y) || b[ix(l1x, l1y)] !== '.') continue;
+          var l2x = x + st2[2], l2y = y + st2[3];
+          if (!inB(l2x, l2y) || b[ix(l2x, l2y)] !== '.') continue;
+          var tx2 = x + st2[4], ty2 = y + st2[5];
+          if (inB(tx2, ty2)) push(f, ix(tx2, ty2));
+        }
+      } else if (u === 'P') {
+        var fwd = cho ? -1 : 1;
+        var pd = [[0, fwd], [1, 0], [-1, 0]];
+        for (var s3 = 0; s3 < 3; s3++) {
+          var nx3 = x + pd[s3][0], ny3 = y + pd[s3][1];
+          if (inB(nx3, ny3)) push(f, ix(nx3, ny3));
+        }
+        // 궁성 안 대각 전진
+        for (var dx2 = -1; dx2 <= 1; dx2 += 2) {
+          var nx4 = x + dx2, ny4 = y + fwd;
+          if (inB(nx4, ny4) && diagOK(x, y, nx4, ny4)) push(f, ix(nx4, ny4));
+        }
+      }
+    }
+    return out;
+  }
+  function kingPos(b, cho) {
+    var k = cho ? 'K' : 'k';
+    for (var i = 0; i < SZ; i++) if (b[i] === k) return i;
+    return -1;
+  }
+  // sq가 byCho 쪽 말에게 공격받는가 — 표적 검사 (전체 수생성보다 훨씬 싸다)
+  function attacked(b, sq, byCho) {
+    var x = sq % 9, y = (sq / 9) | 0;
+    var his = function (p) { return p !== '.' && (byCho ? isCho(p) : isHan(p)); };
+    // 직선: 차 / 포(정확히 한 개의 비포 가림) / 인접 졸·왕·사
+    for (var d = 0; d < 4; d++) {
+      var dx = ORTH[d][0], dy = ORTH[d][1];
+      var cx = x + dx, cy = y + dy, dist = 1, screen = 0;
+      while (inB(cx, cy)) {
+        var p = b[ix(cx, cy)];
+        if (p !== '.') {
+          var u = p.toUpperCase();
+          if (screen === 0) {
+            if (his(p)) {
+              if (u === 'R') return true;
+              if (dist === 1) {
+                if (u === 'K' || u === 'A') { if (inAnyPal(x, y)) return true; }
+                if (u === 'P') {
+                  // 졸은 앞·옆 공격: 공격자 기준 전진 방향이 -dy(초는 -1)여야 세로 공격 성립
+                  var fwd = byCho ? -1 : 1;
+                  if (dy === -fwd || dy === 0 && dx !== 0 || dx !== 0 && dy === 0) {
+                    if (dx !== 0 || dy === -fwd) return true;
+                  }
+                }
+              }
+            }
+            if (u === 'C') break;          // 포는 가림도 못 되고 그 뒤는 포도 못 넘음
+            screen = 1;
+          } else {
+            if (his(p) && u === 'C') return true;
+            break;
+          }
+        }
+        cx += dx; cy += dy; dist++;
+      }
+    }
+    // 마 (역방향: 목적지에서 본 마 위치, 다리는 마 쪽에서 확인)
+    for (var s = 0; s < 8; s++) {
+      var st = H_STEPS[s];
+      var hx = x + st[2] * -1 + 0, hy = 0;   // placeholder (아래서 직접 계산)
+    }
+    // 마: sq를 공격하는 마는 sq에서 (±1,±2) 자리에 있고, 다리는 마에서 sq 쪽 직선 첫 칸
+    var HN = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]];
+    for (var i = 0; i < 8; i++) {
+      var mx = x + HN[i][0], my = y + HN[i][1];
+      if (!inB(mx, my)) continue;
+      var mp = b[ix(mx, my)];
+      if (!his(mp) || mp.toUpperCase() !== 'H') continue;
+      var lx = mx + (Math.abs(HN[i][0]) === 2 ? -HN[i][0] / 2 : 0);
+      var ly = my + (Math.abs(HN[i][1]) === 2 ? -HN[i][1] / 2 : 0);
+      if (b[ix(lx, ly)] === '.') return true;
+    }
+    // 상: (±2,±3)/(±3,±2) 자리, 다리 2개
+    var EN = [[2, 3], [-2, 3], [2, -3], [-2, -3], [3, 2], [3, -2], [-3, 2], [-3, -2]];
+    for (var j = 0; j < 8; j++) {
+      var ex = x + EN[j][0], ey = y + EN[j][1];
+      if (!inB(ex, ey)) continue;
+      var ep = b[ix(ex, ey)];
+      if (!his(ep) || ep.toUpperCase() !== 'E') continue;
+      var sx = EN[j][0] > 0 ? 1 : -1, sy = EN[j][1] > 0 ? 1 : -1;
+      var l1x, l1y, l2x, l2y;
+      if (Math.abs(EN[j][0]) === 2) { l1x = ex - sx * 0; l1y = ey - sy; l1x = ex; l2x = ex - sx; l2y = ey - sy * 2; l1y = ey - sy; }
+      else { l1x = ex - sx; l1y = ey; l2x = ex - sx * 2; l2y = ey - sy; }
+      // 위 계산이 꼬여서 명시적으로: 상이 (ex,ey)에서 (x,y)로 가는 경로
+      var ddx = x - ex, ddy = y - ey;   // (±2,±3) or (±3,±2)
+      var s1x = ex + (ddx === 0 ? 0 : (ddx > 0 ? (Math.abs(ddx) === 3 ? 1 : 0) : (Math.abs(ddx) === 3 ? -1 : 0)));
+      var s1y = ey + (ddy === 0 ? 0 : (ddy > 0 ? (Math.abs(ddy) === 3 ? 1 : 0) : (Math.abs(ddy) === 3 ? -1 : 0)));
+      // 첫 걸음은 직선(긴 축), 둘째부터 대각
+      var d2x = ex + (ddx > 0 ? (Math.abs(ddx) === 3 ? 2 : 1) : (ddx < 0 ? (Math.abs(ddx) === 3 ? -2 : -1) : 0));
+      var d2y = ey + (ddy > 0 ? (Math.abs(ddy) === 3 ? 2 : 1) : (ddy < 0 ? (Math.abs(ddy) === 3 ? -2 : -1) : 0));
+      if (b[ix(s1x, s1y)] === '.' && b[ix(d2x, d2y)] === '.') return true;
+    }
+    // 궁성 대각 공격: 차·포·졸·왕·사 (대각선상)
+    if (palDiag(x, y)) {
+      var DG = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+      for (var k = 0; k < 4; k++) {
+        var ax = x + DG[k][0], ay = y + DG[k][1];
+        if (!inB(ax, ay) || !diagOK(x, y, ax, ay)) continue;
+        var ap = b[ix(ax, ay)];
+        if (ap !== '.') {
+          if (his(ap)) {
+            var au = ap.toUpperCase();
+            if (au === 'K' || au === 'A' || au === 'R') return true;
+            if (au === 'P') { var pf = byCho ? -1 : 1; if (DG[k][1] === -pf) return true; }
+          }
+          // 대각 두 칸(포·차 활주): 중앙 경유
+          if (diagOK(ax, ay, ax + DG[k][0], ay + DG[k][1])) {
+            var bx = ax + DG[k][0], by = ay + DG[k][1];
+            var bp = b[ix(bx, by)];
+            if (ap.toUpperCase() !== 'C' && his(bp) && bp.toUpperCase() === 'C') return true;
+          }
+        } else {
+          // 빈 중앙 너머 차 활주
+          if (diagOK(ax, ay, ax + DG[k][0], ay + DG[k][1])) {
+            var bx2 = ax + DG[k][0], by2 = ay + DG[k][1];
+            var bp2 = b[ix(bx2, by2)];
+            if (his(bp2) && bp2.toUpperCase() === 'R') return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  // cho 왕이 공격받는가
+  function inCheck(b, cho) {
+    var kp = kingPos(b, cho);
+    if (kp < 0) return true;
+    return attacked(b, kp, !cho);
+  }
+  function makeMove(b, m) {
+    var f = (m / 128) | 0, t = m & 127;
+    var cap = b[t];
+    b[t] = b[f]; b[f] = '.';
+    return cap;
+  }
+  function unmake(b, m, cap) {
+    var f = (m / 128) | 0, t = m & 127;
+    b[f] = b[t]; b[t] = cap;
+  }
+  // 합법수 (자기 왕 노출 금지). 장기는 스테일메이트 없음 — 둘 수 없으면 한수쉼(패스) 가능
+  function legalMoves(b, cho) {
+    var ms = genMoves(b, cho, false), out = [];
+    for (var i = 0; i < ms.length; i++) {
+      var cap = makeMove(b, ms[i]);
+      if (!inCheck(b, cho) && !facing(b)) out.push(ms[i]);
+      unmake(b, ms[i], cap);
+    }
+    return out;
+  }
+  // 왕 대면(빅장 유발 수 금지 규칙으로 단순화: 대면을 만드는 수는 못 둔다)
+  function facing(b) {
+    var k1 = kingPos(b, true), k2 = kingPos(b, false);
+    if (k1 < 0 || k2 < 0) return false;
+    var x1 = k1 % 9, x2 = k2 % 9;
+    if (x1 !== x2) return false;
+    var y1 = (k1 / 9) | 0, y2 = (k2 / 9) | 0;
+    var lo = Math.min(y1, y2), hi = Math.max(y1, y2);
+    for (var y = lo + 1; y < hi; y++) if (b[ix(x1, y)] !== '.') return false;
+    return true;
+  }
+  // ---------- 평가 ----------
+  var VAL = { K: 0, A: 300, E: 300, H: 500, C: 700, R: 1300, P: 200 };
+  // 위치 가중 (초 기준, y=9 아래) — 졸 전진·차 줄·포 자리
+  function evalBoard(b) {
+    var s = 0;
+    for (var i = 0; i < SZ; i++) {
+      var p = b[i];
+      if (p === '.') continue;
+      var u = p.toUpperCase(), v = VAL[u];
+      var x = i % 9, y = (i / 9) | 0;
+      var bonus = 0;
+      if (u === 'P') {
+        var adv = isCho(p) ? (6 - y) : (y - 3);       // 전진 정도
+        if (adv > 0) bonus += adv * 22;
+        if (adv > 3) bonus += 30;
+        if (x >= 3 && x <= 5) bonus += 12;            // 중앙 졸
+      } else if (u === 'H' || u === 'E') {
+        if (x >= 2 && x <= 6 && y >= 2 && y <= 7) bonus += 25;
+      } else if (u === 'R') {
+        bonus += 10;
+      } else if (u === 'C') {
+        if (x === 4) bonus += 20;
+      } else if (u === 'A') {
+        var hy = isCho(p) ? 8 : 1;
+        if (y === hy && x === 4) bonus += 15;
+      }
+      s += isCho(p) ? (v + bonus) : -(v + bonus);
+    }
+    return s;   // 초 유리 = 양수
+  }
+  // ---------- 탐색 (알파베타 + 반복심화 + TT + 정지탐색) ----------
+  var TT = new Map();
+  function bkey(b, cho) { return (cho ? 'c' : 'h') + b.join(''); }
+  var nodes = 0, stopAt = 0, aborted = false;
+  function qsearch(b, cho, alpha, beta, depth) {
+    nodes++;
+    if ((nodes & 1023) === 0 && Date.now() > stopAt) { aborted = true; return 0; }
+    var stand = cho ? evalBoard(b) : -evalBoard(b);
+    if (stand >= beta) return beta;
+    if (stand > alpha) alpha = stand;
+    if (depth <= -6) return alpha;
+    var ms = genMoves(b, cho, true);
+    // MVV 정렬
+    ms.sort(function (a, c) { return (VAL[b[c & 127].toUpperCase()] || 0) - (VAL[b[a & 127].toUpperCase()] || 0); });
+    for (var i = 0; i < ms.length; i++) {
+      var cap = makeMove(b, ms[i]);
+      if (inCheck(b, cho) || facing(b)) { unmake(b, ms[i], cap); continue; }
+      var v = -qsearch(b, !cho, -beta, -alpha, depth - 1);
+      unmake(b, ms[i], cap);
+      if (aborted) return 0;
+      if (v >= beta) return beta;
+      if (v > alpha) alpha = v;
+    }
+    return alpha;
+  }
+  var MATE = 100000;
+  function alphabeta(b, cho, depth, alpha, beta, ply) {
+    nodes++;
+    if ((nodes & 1023) === 0 && Date.now() > stopAt) { aborted = true; return 0; }
+    if (depth <= 0) return qsearch(b, cho, alpha, beta, 0);
+    var key = bkey(b, cho);
+    var tte = TT.get(key);
+    var ttMove = -1;
+    if (tte && tte.d >= depth) {
+      if (tte.f === 0) return tte.v;
+      if (tte.f === 1 && tte.v >= beta) return tte.v;
+      if (tte.f === 2 && tte.v <= alpha) return tte.v;
+    }
+    if (tte) ttMove = tte.m;
+    var ms = genMoves(b, cho, false);
+    // 정렬: TT수 > 캡처 MVV-LVA > 나머지
+    var scored = [];
+    for (var i = 0; i < ms.length; i++) {
+      var m = ms[i], sc = 0;
+      if (m === ttMove) sc = 1e9;
+      else {
+        var vic = b[m & 127];
+        if (vic !== '.') sc = 1e6 + (VAL[vic.toUpperCase()] || 0) * 10 - (VAL[b[(m / 128) | 0].toUpperCase()] || 0);
+      }
+      scored.push([sc, m]);
+    }
+    scored.sort(function (a, c) { return c[0] - a[0]; });
+    var inChk = inCheck(b, cho);
+    // 널무브 가지치기: 장군 아니고 깊이 충분하면 한 수 쉬어 보고도 베타를 넘으면 컷
+    if (!inChk && depth >= 3 && beta < MATE - 500) {
+      var vN = -alphabeta(b, !cho, depth - 3, -beta, -beta + 1, ply + 1);
+      if (!aborted && vN >= beta) return beta;
+    }
+    var best = -Infinity, bestM = -1, legal = 0, a0 = alpha;
+    for (var j = 0; j < scored.length; j++) {
+      var mv = scored[j][1];
+      var cap = makeMove(b, mv);
+      if (inCheck(b, cho) || facing(b)) { unmake(b, mv, cap); continue; }
+      legal++;
+      var ext = inChk ? 1 : 0;                      // 장군 받는 중이면 연장
+      var nd = depth - 1 + ext;
+      var v;
+      if (legal <= 3 || cap !== '.' || inChk || nd <= 1) {
+        v = -alphabeta(b, !cho, nd, -beta, -alpha, ply + 1);
+      } else {
+        // LMR: 뒤쪽 조용한 수는 얕게 먼저
+        v = -alphabeta(b, !cho, nd - 1, -alpha - 1, -alpha, ply + 1);
+        if (!aborted && v > alpha) v = -alphabeta(b, !cho, nd, -beta, -alpha, ply + 1);
+      }
+      unmake(b, mv, cap);
+      if (aborted) return 0;
+      if (v > best) { best = v; bestM = mv; }
+      if (v > alpha) alpha = v;
+      if (alpha >= beta) break;
+    }
+    if (legal === 0) {
+      // 장기: 둘 수 없거나 두면 다 죽는 상황 → 장군이면 외통패, 아니면 한수쉼
+      if (inCheck(b, cho)) return -MATE + ply;
+      var vPass = -alphabeta(b, !cho, depth - 1, -beta, -alpha, ply + 1);
+      return vPass;
+    }
+    var flag = best <= a0 ? 2 : (best >= beta ? 1 : 0);
+    if (TT.size > 300000) TT.clear();
+    TT.set(key, { d: depth, v: best, f: flag, m: bestM });
+    return best;
+  }
+  // 사고: timeMs 안에서 반복심화. 반환 {move, score, depth, nodes}
+  function think(b0, cho, timeMs, maxDepth) {
+    var b = b0.slice();
+    TT.clear(); nodes = 0; aborted = false;
+    stopAt = Date.now() + timeMs;
+    var lm = legalMoves(b, cho);
+    if (!lm.length) return { move: -1, score: inCheck(b, cho) ? -MATE : 0, depth: 0, nodes: 0 };
+    var bestM = lm[0], bestV = 0, lastDepth = 0;
+    for (var d = 2; d <= (maxDepth || 10); d++) {
+      var alpha = -Infinity, curBest = -Infinity, curM = bestM;
+      // 이전 최선 먼저
+      var order = [bestM].concat(lm.filter(function (m) { return m !== bestM; }));
+      for (var i = 0; i < order.length; i++) {
+        var cap = makeMove(b, order[i]);
+        var v = -alphabeta(b, !cho, d - 1, -Infinity, -alpha, 1);
+        unmake(b, order[i], cap);
+        if (aborted) break;
+        if (v > curBest) { curBest = v; curM = order[i]; }
+        if (v > alpha) alpha = v;
+      }
+      if (aborted) break;
+      bestM = curM; bestV = curBest; lastDepth = d;
+      if (bestV > MATE - 200) break;   // 외통 발견
+    }
+    return { move: bestM, score: bestV, depth: lastDepth, nodes: nodes };
+  }
+  // 외통 판정: cho가 둘 합법수 없고 장군
+  function isMate(b, cho) { return legalMoves(b, cho).length === 0 && inCheck(b, cho); }
+  return {
+    W: W, H: H, SZ: SZ, ix: ix, initBoard: initBoard, genMoves: genMoves, legalMoves: legalMoves,
+    inCheck: inCheck, facing: facing, makeMove: makeMove, unmake: unmake, evalBoard: evalBoard,
+    think: think, isMate: isMate, kingPos: kingPos, isCho: isCho, VAL: VAL, MATE: MATE
+  };
+})();
+
+
+/* 박보용: 초가 plies 안에 연장군 강제외통 가능한가. 한 차례 국면이면 응수 포함 판정 */
+JG.mateProbe = function (b0, plies) {
+  var b = b0.slice();
+  function mateSearch(bb, pl) {
+    var lm = JG.legalMoves(bb, true), firsts = [];
+    for (var i = 0; i < lm.length; i++) {
+      var m = lm[i], cap = JG.makeMove(bb, m);
+      if (!JG.inCheck(bb, false)) { JG.unmake(bb, m, cap); continue; }
+      if (JG.legalMoves(bb, false).length === 0) { firsts.push({ m: m, d: 1 }); JG.unmake(bb, m, cap); continue; }
+      if (pl >= 3) { var d = allMated(bb, pl - 2); if (d > 0) firsts.push({ m: m, d: d + 2 }); }
+      JG.unmake(bb, m, cap);
+    }
+    return firsts;
+  }
+  function allMated(bb, pl) {
+    var rs = JG.legalMoves(bb, false), worst = 0;
+    for (var i = 0; i < rs.length; i++) {
+      var cap = JG.makeMove(bb, rs[i]);
+      var fs = mateSearch(bb, pl);
+      JG.unmake(bb, rs[i], cap);
+      if (!fs.length) return 0;
+      var best = 1e9;
+      for (var j = 0; j < fs.length; j++) if (fs[j].d < best) best = fs[j].d;
+      if (best > worst) worst = best;
+    }
+    return rs.length ? worst : 0;
+  }
+  /* 지금은 한 차례: 모든 응수가 (plies-?)에 잡히면 forced. 최장저항 응수 반환 */
+  var rs = JG.legalMoves(b, false);
+  if (!rs.length) return { forced: true, reply: -1 };
+  var bestReply = -1, worstD = -1, forced = true;
+  for (var i = 0; i < rs.length; i++) {
+    var cap = JG.makeMove(b, rs[i]);
+    var fs = mateSearch(b, plies - 1);
+    JG.unmake(b, rs[i], cap);
+    if (!fs.length) { forced = false; bestReply = rs[i]; break; }
+    var best = 1e9;
+    for (var j = 0; j < fs.length; j++) if (fs[j].d < best) best = fs[j].d;
+    if (best > worstD) { worstD = best; bestReply = rs[i]; }
+  }
+  return { forced: forced, reply: bestReply };
+};
+`;
+const PABO = [{"b":".....a..........R.....k.........P.....................................................K...","d":9,"a":4127},{"b":"...a..R...............k..h.H..........................................................K...","d":9,"a":792},{"b":".............k..................P..................R................................K.....","d":9,"a":6543},{"b":"...k...............H.a..........P..R................................................K.....","d":7,"a":4488},{"b":".............k......P......H.........R..............................................K.....","d":7,"a":2581},{"b":"......h.R..P.a.........k......................R.....................................K.....","d":7,"a":5938},{"b":"............k..P...................................R..................................K...","d":7,"a":6576},{"b":".............k.....h..a..............R.....R........................................K.....","d":9,"a":5520},{"b":".H.c.........k.....................................R..................................K...","d":7,"a":148},{"b":".P..k.........................C...R..............H....................................K...","d":7,"a":4359},{"b":"...........P..k...P..........R.......c..............................................K.....","d":7,"a":3744},{"b":"....k...H.R................P...............r..........................................K...","d":9,"a":1039},{"b":"...............R.....k.................P..............................................K...","d":7,"a":5022},{"b":".....PH..............k...............R............P...................................K...","d":9,"a":4755},{"b":"...k..........................P.P..............P....R...............................K.....","d":7,"a":6663},{"b":"...................P..k......R.......p.c..............................................K...","d":9,"a":3743},{"b":"...a....CH............k............R.....p...C......................................K.....","d":9,"a":4506},{"b":"....a.C.....k.............r.........R..C.....H........................................K...","d":9,"a":4617},{"b":".....k.....P...........C.........R........H...........................................K...","d":11,"a":4230},{"b":".............k...H.....a...........P............R...H.................................K...","d":9,"a":2182},{"b":"............pk.......a............R.......P........P..................................K...","d":7,"a":4368},{"b":".P..ka............R......................P..R.........................................K...","d":7,"a":2326},{"b":".....................k..P...................R.......H.................................K...","d":7,"a":5671},{"b":"......................k......C.C.....R.............H................................K.....","d":7,"a":4755},{"b":"...a.........k....................R.H........P........................................K...","d":7,"a":4368},{"b":".....k.C........................P........R.........P..................................K...","d":7,"a":4127},{"b":"...k................P...............R.................................................K...","d":7,"a":4608},{"b":"...........P..k...H..............................R..................................K.....","d":7,"a":6322},{"b":"..H....................k.................PCc..........................................K...","d":7,"a":5280},{"b":"....k..P.........C..........H.c.......R.c...........................................K.....","d":11,"a":3595}];
+/* ================= 장기 (Janggi) ================= */
+/* 엔진 소스는 문자열로 갖고 있다가 (1) 메인에서 평가해 규칙 검사에 쓰고
+   (2) Web Worker로 띄워 수읽기를 돌린다 — 화면이 멈추지 않는다. */
+const JG = new Function(JG_SRC + '; return JG;')();
+let jgWorker = null;
+function jgMakeWorker() {
+  try {
+    const src = JG_SRC + ';\n' +
+      'onmessage = function(e){ var d = e.data;\n' +
+      '  if (d.op === "think") { var r = JG.think(d.b, d.cho, d.ms, d.maxD); postMessage({ id: d.id, r: r }); }\n' +
+      '  else if (d.op === "mate") { var r2 = JG.mateProbe(d.b, d.plies); postMessage({ id: d.id, r: r2 }); }\n' +
+      '};';
+    return new Worker(URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
+  } catch (e) { return null; }
+}
+let jgReqId = 0, jgWaiters = {};
+function jgAsk(msg) {
+  if (!jgWorker) jgWorker = jgMakeWorker();
+  if (!jgWorker) {   /* 워커 불가 → 동기 폴백 */
+    return Promise.resolve(msg.op === 'think' ? JG.think(msg.b, msg.cho, msg.ms, msg.maxD)
+                                              : JG.mateProbe(msg.b, msg.plies));
+  }
+  return new Promise((res) => {
+    const id = ++jgReqId;
+    jgWaiters[id] = res;
+    jgWorker.onmessage = (e) => { const w = jgWaiters[e.data.id]; delete jgWaiters[e.data.id]; if (w) w(e.data.r); };
+    jgWorker.postMessage(Object.assign({ id: id }, msg));
+  });
+}
+
+/* ---------------- 장기판 UI ---------------- */
+const JGUI = {
+  b: null, sel: -1, legal: [], hist: [], over: false, myTurn: true, busy: false,
+  lastFrom: -1, lastTo: -1, hintM: -1,
+  pabo: false, pbIdx: 0, pbTry: 0, pbLeft: 0, pbSolved: lsGet('jg_pb_v1', {}),
+  cv: null, ctx: null, geo: null, _wired: false,
+  enter(mode) {
+    this.pabo = (mode === 'jgmate');
+    this.cv = $('jgbd'); this.ctx = this.cv.getContext('2d');
+    if (!this._wired) { this._wire(); this._wired = true; }
+    if (this.pabo) this.loadPabo(this.pbIdx); else this.newGame();
+  },
+  _wire() {
+    const cv = this.cv;
+    cv.addEventListener('pointerdown', (e) => {
+      e.preventDefault(); Snd.init(); ttsUnlock(); stopSay();
+      const r = cv.getBoundingClientRect();
+      this.tap(e.clientX - r.left, e.clientY - r.top);
+    });
+    window.addEventListener('resize', () => { if (cfg.game === 'janggi' || cfg.game === 'jgmate') this.layout(); });
+  },
+  layout() {
+    const wrap = $('boardwrap');
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.cv.width = w * dpr; this.cv.height = h * dpr;
+    this.cv.style.width = w + 'px'; this.cv.style.height = h + 'px';
+    const cell = Math.min(w / 9.6, h / 10.6);
+    const bw = cell * 8, bh = cell * 9;
+    this.geo = { dpr, cell, x0: (w - bw) / 2, y0: (h - bh) / 2 };
+    this.draw();
+  },
+  px(x, y) { const g = this.geo; return [g.x0 + x * g.cell, g.y0 + y * g.cell]; },
+  draw() {
+    if (!this.geo) this.layout();
+    if (!this.b) return;
+    const g = this.geo, c = this.ctx, dpr = g.dpr;
+    c.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c.clearRect(0, 0, this.cv.width, this.cv.height);
+    /* 나무판 */
+    const [bx, by] = this.px(0, 0), [ex, ey] = this.px(8, 9);
+    const pad = g.cell * 0.55;
+    const grd = c.createLinearGradient(bx, by, ex, ey);
+    grd.addColorStop(0, '#c99b52'); grd.addColorStop(0.5, '#b98a43'); grd.addColorStop(1, '#a97c3a');
+    c.fillStyle = grd;
+    c.beginPath();
+    if (c.roundRect) c.roundRect(bx - pad, by - pad, (ex - bx) + pad * 2, (ey - by) + pad * 2, 10);
+    else c.rect(bx - pad, by - pad, (ex - bx) + pad * 2, (ey - by) + pad * 2);
+    c.fill();
+    c.strokeStyle = 'rgba(60,35,10,.55)'; c.lineWidth = 2.5; c.stroke();
+    /* 줄 */
+    c.strokeStyle = '#3a2a14'; c.lineWidth = 1.2;
+    for (let x = 0; x < 9; x++) { const [x1, y1] = this.px(x, 0), [x2, y2] = this.px(x, 9); c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+    for (let y = 0; y < 10; y++) { const [x1, y1] = this.px(0, y), [x2, y2] = this.px(8, y); c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke(); }
+    /* 궁성 대각선 */
+    for (const [cx2, cy2] of [[4, 1], [4, 8]]) {
+      const [x1, y1] = this.px(cx2 - 1, cy2 - 1), [x2, y2] = this.px(cx2 + 1, cy2 + 1);
+      const [x3, y3] = this.px(cx2 + 1, cy2 - 1), [x4, y4] = this.px(cx2 - 1, cy2 + 1);
+      c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.moveTo(x3, y3); c.lineTo(x4, y4); c.stroke();
+    }
+    /* 마지막 수 표시 */
+    for (const q of [this.lastFrom, this.lastTo]) {
+      if (q < 0) continue;
+      const [qx, qy] = this.px(q % 9, (q / 9) | 0);
+      c.fillStyle = 'rgba(255,207,138,.30)';
+      c.beginPath(); c.arc(qx, qy, g.cell * 0.46, 0, 7); c.fill();
+    }
+    /* 훈수 표시 */
+    if (this.hintM >= 0) {
+      const f = (this.hintM / 128) | 0, t = this.hintM & 127;
+      const [fx, fy] = this.px(f % 9, (f / 9) | 0), [tx, ty] = this.px(t % 9, (t / 9) | 0);
+      c.strokeStyle = 'rgba(120,220,120,.9)'; c.lineWidth = 3;
+      c.beginPath(); c.moveTo(fx, fy); c.lineTo(tx, ty); c.stroke();
+      c.beginPath(); c.arc(tx, ty, g.cell * 0.5, 0, 7); c.stroke();
+    }
+    /* 말 */
+    const F = Math.round(g.cell * 0.52);
+    const NAME = { K: '楚', A: '士', R: '車', C: '包', H: '馬', E: '象', P: '卒',
+                   k: '漢', a: '士', r: '車', c: '包', h: '馬', e: '象', p: '兵' };
+    for (let i = 0; i < 90; i++) {
+      const p = this.b[i];
+      if (p === '.') continue;
+      const cho = JG.isCho(p);
+      const [x, y] = this.px(i % 9, (i / 9) | 0);
+      const big = (p === 'K' || p === 'k');
+      const R = g.cell * (big ? 0.47 : 0.40);
+      c.save();
+      c.translate(x, y);
+      c.beginPath();
+      for (let k = 0; k < 8; k++) {
+        const a = Math.PI / 8 + k * Math.PI / 4;
+        const px2 = Math.cos(a) * R, py2 = Math.sin(a) * R;
+        if (k) c.lineTo(px2, py2); else c.moveTo(px2, py2);
+      }
+      c.closePath();
+      const pg = c.createRadialGradient(-R * 0.3, -R * 0.3, R * 0.2, 0, 0, R * 1.1);
+      pg.addColorStop(0, '#f7ecd7'); pg.addColorStop(1, '#d9c8a4');
+      c.fillStyle = pg; c.fill();
+      c.lineWidth = 2; c.strokeStyle = cho ? '#1c5c2e' : '#8a1a1a'; c.stroke();
+      c.fillStyle = cho ? '#155c2b' : '#a01212';
+      c.font = '700 ' + (big ? Math.round(F * 1.12) : F) + 'px "Noto Serif KR", serif';
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillText(NAME[p], 0, big ? 1 : 0.5);
+      c.restore();
+      if (i === this.sel) {
+        c.strokeStyle = '#ffcf8a'; c.lineWidth = 3;
+        c.beginPath(); c.arc(x, y, R + 4, 0, 7); c.stroke();
+      }
+    }
+    /* 이동 가능 점 */
+    c.fillStyle = 'rgba(255,207,138,.85)';
+    for (const m of this.legal) {
+      const t = m & 127;
+      const [x, y] = this.px(t % 9, (t / 9) | 0);
+      const occupied = this.b[t] !== '.';
+      if (occupied) { c.strokeStyle = 'rgba(255,110,90,.95)'; c.lineWidth = 3; c.beginPath(); c.arc(x, y, g.cell * 0.44, 0, 7); c.stroke(); }
+      else { c.beginPath(); c.arc(x, y, g.cell * 0.13, 0, 7); c.fill(); }
+    }
+  },
+  /* ---------------- 대국 ---------------- */
+  newGame() {
+    this.b = JG.initBoard();
+    this.sel = -1; this.legal = []; this.hist = []; this.over = false; this.myTurn = true;
+    this.busy = false; this.lastFrom = this.lastTo = this.hintM = -1;
+    this.pabo = false;
+    gameOver = false; thinking = false;
+    clockStop(); clockReset();
+    this.layout(); jgBar();
+    setMsg('장기 — 초(楚)를 잡으셨습니다. 두실 차례입니다.', '');
+    speak('장기 한 판 두시지요. 초가 선입니다');
+    clockStart(BLACK);
+  },
+  onUserMove(m) {
+    const cap = JG.makeMove(this.b, m);
+    this.hist.push({ m, cap });
+    this.lastFrom = (m / 128) | 0; this.lastTo = m & 127;
+    this.sel = -1; this.legal = []; this.hintM = -1;
+    Snd.place(jgSndIdx(this.lastTo));
+    onMovePlayed(BLACK);
+    this.draw(); jgBar();
+    if (JG.isMate(this.b, false)) { this.finish(true, '외통'); return; }
+    if (JG.inCheck(this.b, false)) setMsg('장군!', '');
+    this.myTurn = false;
+    clockStart(WHITE);
+    this.aiTurn();
+  },
+  async aiTurn() {
+    if (this.over) return;
+    this.busy = true; thinking = true;
+    setMsg(OPP.name + ' 생각 중…', 'think');
+    const t0 = performance.now();
+    const r = await jgAsk({ op: 'think', b: this.b, cho: false, ms: JG_AI_MS, maxD: 16 });
+    const el = performance.now() - t0;
+    if (el < 700) await new Promise((z) => setTimeout(z, 700 - el));
+    this.busy = false; thinking = false;
+    if (this.over || cfg.game !== 'janggi') return;
+    if (r.move < 0) {
+      if (JG.inCheck(this.b, false)) { this.finish(true, '외통'); }
+      else { setMsg(OPP.name + ': 한수쉼 — 두실 차례입니다.', ''); this.myTurn = true; clockStart(BLACK); }
+      return;
+    }
+    const nm = jgMoveName(this.b, r.move);
+    const cap = JG.makeMove(this.b, r.move);
+    this.hist.push({ m: r.move, cap });
+    this.lastFrom = (r.move / 128) | 0; this.lastTo = r.move & 127;
+    Snd.place(jgSndIdx(this.lastTo));
+    onMovePlayed(WHITE);
+    this.draw(); jgBar();
+    if (JG.isMate(this.b, true)) { this.finish(false, '외통'); return; }
+    const chk = JG.inCheck(this.b, true);
+    setMsg(OPP.name + ': ' + nm + (chk ? '  — 장군!' : '') + '  ·  두실 차례입니다.', chk ? 'err' : '');
+    if (chk) speak('장군입니다');
+    this.myTurn = true;
+    clockStart(BLACK);
+  },
+  tap(px, py) {
+    if (this.over || this.busy || !this.myTurn || !this.geo || !this.b) return;
+    const g = this.geo;
+    const x = Math.round((px - g.x0) / g.cell), y = Math.round((py - g.y0) / g.cell);
+    if (x < 0 || x > 8 || y < 0 || y > 9) { this.sel = -1; this.legal = []; this.draw(); return; }
+    const i = y * 9 + x;
+    const [cx, cy] = this.px(x, y);
+    if (Math.hypot(px - cx, py - cy) > g.cell * 0.55) return;
+    const mv = this.legal.find((m) => (m & 127) === i);
+    if (mv !== undefined) {
+      if (this.pabo) this.pbMove(mv); else this.onUserMove(mv);
+      return;
+    }
+    const p = this.b[i];
+    if (p !== '.' && JG.isCho(p)) {
+      this.sel = i;
+      this.legal = JG.legalMoves(this.b, true).filter((m) => ((m / 128) | 0) === i);
+      if (this.pabo) {
+        this.legal = this.legal.filter((m) => {
+          const cap = JG.makeMove(this.b, m);
+          const ok = JG.inCheck(this.b, false);
+          JG.unmake(this.b, m, cap);
+          return ok;
+        });
+      }
+      this.draw();
+      if (!this.legal.length) setMsg(this.pabo ? '그 말로는 장군을 부를 수 없습니다. (박보는 매 수 장군)' : '그 말은 지금 둘 곳이 없습니다.', 'err');
+    } else {
+      this.sel = -1; this.legal = []; this.draw();
+    }
+  },
+  undo() {
+    if (this.over || this.busy || this.hist.length < 2) { setMsg('무를 수가 없습니다.', 'err'); return; }
+    for (let k = 0; k < 2; k++) { const h = this.hist.pop(); if (h.m >= 0) JG.unmake(this.b, h.m, h.cap); }
+    const last = this.hist[this.hist.length - 1];
+    this.lastFrom = last && last.m >= 0 ? ((last.m / 128) | 0) : -1;
+    this.lastTo = last && last.m >= 0 ? (last.m & 127) : -1;
+    this.sel = -1; this.legal = []; this.hintM = -1; this.myTurn = true;
+    this.draw(); jgBar();
+    setMsg('한 수 물렀습니다. 두실 차례입니다.', '');
+    say('undo');
+  },
+  async hint() {
+    if (this.over || this.busy || !this.myTurn) return;
+    this.busy = true; setMsg('훈수 생각 중…', 'think');
+    const r = await jgAsk({ op: 'think', b: this.b, cho: true, ms: 1800, maxD: 12 });
+    this.busy = false;
+    if (r.move >= 0) {
+      this.hintM = r.move; this.draw();
+      setMsg('훈수: ' + jgMoveName(this.b, r.move), '');
+      say('hint');
+    }
+  },
+  pass() {
+    if (this.over || this.busy || !this.myTurn) return;
+    if (JG.inCheck(this.b, true)) { setMsg('장군을 받는 중에는 쉴 수 없습니다.', 'err'); return; }
+    this.hist.push({ m: -1, cap: '.' });
+    setMsg('한수쉼 — ' + OPP.name + ' 차례', '');
+    this.myTurn = false; clockStart(WHITE);
+    this.aiTurn();
+  },
+  resign() {
+    if (this.over) return;
+    this.finish(false, '기권');
+  },
+  finish(win, how) {
+    this.over = true; gameOver = true; thinking = false;
+    clockStop();
+    if (Snd.gong) Snd.gong();
+    if (win) { setMsg('🏆 ' + how + ' — 이기셨습니다!', ''); say('ngWin'); speak('제가 졌습니다. 잘 두셨습니다'); }
+    else { setMsg(how + ' — ' + OPP.name + ' 승', 'err'); speak(how === '기권' ? '기권하시는군요. 잘 두었습니다' : '제가 이겼습니다. 한 판 더 두시지요'); }
+    jgStat(win);
+  },
+  /* ---------------- 박보장기 ---------------- */
+  loadPabo(k) {
+    const P = PABO;
+    this.pbIdx = ((k % P.length) + P.length) % P.length;
+    const pr = P[this.pbIdx];
+    this.b = pr.b.split('');
+    this.pabo = true; this.over = false; this.myTurn = true; this.busy = false;
+    this.sel = -1; this.legal = []; this.hist = []; this.hintM = -1;
+    this.lastFrom = this.lastTo = -1;
+    this.pbTry = 0; this.pbLeft = pr.d;
+    gameOver = false; thinking = false;
+    clockStop(); clockReset();
+    this.layout(); jgBar();
+    const su = (pr.d + 1) / 2;
+    const done = this.pbSolved[String(this.pbIdx)] ? '  ✔ 푼 문제' : '';
+    setMsg('박보 제' + (this.pbIdx + 1) + '문 (' + su + '수 연장군 외통) — 매 수 장군으로 漢 궁을 잡으십시오.' + done, '');
+    speak('박보 문제입니다. 매 수 장군을 부르며 잡아야 합니다');
+  },
+  async pbMove(m) {
+    const cap = JG.makeMove(this.b, m);
+    this.lastFrom = (m / 128) | 0; this.lastTo = m & 127;
+    this.sel = -1; this.legal = []; this.hintM = -1;
+    Snd.place(jgSndIdx(this.lastTo));
+    this.draw();
+    if (JG.isMate(this.b, false)) {
+      this.pbSolved[String(this.pbIdx)] = 1; lsSet('jg_pb_v1', this.pbSolved);
+      this.over = true;
+      const n = Object.keys(this.pbSolved).length;
+      setMsg('외통! 정답입니다.  (' + n + ' / ' + PABO.length + ' 풀었습니다)  잠시 뒤 다음 문제.', '');
+      say('ngWin');
+      setTimeout(() => this.loadPabo(this.pbIdx + 1), 2200);
+      return;
+    }
+    this.busy = true; setMsg('…', 'think');
+    const left = this.pbLeft - 1;
+    const probe = await jgAsk({ op: 'mate', b: this.b, plies: left });
+    this.busy = false;
+    if (this.over) return;
+    if (!probe.forced) {
+      JG.unmake(this.b, m, cap);
+      this.lastFrom = this.lastTo = -1;
+      this.pbTry++;
+      this.draw();
+      if (this.pbTry >= 3) {
+        const a = PABO[this.pbIdx].a;
+        this.hintM = a; this.draw();
+        setMsg('그 수로는 놓칩니다. 첫 수는 ' + jgMoveName(this.b, a) + ' 입니다.', 'err');
+      } else {
+        setMsg('그 수로는 漢이 빠져나갑니다. (' + this.pbTry + '/3)', 'err');
+      }
+      return;
+    }
+    const rm = probe.reply;
+    if (rm >= 0) {
+      const cap2 = JG.makeMove(this.b, rm);
+      this.hist.push({ m: rm, cap: cap2 });
+      this.lastFrom = (rm / 128) | 0; this.lastTo = rm & 127;
+      this.pbLeft = left - 1;
+      Snd.place(jgSndIdx(this.lastTo));
+      this.draw();
+      setMsg('계속 장군을 부르십시오. (남은 ' + Math.ceil(this.pbLeft / 2) + '수)', '');
+    } else {
+      /* 응수가 없는데 외통이 아니다? — 빅장 등 예외. 안전하게 정답 처리 */
+      this.pbSolved[String(this.pbIdx)] = 1; lsSet('jg_pb_v1', this.pbSolved);
+      this.over = true;
+      setMsg('漢이 둘 수 없습니다 — 정답입니다.', '');
+      setTimeout(() => this.loadPabo(this.pbIdx + 1), 2200);
+    }
+  }
+};
+function jgSndIdx(t) {
+  const x = (t % 9) * 2, y = Math.min(18, ((t / 9) | 0) * 2);
+  return y * 19 + x;
+}
+function jgBar() {
+  if (cfg.game !== 'janggi' && cfg.game !== 'jgmate') return;
+  if (cfg.game === 'jgmate') {
+    const n = Object.keys(JGUI.pbSolved).length;
+    $('wrblack').style.width = '50%'; $('wrwhite').style.width = '50%';
+    $('wrtext').innerHTML = '<span>박보 — ' + n + ' / ' + PABO.length + ' 풀었습니다</span>';
+    $('modeLbl').textContent = '박보 · 제' + (JGUI.pbIdx + 1) + '문';
+    return;
+  }
+  const e = JG.evalBoard(JGUI.b);
+  const p = 1 / (1 + Math.exp(-e / 800));
+  $('wrblack').style.width = (p * 100) + '%';
+  $('wrwhite').style.width = ((1 - p) * 100) + '%';
+  const lead = Math.abs(e);
+  $('wrtext').innerHTML = '<span>' + (lead < 150 ? '호각' : (e > 0 ? '초(나) 우세' : '한(' + OPP.name + ') 우세')) + '</span>';
+  $('modeLbl').textContent = '장기 · ' + OPP.name + ' ' + OPP.rank;
+}
+function jgMoveName(b, m) {
+  const f = (m / 128) | 0, t = m & 127;
+  const NAME = { K: '궁', A: '사', R: '차', C: '포', H: '마', E: '상', P: '졸',
+                 k: '궁', a: '사', r: '차', c: '포', h: '마', e: '상', p: '병' };
+  const p = b[f] !== '.' ? b[f] : b[t];
+  const sq = (i) => ((((i / 9) | 0) + 1) % 10) + '' + ((i % 9) + 1);
+  return (NAME[p] || '') + ' ' + sq(f) + '→' + sq(t);
+}
+function jgStat(win) {
+  const s = lsGet('jg_stat_v1', { w: 0, l: 0 });
+  if (win) s.w++; else s.l++;
+  lsSet('jg_stat_v1', s);
+}
+const JG_AI_MS = 4500;   /* 연지아빠 한 수 생각 시간 — 아마 5단급 */
+
+/* ---------------- 홈 화면 ---------------- */
+const HOME_GAMES = [
+  { v: 'go',      icon: '⚫', name: '바둑',   desc: '19줄 정규 대국 · 신경망' },
+  { v: 'janggi',  icon: '將', name: '장기',   desc: '초 선수 · 고난이도' },
+  { v: 'omok',    icon: '⚪', name: '오목',   desc: '다섯 먼저 잇기' },
+  { v: 'tsumego', icon: '⚫', name: '사활',   desc: '바둑 · 7~8수 수읽기' },
+  { v: 'jgmate',  icon: '包', name: '박보',   desc: '장기 · 연장군 외통' }
+];
+function showHome() {
+  clockStop(); stopSay();
+  const host = $('homeGames');
+  if (!host.childElementCount) {
+    for (const gm of HOME_GAMES) {
+      const b = document.createElement('button');
+      b.className = 'homeTile';
+      b.innerHTML = '<span class="hIcon">' + gm.icon + '</span><b>' + gm.name + '</b><small>' + gm.desc + '</small>';
+      b.onclick = () => { $('home').classList.remove('show'); enterGame(gm.v); };
+      host.appendChild(b);
+    }
+  }
+  $('home').classList.add('show');
+}
+let giftChecked = false;
+async function enterGame(v) {
+  cfg.game = v; saveCfg();
+  const jg = (v === 'janggi' || v === 'jgmate');
+  /* 캔버스 전환 */
+  $('jgbd').style.display = jg ? '' : 'none';
+  $('bd3').style.display = jg ? 'none' : '';
+  $('bd').style.display = 'none';
+  if (!jg && !cfg.view3d) { $('bd').style.display = ''; $('bd3').style.display = 'none'; }
+  $('viewRow').style.display = jg ? 'none' : '';
+  $('gameHint').textContent = GAME_HINT[v] || '';
+  try { gameRender(); } catch (e) {}
+  relabel();
+  if (jg) {
+    ready = true;
+    JGUI.enter(v);
+  } else {
+    if (v === 'go' && !model) {
+      await loadModelFlow();
+      if (!model) return;
+    }
+    ready = true;
+    const saved = (v === 'go') ? hasSave() : null;
+    if (saved) {
+      restoreGame(saved);
+      const d = Math.round((Date.now() - saved.at) / 60000);
+      setMsg('두시던 판을 이어서 둡니다 (' + moves.length + '수' +
+        (d < 60 ? ', ' + Math.max(1, d) + '분 전' : '') + '). 새로 두시려면 새 대국.', '');
+    } else {
+      newGame();
+    }
+  }
+  if (!giftChecked) {
+    giftChecked = true;
+    try {
+      const mine = await loadMyNote();
+      if (GIFT.on || mine) { clockPause(); showGift(false); }
+    } catch (e) {}
+  }
+}
+async function loadModelFlow() {
+  const ov = $('overlay'), fill = $('barfill');
+  $('ovtitle').textContent = '신경망 불러오는 중';
+  ov.classList.add('show');
+  try {
+    const be = await loadModel((t, p) => { $('ovmsg').innerHTML = t; fill.style.width = p + '%'; });
+    ov.classList.remove('show');
+    return be;
+  } catch (e) {
+    $('ovtitle').textContent = '신경망을 불러오지 못했습니다';
+    $('ovmsg').innerHTML = '인터넷 연결을 확인한 뒤 다시 시도해 주세요.<br><br><small>' + e.message + '</small>';
+    $('bar').style.display = 'none';
+    $('ovbtn').style.display = 'block';
+    $('ovbtn').onclick = () => { ov.classList.remove('show'); $('bar').style.display = ''; $('ovbtn').style.display = 'none'; showHome(); };
+    return null;
+  }
+}
+
+
 /* ---------------- 12. 설정 UI ---------------- */
 function seg(host, items, get, set) {
   host.innerHTML = '';
@@ -3026,12 +4059,15 @@ function seg(host, items, get, set) {
 }
 const GAME_HINT = { go: '19줄 정규 바둑. 연지아빠와 한 판 두십시오.',
                     omok: '먼저 다섯을 잇는 쪽이 이깁니다. 따냄·집 계산 없습니다.',
-                    tsumego: '사활 ' + TSUMEGO.length + '문제 (중급~고급). 5~9수를 읽어야 풀립니다. 완전탐색으로 정답과 유일성을 확인했습니다.' };
-const gameRender = seg($('segGame'), [{ label: '바둑', value: 'go' }, { label: '오목', value: 'omok' },
-                                      { label: '사활', value: 'tsumego' }],
+                    tsumego: '사활 ' + TSUMEGO.length + '문제 (상급~고급). 7~8수를 정확히 읽어야 풀립니다. 완전탐색으로 정답·유일성을 확인했습니다.',
+                    janggi: '장기. 초(楚) 선수는 당신, 한(漢)은 연지아빠. 수읽기 깊이 8 이상의 고난이도입니다.',
+                    jgmate: '박보장기 ' + PABO.length + '문제 (4~6수 연장군 외통). 매 수 장군을 부르며 잡아야 합니다.' };
+const gameRender = seg($('segGame'), [{ label: '바둑', value: 'go' }, { label: '장기', value: 'janggi' },
+                                      { label: '오목', value: 'omok' },
+                                      { label: '사활', value: 'tsumego' }, { label: '박보', value: 'jgmate' }],
   () => cfg.game, v => {
-    cfg.game = v; $('gameHint').textContent = GAME_HINT[v]; saveCfg();
-    relabel(); newGame(); updateBar();
+    $('panel').classList.remove('show');
+    enterGame(v);
   });
 $('gameHint').textContent = GAME_HINT[cfg.game];
 seg($('segColor'), [{ label: '흑 (선)', value: BLACK }, { label: '백 (후)', value: WHITE }],
@@ -3148,40 +4184,10 @@ layout();
 clockReset();
 
 (async function boot() {
-  const ov = $('overlay'), fill = $('barfill');
-  ov.classList.add('show');
-  if (location.protocol === 'file:') {
-    $('ovmsg').innerHTML = '처음 한 번만 약 12MB를 내려받습니다.<br>' +
-      '<span style="color:#e8a33d">※ 파일로 직접 여신 상태라 신경망이 기기에 저장되지 않습니다.<br>' +
-      '웹 주소(링크)로 여시면 한 번만 받고 이후엔 오프라인으로 동작합니다.</span>';
-  }
-  try {
-    const be = await loadModel((t, p) => { $('ovmsg').innerHTML = t; fill.style.width = p + '%'; });
-    ready = true;
-    ov.classList.remove('show');
-    setMsg('준비 완료 (' + be + '). 새 대국을 눌러 돌가르기부터 시작하세요.', '');
-    clockReset();
-    const saved = hasSave();
-    if (saved) {
-      restoreGame(saved);
-    } else {
-      newGame();
-    }
-    const mine = await loadMyNote();
-    if (GIFT.on || mine) { clockPause(); showGift(false); }
-    if (saved && !GIFT.on && !mine) {
-      const d = Math.round((Date.now() - saved.at) / 60000);
-      setMsg('두시던 판을 이어서 둡니다 (' + moves.length + '수' +
-        (d < 60 ? ', ' + Math.max(1, d) + '분 전' : '') + '). 새로 두시려면 새 대국.', '');
-    }
-  } catch (e) {
-    console.error(e);
-    $('ovtitle').textContent = '신경망을 불러오지 못했습니다';
-    $('ovmsg').innerHTML = '인터넷 연결을 확인한 뒤 새로고침해 주세요.<br><br><small>' + e.message + '</small>';
-    $('bar').style.display = 'none';
-    $('ovbtn').style.display = 'block';
-    $('ovbtn').onclick = () => location.reload();
-  }
+  /* V3.00: 홈 화면 먼저 — 종목을 고르면 그때 필요한 것만 불러온다 */
+  $('overlay').classList.remove('show');
+  setMsg('종목을 고르십시오.', '');
+  showHome();
 })();
 window.__app = { get pos() { return pos; }, get thinking() { return thinking; }, get gameOver() { return gameOver; },
   get moves() { return moves; }, humanMove, aiMove, nnEval, searcher, newGame, startNewGame, nigiriGuess,
@@ -3199,5 +4205,7 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   get personal() { return personal; }, get myNote() { return myNote; }, loadMyNote,
   SECRETS, encJSON, decJSON, newCode, renderGift };
 </script>
+
+</div>
 </body>
 </html>

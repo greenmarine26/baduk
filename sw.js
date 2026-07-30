@@ -1,6 +1,6 @@
 /* 나의 바둑친구 — 오프라인 지원
    © 2026 연지아빠 */
-const VER = 'baduk-v1.71';
+const VER = 'baduk-v3.00';
 const SHELL = [
   './',
   './index.html',
