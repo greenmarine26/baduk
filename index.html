@@ -167,7 +167,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V3.00</span>
+    <span id="ver">V3.10</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -1400,13 +1400,14 @@ function timeLoss(side) {
 }
 
 /* ---------------- 5. 난이도 ---------------- */
-const OPP = { name: '연지아빠', rank: '아마 5단' };
+const OPP = { name: '연지아빠', rank: '아마 6단' };
 const LEVELS = [
   { key: 'a', name: '입문',  playouts: 0,   temp: 1.30, topN: 14, desc: '탐색 없이 감각으로만. 초보자 연습용.' },
   { key: 'b', name: '초급',  playouts: 0,   temp: 0.70, topN: 5,  desc: '탐색 없음. 상위 후보 중 확률적으로 선택.' },
   { key: 'c', name: '중급',  playouts: 12,  temp: 0.35, topN: 3,  desc: '탐색 12회. 한 수 약 1초. 초반은 조금 변화를 줍니다.' },
   { key: 'd', name: '상급',  playouts: 40,  temp: 0,    topN: 1,  desc: '탐색 40회. 한 수 약 3초. 수읽기가 붙기 시작합니다.' },
-  { key: 'e', name: '최강',  playouts: 120, temp: 0,    topN: 1,  desc: '탐색 120회. 한 수 약 8~10초. 가장 강합니다.' }
+  { key: 'e', name: '최강',  playouts: 120, temp: 0,    topN: 1,  desc: '탐색 120회. 한 수 약 8~10초.' },
+  { key: 'f', name: '국수',  playouts: 300, temp: 0,    topN: 1,  desc: '탐색 300회. 한 수 약 20~25초. 연지아빠의 전력입니다. 이기면 진짜입니다.' }
 ];
 
 /* ---------------- 6. 앱 상태 ---------------- */
@@ -3409,6 +3410,8 @@ var JG = (function () {
   }
   // ---------- 탐색 (알파베타 + 반복심화 + TT + 정지탐색) ----------
   var TT = new Map();
+  var KILL = [];                       // ply별 킬러수 2개
+  var HIST = new Int32Array(11600);    // 조용한 수 이력 (f*128+t)
   function bkey(b, cho) { return (cho ? 'c' : 'h') + b.join(''); }
   var nodes = 0, stopAt = 0, aborted = false;
   function qsearch(b, cho, alpha, beta, depth) {
@@ -3448,6 +3451,7 @@ var JG = (function () {
     if (tte) ttMove = tte.m;
     var ms = genMoves(b, cho, false);
     // 정렬: TT수 > 캡처 MVV-LVA > 나머지
+    var kl = KILL[ply] || [];
     var scored = [];
     for (var i = 0; i < ms.length; i++) {
       var m = ms[i], sc = 0;
@@ -3455,6 +3459,9 @@ var JG = (function () {
       else {
         var vic = b[m & 127];
         if (vic !== '.') sc = 1e6 + (VAL[vic.toUpperCase()] || 0) * 10 - (VAL[b[(m / 128) | 0].toUpperCase()] || 0);
+        else if (m === kl[0]) sc = 5e5;
+        else if (m === kl[1]) sc = 4e5;
+        else sc = HIST[m];
       }
       scored.push([sc, m]);
     }
@@ -3485,7 +3492,15 @@ var JG = (function () {
       if (aborted) return 0;
       if (v > best) { best = v; bestM = mv; }
       if (v > alpha) alpha = v;
-      if (alpha >= beta) break;
+      if (alpha >= beta) {
+        if (cap === '.') {                        // 조용한 수만 킬러·히스토리
+          var kk = KILL[ply] || (KILL[ply] = []);
+          if (kk[0] !== mv) { kk[1] = kk[0]; kk[0] = mv; }
+          HIST[mv] += depth * depth;
+          if (HIST[mv] > 3e5) for (var hh = 0; hh < HIST.length; hh++) HIST[hh] >>= 1;
+        }
+        break;
+      }
     }
     if (legal === 0) {
       // 장기: 둘 수 없거나 두면 다 죽는 상황 → 장군이면 외통패, 아니면 한수쉼
@@ -3501,7 +3516,7 @@ var JG = (function () {
   // 사고: timeMs 안에서 반복심화. 반환 {move, score, depth, nodes}
   function think(b0, cho, timeMs, maxDepth) {
     var b = b0.slice();
-    TT.clear(); nodes = 0; aborted = false;
+    TT.clear(); KILL.length = 0; HIST.fill(0); nodes = 0; aborted = false;
     stopAt = Date.now() + timeMs;
     var lm = legalMoves(b, cho);
     if (!lm.length) return { move: -1, score: inCheck(b, cho) ? -MATE : 0, depth: 0, nodes: 0 };
@@ -3532,7 +3547,6 @@ var JG = (function () {
     think: think, isMate: isMate, kingPos: kingPos, isCho: isCho, VAL: VAL, MATE: MATE
   };
 })();
-
 
 /* 박보용: 초가 plies 안에 연장군 강제외통 가능한가. 한 차례 국면이면 응수 포함 판정 */
 JG.mateProbe = function (b0, plies) {
@@ -3960,7 +3974,7 @@ function jgStat(win) {
   if (win) s.w++; else s.l++;
   lsSet('jg_stat_v1', s);
 }
-const JG_AI_MS = 4500;   /* 연지아빠 한 수 생각 시간 — 아마 5단급 */
+const JG_AI_MS = 9000;   /* 연지아빠 한 수 생각 시간 — 킬러·히스토리 탐색, 깊이 9~12 */
 
 /* ---------------- 홈 화면 ---------------- */
 const HOME_GAMES = [
@@ -4060,7 +4074,7 @@ function seg(host, items, get, set) {
 const GAME_HINT = { go: '19줄 정규 바둑. 연지아빠와 한 판 두십시오.',
                     omok: '먼저 다섯을 잇는 쪽이 이깁니다. 따냄·집 계산 없습니다.',
                     tsumego: '사활 ' + TSUMEGO.length + '문제 (상급~고급). 7~8수를 정확히 읽어야 풀립니다. 완전탐색으로 정답·유일성을 확인했습니다.',
-                    janggi: '장기. 초(楚) 선수는 당신, 한(漢)은 연지아빠. 수읽기 깊이 8 이상의 고난이도입니다.',
+                    janggi: '장기. 초(楚) 선수는 당신, 한(漢)은 연지아빠. 한 수 9초, 수읽기 깊이 9~12의 최고난이도입니다.',
                     jgmate: '박보장기 ' + PABO.length + '문제 (4~6수 연장군 외통). 매 수 장군을 부르며 잡아야 합니다.' };
 const gameRender = seg($('segGame'), [{ label: '바둑', value: 'go' }, { label: '장기', value: 'janggi' },
                                       { label: '오목', value: 'omok' },
