@@ -173,15 +173,34 @@ input[type=range]{accent-color:#e8a33d}
 .jgSetTile b{font-size:15px;color:#ffcf8a}
 .jgSetTile .fm{font-size:13px;letter-spacing:2px;color:#d9c8a4}
 .jgSetTile small{font-size:10.5px;color:#a08c72;line-height:1.35}
+
+/* ---- 폰·PC 겸용 배치 ----
+   좁은 화면(폰): 위 정보 → 판 → 아래 버튼 (기존 그대로)
+   넓은 화면(PC·태블릿 가로): 판을 왼쪽 가득, 버튼을 오른쪽 기둥으로 — 판이 화면 높이를 다 쓴다 */
+#main{flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
+#side{flex:0 0 auto;display:flex;flex-direction:column}
+@media (min-width: 860px) and (orientation: landscape){
+  body{flex-direction:row}
+  #main{min-width:0}
+  #side{flex:0 0 300px;border-left:1px solid #322a23;overflow-y:auto;background:#1f1915}
+  #ctrl{border-top:none;padding:10px 8px}
+  #ctrl .row{flex-wrap:wrap}
+  #ctrl button{min-height:46px;font-size:13.5px}
+  #revwrap{border-top:1px solid #322a23}
+  #boardwrap{padding:8px}
+  #homeGames{grid-template-columns:repeat(3,minmax(150px,200px))}
+  #top{padding:8px 14px 6px}
+}
 </style>
 </head>
 <body>
 
+<div id="main">
 <div id="top">
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V3.11</span>
+    <span id="ver">V3.12</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -237,7 +256,9 @@ input[type=range]{accent-color:#e8a33d}
     <div id="gCopy">© 2026 연지아빠</div>
   </div>
 </div>
+</div><!-- /main -->
 
+<div id="side">
 <div id="ctrl">
   <div class="row" id="viewRow">
     <button data-v="0">위에서</button>
@@ -280,12 +301,14 @@ input[type=range]{accent-color:#e8a33d}
     <button id="rvExit">복기 끝</button>
   </div>
 </div>
+</div><!-- /side -->
 
 <div id="home">
   <div id="homeTitle">나의 바둑친구</div>
   <div id="homeSub">연지아빠 · 아마 5단 — 무엇을 두시겠습니까?</div>
   <div id="homeGames"></div>
   <div style="font-size:11px;color:#7a6a54">© 2026 연지아빠</div>
+</div><!-- /home -->
 
 <div id="panel">
   <h3>설정</h3>
@@ -4269,7 +4292,5 @@ window.__app = { get pos() { return pos; }, get thinking() { return thinking; },
   get personal() { return personal; }, get myNote() { return myNote; }, loadMyNote,
   SECRETS, encJSON, decJSON, newCode, renderGift };
 </script>
-
-</div>
 </body>
 </html>
