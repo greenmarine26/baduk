@@ -159,6 +159,20 @@ input[type=range]{accent-color:#e8a33d}
 .homeTile b{font-size:16px;color:#ffcf8a}
 .homeTile small{font-size:11px;color:#a08c72;line-height:1.4}
 #jgbd{position:absolute;inset:0;touch-action:none}
+
+/* ---- 장기 차림 선택 ---- */
+#jgSetup{position:absolute;inset:0;background:rgba(10,8,6,.94);z-index:46;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#jgSetup.show{display:flex}
+#jgSetup h2{font-size:18px;color:#ffcf8a;margin:0}
+#jgSetup .hint2{font-size:12px;color:#bfae94;line-height:1.6}
+#jgSetupGrid{display:grid;grid-template-columns:repeat(2,minmax(140px,190px));gap:10px}
+.jgSetTile{display:flex;flex-direction:column;gap:5px;padding:14px 10px;border-radius:12px;
+  background:linear-gradient(160deg,#2c2115,#1c150d);border:1px solid #4a3a26;color:#e6dccc;cursor:pointer;font-family:inherit}
+.jgSetTile:active{transform:scale(.97)}
+.jgSetTile b{font-size:15px;color:#ffcf8a}
+.jgSetTile .fm{font-size:13px;letter-spacing:2px;color:#d9c8a4}
+.jgSetTile small{font-size:10.5px;color:#a08c72;line-height:1.35}
 </style>
 </head>
 <body>
@@ -167,7 +181,7 @@ input[type=range]{accent-color:#e8a33d}
   <div id="titlerow">
     <b>나의 바둑친구</b>
     <span id="modeLbl">중급 · 흑번</span>
-    <span id="ver">V3.10</span>
+    <span id="ver">V3.11</span>
   </div>
   <div id="wrbar">
     <div id="wrblack"></div><div id="wrwhite"></div>
@@ -184,6 +198,12 @@ input[type=range]{accent-color:#e8a33d}
   <canvas id="bd" style="display:none"></canvas>
   <canvas id="bd3"></canvas>
   <canvas id="jgbd" style="display:none"></canvas>
+  <div id="jgSetup">
+    <h2>차림을 고르십시오</h2>
+    <div class="hint2">궁 옆 마(馬)·상(象)의 배치입니다. 왼쪽부터 차례로 놓입니다.</div>
+    <div id="jgSetupGrid"></div>
+    <div class="hint2" id="jgSetupAi"></div>
+  </div>
   <div id="overlay">
     <div id="ovtitle">신경망 불러오는 중</div>
     <div id="ovmsg">처음 한 번만 약 12MB를 내려받습니다.<br>이후에는 기기에 저장되어 오프라인으로 동작합니다.</div>
@@ -2493,7 +2513,7 @@ $('bPass').onclick = () => {
   if (!thinking && !gameOver) humanMove(PASS);
 };
 $('bNew').onclick = () => {
-  if (cfg.game === 'janggi') { if (!JGUI.busy) JGUI.newGame(); return; }
+  if (cfg.game === 'janggi') { if (!JGUI.busy) JGUI.showSetup(); return; }
   if (cfg.game === 'jgmate') { if (!JGUI.busy) JGUI.loadPabo(JGUI.pbIdx); return; }
   if (!thinking) startNewGame();
 };
@@ -3622,6 +3642,13 @@ function jgAsk(msg) {
   });
 }
 
+/* 장기 차림 4종 — 이름은 표준(나무위키) 기준, 버튼에 실제 기물 순서를 함께 보여준다 */
+const JG_SETUPS = [
+  { k: 'gwima',    name: '귀마',   L: 'HE', R: 'EH', fm: '마상 · 상마', desc: '가장 흔한 표준형. 균형이 좋습니다.' },
+  { k: 'wonang',   name: '원앙마', L: 'EH', R: 'HE', fm: '상마 · 마상', desc: '두 마가 서로 지켜주는 수비·연계형.' },
+  { k: 'yanggwima',  name: '양귀마', L: 'EH', R: 'EH', fm: '상마 · 상마', desc: '양쪽 귀에 마 — 공격·변형형.' },
+  { k: 'yanggwisang', name: '양귀상', L: 'HE', R: 'HE', fm: '마상 · 마상', desc: '양쪽 귀에 상 — 중앙 압박 변칙형.' }
+];
 /* ---------------- 장기판 UI ---------------- */
 const JGUI = {
   b: null, sel: -1, legal: [], hist: [], over: false, myTurn: true, busy: false,
@@ -3632,7 +3659,24 @@ const JGUI = {
     this.pabo = (mode === 'jgmate');
     this.cv = $('jgbd'); this.ctx = this.cv.getContext('2d');
     if (!this._wired) { this._wire(); this._wired = true; }
-    if (this.pabo) this.loadPabo(this.pbIdx); else this.newGame();
+    if (this.pabo) this.loadPabo(this.pbIdx); else this.showSetup();
+  },
+  showSetup() {
+    const grid = $('jgSetupGrid');
+    if (!grid.childElementCount) {
+      for (const st of JG_SETUPS) {
+        const b = document.createElement('button');
+        b.className = 'jgSetTile';
+        b.innerHTML = '<b>' + st.name + '</b><span class="fm">' + st.fm + '</span><small>' + st.desc + '</small>';
+        b.onclick = () => { $('jgSetup').classList.remove('show'); this.newGame(st); };
+        grid.appendChild(b);
+      }
+    }
+    $('jgSetupAi').textContent = OPP.name + '도 자기 차림을 따로 고릅니다.';
+    /* 판은 비워 보여준다 */
+    this.b = null; this.geo = null;
+    const c = this.cv.getContext('2d');
+    $('jgSetup').classList.add('show');
   },
   _wire() {
     const cv = this.cv;
@@ -3742,16 +3786,21 @@ const JGUI = {
     }
   },
   /* ---------------- 대국 ---------------- */
-  newGame() {
-    this.b = JG.initBoard();
+  newGame(mySetup) {
+    if (!mySetup) mySetup = JG_SETUPS[0];
+    /* 연지아빠 차림: 귀마를 가장 즐겨 쓰되 가끔 바꾼다 */
+    const w = [0, 0, 0, 0, 0, 1, 1, 2, 3];
+    const aiSetup = JG_SETUPS[w[(Math.random() * w.length) | 0]];
+    this.mySetup = mySetup; this.aiSetup = aiSetup;
+    this.b = JG.initBoard({ choL: mySetup.L, choR: mySetup.R, hanL: aiSetup.L, hanR: aiSetup.R });
     this.sel = -1; this.legal = []; this.hist = []; this.over = false; this.myTurn = true;
     this.busy = false; this.lastFrom = this.lastTo = this.hintM = -1;
     this.pabo = false;
     gameOver = false; thinking = false;
     clockStop(); clockReset();
     this.layout(); jgBar();
-    setMsg('장기 — 초(楚)를 잡으셨습니다. 두실 차례입니다.', '');
-    speak('장기 한 판 두시지요. 초가 선입니다');
+    setMsg('내 차림 ' + mySetup.name + ' · ' + OPP.name + ' 차림 ' + aiSetup.name + ' — 두실 차례입니다.', '');
+    speak('저는 ' + aiSetup.name + ' 차림입니다. 초가 선이니 먼저 두시지요');
     clockStart(BLACK);
   },
   onUserMove(m) {
@@ -3986,6 +4035,7 @@ const HOME_GAMES = [
 ];
 function showHome() {
   clockStop(); stopSay();
+  try { $('jgSetup').classList.remove('show'); } catch (e) {}
   const host = $('homeGames');
   if (!host.childElementCount) {
     for (const gm of HOME_GAMES) {
